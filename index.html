@@ -350,6 +350,9 @@ body.busy .pathcat{display:none}
 .scene .hills{position:absolute;left:0;right:0;bottom:0;width:100%;height:56px}
 .pathhead{padding-bottom:0!important}
 .cover{gap:10px}
+.fcat{width:66px!important;height:76px!important;flex:none}
+.lfoot.good .fcat .tw{animation:hop2 .7s ease-out}
+@keyframes hop2{0%{transform:translateY(20px) scale(.6)}40%{transform:translateY(-16px) rotate(-8deg) scale(1.08)}70%{transform:translateY(0) rotate(4deg)}100%{transform:none}}
 /* abertura */
 .iscene{position:absolute;inset:0;--w:100vw;z-index:0}
 .iscene .hills{position:absolute;left:0;right:0;bottom:0;width:100%;height:22%}
@@ -1278,7 +1281,27 @@ const OK_SONGS=[
   [[76,.5],[79,.5],[84,.5],[88,1.5,'h']],
   [[72,.5],[79,.5],[77,.5],[84,1.5,'h']],
 ];
-const sGood=(combo=1)=>{ song(pick(OK_SONGS),420,Math.min(Math.max(combo-1,0),7)); };
+/* 10 sons de acerto diferentes; nunca repete o mesmo seguido; sobem de tom com a sequência */
+function sfx(fn){ try{ const c=A(); if(!c) return; fn(c.currentTime+.02); }catch(e){} }
+const ST=k=>Math.pow(2,k/12);
+const OK_FX=[
+  (t,k)=>[523,659,784,1047].forEach((f,i)=>bell(f*k,i*.07,.13)),                                   // sininhos subindo
+  (t,k)=>{ note(988*k,t,.08,'square',.07,5000); note(1319*k,t+.08,.35,'square',.07,5000); },          // moedinha
+  (t,k)=>[0,2,4,7,9,12].forEach((n,i)=>note(523*k*ST(n),t+i*.05,.25,'sine',.14,6000)),              // marimba
+  (t,k)=>[0,4,7,11,12,16,19,24].forEach((n,i)=>note(392*k*ST(n),t+i*.035,.4,'triangle',.08,7000)),  // harpa
+  (t,k)=>{ blip(300*k,1200*k,.08,'sine',.16); bell(1568*k,.09,.13); bell(2093*k,.17,.1); },           // bolha + plim
+  (t,k)=>{ note(523*k,t,.09,'square',.06,3000); [659,784,1047].forEach(f=>note(f*k,t+.11,.5,'square',.04,3000)); bell(2093*k,.11,.08); }, // tã-dã!
+  (t,k)=>[2637,3136,3520,2794,3951].forEach((f,i)=>bell(f*k*.5,i*.05+Math.random()*.03,.07)),       // brilhinho
+  (t,k)=>{ blip(880*k,1320*k,.14,'sine',.12); blip(1100*k,1760*k,.18,'sine',.11,.16); },              // assobio
+  (t,k)=>{ note(784*k,t,.18,'sine',.15,8000); note(988*k,t+.1,.3,'sine',.15,8000); note(1568*k,t+.1,.2,'sine',.05,8000); }, // xilofone
+  (t,k)=>[0,4,7,12,16].forEach((n,i)=>note(330*k*ST(n),t+i*.045,.09,'square',.05,4000)),            // power-up de videogame
+];
+let okQ=[], okLast=-1;
+const sGood=(combo=1)=>sfx(t=>{
+  if(!okQ.length){ okQ=shuffle([...OK_FX.keys()]); if(okQ[0]===okLast) okQ.push(okQ.shift()); }
+  const i=okQ.shift(); okLast=i;
+  OK_FX[i](t,ST(Math.min(Math.max(combo-1,0),7)));
+});
 const sBad=()=>{ blip(330,140,.3,'triangle',.2); blip(180,90,.25,'sine',.16,.12); };
 /* sequência de 3, 5, 8 acertos: mini fanfarra */
 const sCombo=(combo=3)=>{ const up=combo>=8?5:combo>=5?2:0;
@@ -1804,11 +1827,11 @@ function result(ok,info){
   else if(ex.w) ans=`<div class="full"><span><span class="w" data-w="${ex.w}">${disp(ex.w)}</span> <small class="pron">${DICT[ex.w].p}</small></span>${canSpeak?`<button class="spk" id="fspk" aria-label="Ouvir">${SPK}</button>`:''}</div><div class="fbx">${DICT[ex.w].t}</div>`;
   $('lfoot').className='lfoot '+(ok?'good':'bad');
   $('lfootIn').innerHTML=ok
-    ? `<div class="fbh"><span class="badge" style="color:var(--good)">${ICON.check}</span><h3>${pick(GOOD)}</h3>${L.combo>=3?`<span class="xpg">${L.combo} seguidas!</span>`:''}</div>
+    ? `<div class="fbh"><div class="cat happy fcat">${catSVG('happy')}</div><h3>${pick(GOOD)}</h3>${L.combo>=3?`<span class="xpg">${L.combo} seguidas!</span>`:''}</div>
        ${L.bonus==='heart'?`<div class="bonus">${HEARTI} +1 vida! Você fez mais 10 acertos.</div>`:L.bonus==='gems'?`<div class="bonus">${ICON.gem} Vidas já cheias: +5 gemas pelos 10 acertos!</div>`:`<div class="pt" style="color:var(--good-d)">${10-(S.okCount%10)} acerto${10-(S.okCount%10)>1?'s':''} para ganhar uma vida</div>`}
        ${ans||`<div class="fbx">Você formou todos os pares${L.m.err?`, com ${L.m.err} tentativa${L.m.err>1?'s':''} errada${L.m.err>1?'s':''}`:' sem errar nenhum'}!</div>`}
        <button class="btn" id="lnext">Continuar</button>`
-    : `<div class="fbh"><span class="badge" style="color:var(--bad)">${ICON.x}</span><h3>Resposta correta:</h3></div>
+    : `<div class="fbh"><div class="cat sad fcat">${catSVG('sad')}</div><h3>Resposta correta:</h3></div>
        ${info.placed?`<div class="mine">Você montou: <s>${info.placed.join(' ')}${info.end}</s></div>`:''}
        ${ans}<div class="whyx"><span class="lbl">Por que errou</span>${explain(ex,info)}</div>
        <button class="btn red" id="lnext">Continuar</button>`;
