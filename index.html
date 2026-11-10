@@ -267,11 +267,16 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 
 /* mascote */
 .cat{width:84px;height:94px;flex:none;cursor:pointer;transform-origin:50% 100%}
-.cat svg{width:100%;height:100%;display:block;overflow:visible;transform-origin:50% 100%}
-.cat.idle svg{animation:bob 2.4s ease-in-out infinite}
-.cat.think svg{animation:tilt 2.2s ease-in-out infinite}
-.cat.happy svg{animation:hop .65s ease-out}
-.cat.sad svg{animation:slump .7s ease-out forwards}
+.tw{position:relative;width:100%;height:100%;transform-origin:50% 100%}
+.tw svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.tb{transform-origin:50% 42.857%;animation:spin 1.8s linear infinite;will-change:transform}
+.cat.idle .tw{animation:bob 2.4s ease-in-out infinite}
+.cat.think .tw{animation:tilt 2.2s ease-in-out infinite}
+.cat.happy .tw{animation:hop .65s ease-out}
+.cat.sad .tw{animation:slump .7s ease-out forwards}
+button,.opt,.tile,.mbtn,.node{touch-action:manipulation}
+body.busy .app,body.busy .app *{animation-play-state:paused!important}
+body.busy .pathcat{display:none}
 @keyframes bob{50%{transform:translateY(-3px)}}
 @keyframes tilt{25%{transform:rotate(-4deg)}75%{transform:rotate(4deg)}}
 @keyframes hop{30%{transform:translateY(-18px) rotate(-6deg)}60%{transform:translateY(0) scale(1.06,.94)}100%{transform:none}}
@@ -365,21 +370,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
     <div class="wlist" id="wlist"></div>
   </section>
 
-  <section class="tab" id="tab-radio" hidden>
-    <h2 class="h2">Rádio do Turbi</h2>
-    <div class="card">
-      <div class="rnow" id="musNow"></div>
-      <button class="btn" id="musBtn" style="--c:var(--pink);--cd:#d4407e">Ligar</button>
-      <div class="lbl">Estilo</div>
-      <div class="scenes" id="musStyles"></div>
-      <div class="rrow"><label for="musVol" class="lbl">Volume</label><input type="range" id="musVol" min="0.05" max="1" step="0.05"></div>
-      <button class="btn ghost" id="musNext">Próxima música</button>
-    </div>
-    <div class="card">
-      <div class="switch"><span>Efeitos sonoros e voz do Turbi</span><button class="toggle" id="sfxToggle" aria-label="Efeitos sonoros"></button></div>
-      <p class="pt" style="margin:0">A música é instrumental e feita na hora pelo app: cada uma sai diferente. Ela abaixa sozinha quando uma frase em inglês é falada.</p>
-    </div>
-  </section>
+
 
   <section class="tab" id="tab-profile" hidden></section>
 </div>
@@ -387,7 +378,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 <nav class="nav" id="nav"><div class="nav-in">
   <button data-tab="path" aria-current="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6 6 .9-4.5 4.3 1 6.3L12 16.8 6.5 19.5l1-6.3L3 8.9 9 8z"/></svg>Trilha</button>
   <button data-tab="words"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 3h11a3 3 0 0 1 3 3v15H8a3 3 0 0 1-3-3zm3 14a1 1 0 0 0 0 2h9v-2zM8 7v2h8V7z"/></svg>Palavras</button>
-  <button data-tab="radio"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 18a3 3 0 1 1-2-2.8V5l12-2v12a3 3 0 1 1-2-2.8V6.4L9 7.8z"/></svg>Rádio</button>
+
   <button data-tab="profile"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 3l4 4h6l4-4v9a7 7 0 0 1-14 0zm4 8a1.2 1.2 0 1 0 0 2.4A1.2 1.2 0 0 0 9 11zm6 0a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/></svg>Perfil</button>
 </div></nav>
 
@@ -396,7 +387,6 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
   <div class="lhead">
     <button class="xbtn" id="lquit" aria-label="Sair da lição">×</button>
     <div class="prog"><i id="lprog" style="width:0"></i></div>
-    <button class="mq" id="musQuick" aria-label="Música">♪</button>
     <span class="lhearts"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 21s-7.5-4.6-9.6-9.2C.9 8.3 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.4.7-1.2 2.2-2.4 4.3-2.4 3.7 0 5.8 3.8 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg><b id="lHearts">5</b></span>
   </div>
   <div class="lbody" id="lbody"></div>
@@ -1199,9 +1189,11 @@ function A(force){
   }catch(e){ return null; }
 }
 function env(g,t,a,peak,d){ g.gain.setValueAtTime(.0001,t); g.gain.exponentialRampToValueAtTime(peak,t+a); g.gain.exponentialRampToValueAtTime(.0001,t+a+d); }
-function bell(f,dt=0,vol=.16){ const c=A(); if(!c) return; const t=c.currentTime+dt;
+function bell(f,dt=0,vol=.16){ try{ bell_(f,dt,vol); }catch(e){} }
+function bell_(f,dt=0,vol=.16){ const c=A(); if(!c) return; const t=c.currentTime+dt;
   [[1,1],[2.01,.35],[3.98,.12]].forEach(([m,v])=>{ const o=c.createOscillator(),g=c.createGain(); o.type='sine'; o.frequency.value=f*m; env(g,t,.005,vol*v,.7); o.connect(g).connect(master); o.start(t); o.stop(t+.8); }); }
-function blip(f1,f2,dur,type='sine',vol=.15,dt=0){ const c=A(); if(!c) return; const t=c.currentTime+dt;
+function blip(f1,f2,dur,type='sine',vol=.15,dt=0){ try{ blip_(f1,f2,dur,type,vol,dt); }catch(e){} }
+function blip_(f1,f2,dur,type='sine',vol=.15,dt=0){ const c=A(); if(!c) return; const t=c.currentTime+dt;
   const o=c.createOscillator(),g=c.createGain(); o.type=type; o.frequency.setValueAtTime(f1,t); o.frequency.exponentialRampToValueAtTime(f2,t+dur);
   env(g,t,.008,vol,dur); o.connect(g).connect(master); o.start(t); o.stop(t+dur+.05); }
 function meow(happy=true,dt=0){ const c=A(); if(!c) return; const t=c.currentTime+dt, d=happy?.5:.8;
@@ -1212,12 +1204,48 @@ function meow(happy=true,dt=0){ const c=A(); if(!c) return; const t=c.currentTim
   bp.frequency.setValueAtTime(700,t); bp.frequency.linearRampToValueAtTime(1800,t+d*.35); bp.frequency.linearRampToValueAtTime(850,t+d);
   const g=c.createGain(); g.gain.setValueAtTime(.0001,t); g.gain.exponentialRampToValueAtTime(.4,t+.06); g.gain.setValueAtTime(.32,t+d*.6); g.gain.exponentialRampToValueAtTime(.0001,t+d);
   o.connect(bp).connect(g).connect(master); o.start(t); o.stop(t+d+.05); lfo.start(t); lfo.stop(t+d+.05); }
+/* ===== MÚSICAS DE COMEMORAÇÃO (originais) ===== */
+const midi=n=>440*Math.pow(2,(n-69)/12);
+function note(f,t,d,type,vol,cut){ if(!(vol>0)) return; const o=ac.createOscillator(),g=ac.createGain(),lp=ac.createBiquadFilter();
+  o.type=type; o.frequency.value=f; lp.type='lowpass'; lp.frequency.value=cut||3600;
+  g.gain.setValueAtTime(.0001,t); g.gain.exponentialRampToValueAtTime(vol,t+.008); g.gain.exponentialRampToValueAtTime(.0001,t+Math.max(d,.06));
+  o.connect(lp).connect(g).connect(master); o.start(t); o.stop(t+d+.08); }
+function drum(k,t){
+  if(k==='k'){ const o=ac.createOscillator(),g=ac.createGain(); o.frequency.setValueAtTime(160,t); o.frequency.exponentialRampToValueAtTime(45,t+.16);
+    g.gain.setValueAtTime(.55,t); g.gain.exponentialRampToValueAtTime(.0001,t+.2); o.connect(g).connect(master); o.start(t); o.stop(t+.22); return; }
+  const src=ac.createBufferSource(); src.buffer=noiseBuf(ac); const f=ac.createBiquadFilter(), g=ac.createGain();
+  const P={s:['bandpass',1900,.32,.14],h:['highpass',7500,.12,.04],c:['highpass',5000,.22,1.1],r:['highpass',3000,.1,.6]}[k];
+  f.type=P[0]; f.frequency.value=P[1]; if(k==='r'){ f.frequency.setValueAtTime(1500,t); f.frequency.exponentialRampToValueAtTime(9000,t+.6); }
+  g.gain.setValueAtTime(.0001,t); g.gain.exponentialRampToValueAtTime(P[2],t+(k==='r'?.55:.004)); g.gain.exponentialRampToValueAtTime(.0001,t+P[3]+(k==='r'?.05:0));
+  src.connect(f).connect(g).connect(master); src.start(t,Math.random()*.4); src.stop(t+P[3]+.1); }
+/* seq: [nota(s) MIDI ou null, duração em batidas, bateria 'k s h c r'] */
+function song(seq,bpm,shift=0,delay=0){ try{ const c=A(); if(!c) return; let t=c.currentTime+.03+delay; const b=60/bpm;
+  seq.forEach(([n,len,dr])=>{ const d=len*b;
+    if(n!=null)(Array.isArray(n)?n:[n]).forEach((m,i)=>{ const f=midi(m+shift);
+      note(f,t,d*.92,'square',i?.03:.055,2800); note(f*2,t,Math.min(d,.3),'triangle',i?.02:.04,6000); note(f/2,t,d*.9,'triangle',i?0:.05,900); });
+    if(dr) [...dr].forEach(k=>drum(k,t)); t+=d; }); }catch(e){} }
 const sTap=()=>blip(880,600,.06,'sine',.12);
-const sGood=()=>{ bell(784); bell(1175,.07); bell(1568,.14); blip(2200,3400,.12,'triangle',.04,.22); };
-const sBad=()=>{ blip(330,140,.3,'triangle',.22); blip(180,90,.25,'sine',.18,.12); };
-const sCombo=()=>{ [523,659,784,1047].forEach((f,i)=>bell(f*2,i*.05,.09)); blip(400,1700,.35,'sawtooth',.03); };
-const sWin=()=>{ [523,659,784,1047].forEach((f,i)=>{ blip(f,f,.16,'square',.05,i*.12); bell(f*2,i*.12,.08); });
-  [523,659,784,1047].forEach(f=>blip(f,f*1.001,.9,'triangle',.07,.5)); bell(2093,.55,.12); meow(true,1.15); };
+/* acerto: 4 musiquinhas que sobem de tom a cada acerto seguido */
+const OK_SONGS=[
+  [[72,.5],[76,.5],[79,1.5,'h']],
+  [[79,.5],[84,1.5,'h']],
+  [[76,.5],[79,.5],[84,.5],[88,1.5,'h']],
+  [[72,.5],[79,.5],[77,.5],[84,1.5,'h']],
+];
+const sGood=(combo=1)=>{ song(pick(OK_SONGS),420,Math.min(Math.max(combo-1,0),7)); };
+const sBad=()=>{ blip(330,140,.3,'triangle',.2); blip(180,90,.25,'sine',.16,.12); };
+/* sequência de 3, 5, 8 acertos: mini fanfarra */
+const sCombo=(combo=3)=>{ const up=combo>=8?5:combo>=5?2:0;
+  song([[72,.5,'k'],[76,.5,'h'],[79,.5,'s'],[84,.5,'h'],[[79,84,88],.5,'k'],[null,.25],[[79,84,88],1.75,'kc']],300,up); };
+/* fim de lição: fanfarra completa com bateria */
+const sWin=()=>{ song([
+  [67,.5,'k'],[72,.5,'h'],[76,.5,'s'],[79,.5,'h'],
+  [84,1,'k'],[79,.5,'s'],[84,1.5,'kh'],
+  [[76,79,84],.5,'s'],[[77,81,86],.5,'k'],[[79,83,88],.5,'s'],[[81,84,89],.5,'k'],
+  [[79,84,88,91],2.5,'kc']],170); meow(true,2.9); };
+const sPerfect=()=>{ song([[84,.25],[88,.25],[91,.25],[96,1.25,'c']],260,0,3.1); };
+const sStreak=()=>{ drum('r',0+0); song([[60,.25],[64,.25],[67,.25],[72,.25],[76,.25],[79,.25],[84,.5,'k'],[[84,88,91],2,'kc']],320,0,.5); meow(true,1.9); };
+const sChest=()=>{ song([[84,.25],[86,.25],[88,.25],[91,.25],[93,.25],[96,1.5,'c']],380); };
 const sLose=()=>{ blip(392,370,.22,'triangle',.12); blip(330,310,.22,'triangle',.12,.25); blip(262,170,.5,'triangle',.12,.5); meow(false,.95); };
 
 /* ---------- RÁDIO DO PINGADO: música instrumental composta na hora ---------- */
@@ -1244,7 +1272,7 @@ function shaper(){ if(SHAPER) return SHAPER; SHAPER=ac.createWaveShaper(); const
   const lp=ac.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=2600; const g=ac.createGain(); g.gain.value=.5;
   SHAPER.connect(lp).connect(g).connect(MUS.bus); return SHAPER; }
 function guitar(root,t,dur,v){ // power chord distorcido
-  [0,7,12].forEach(i=>[-6,6].forEach(dt=>{ const o=ac.createOscillator(),g=ac.createGain(); o.type='sawtooth'; o.frequency.value=mf(root+i); o.detune.value=dt; mEnv(g,t,.004,v,dur); o.connect(g).connect(shaper()); o.start(t); o.stop(t+dur+.05); })); }
+  [0,7].forEach(i=>[4].forEach(dt=>{ const o=ac.createOscillator(),g=ac.createGain(); o.type='sawtooth'; o.frequency.value=mf(root+i); o.detune.value=dt; mEnv(g,t,.004,v,dur); o.connect(g).connect(shaper()); o.start(t); o.stop(t+dur+.05); })); }
 function synth(f,t,dur,v,type='sawtooth',cut=2000){ const o=ac.createOscillator(),o2=ac.createOscillator(),g=ac.createGain(),lp=ac.createBiquadFilter();
   o.type=type; o2.type=type; o.frequency.value=f; o2.frequency.value=f; o2.detune.value=12; lp.type='lowpass'; lp.frequency.value=cut;
   mEnv(g,t,.008,v,dur); o.connect(lp); o2.connect(lp); lp.connect(g).connect(MUS.bus); o.start(t); o2.start(t); o.stop(t+dur+.05); o2.stop(t+dur+.05); }
@@ -1378,23 +1406,24 @@ function catSVG(mood){
     mouth=`<path d="M45 55.5q5 4.5 10 0" stroke="${ink}" stroke-width="2.2" fill="none" stroke-linecap="round"/>`;
   }
   const blade=`<path d="M50 48C46.5 34 47 16 50 4C53.5 16 54.5 34 50 48Z" fill="${blue}"/><path d="M50 10C51.6 18 52 28 50.6 40" stroke="#5d8fd6" stroke-width="1.6" fill="none"/>`;
-  return `<svg viewBox="0 0 100 112" aria-hidden="true">
+  return `<div class="tw" aria-hidden="true"><svg viewBox="0 0 100 112">
     <path d="M46.5 64h7l3.5 42h-14z" fill="#e3eaf6" stroke="#c3d0e6" stroke-width="1.2"/>
     <rect x="46.5" y="80" width="7.5" height="3" fill="#2fb4ff"/>
     <path d="M47 76q-9-1-13-9" stroke="#c3d0e6" stroke-width="4" fill="none" stroke-linecap="round"/>
     <path d="M54 76q9-1 13-9" stroke="#c3d0e6" stroke-width="4" fill="none" stroke-linecap="round"/>
     <ellipse cx="50" cy="107" rx="18" ry="4" fill="${blue}"/>
-    <g style="transform-origin:50px 48px;animation:spin ${spin} linear infinite">${blade}<g transform="rotate(120 50 48)">${blade}</g><g transform="rotate(240 50 48)">${blade}</g></g>
+    </svg><svg class="tb" viewBox="0 0 100 112" style="animation-duration:${spin}"><g>${blade}<g transform="rotate(120 50 48)">${blade}</g><g transform="rotate(240 50 48)">${blade}</g></g></svg><svg viewBox="0 0 100 112">
     <circle cx="50" cy="48" r="17" fill="${face}" stroke="${blue}" stroke-width="3"/>
     <path d="M33.5 41a16.5 16.5 0 0 1 33 0z" fill="#ffc93c"/><rect x="31" y="39.5" width="38" height="4" rx="2" fill="#e8a800"/><rect x="48" y="29" width="4" height="11" rx="2" fill="#e8a800"/>
     <ellipse cx="39" cy="53" rx="3.6" ry="2.2" fill="${pink}" opacity=".8"/><ellipse cx="61" cy="53" rx="3.6" ry="2.2" fill="${pink}" opacity=".8"/>
     ${eyes}${mouth}${extra}
-  </svg>`;
+  </svg></div>`;
 }
 function setCat(el,mood){ if(!el) return; el.classList.remove('idle','happy','sad','think'); el.classList.add('cat',mood); el.innerHTML=catSVG(mood); }
 
 /* voz do Turbi: um "vuuush" de vento + um piado */
-function meow(happy=true,dt=0){
+function meow(happy=true,dt=0){ try{ meow_(happy,dt); }catch(e){} }
+function meow_(happy=true,dt=0){
   const c=A(); if(!c) return; const t=c.currentTime+dt;
   try{
     const s=c.createBufferSource(); s.buffer=noiseBuf(c);
@@ -1406,14 +1435,21 @@ function meow(happy=true,dt=0){
   if(happy){ blip(700,1400,.16,'sine',.11,dt+.12); blip(1050,1900,.13,'sine',.09,dt+.3); }
   else blip(520,240,.4,'sine',.12,dt+.12);
 }
-const whoosh=(dt=0)=>{ const c=A(); if(!c) return; const t=c.currentTime+dt; const s=c.createBufferSource(); s.buffer=noiseBuf(c);
+const whoosh=(dt=0)=>{ try{ whoosh_(dt); }catch(e){} };
+const whoosh_=(dt=0)=>{ const c=A(); if(!c) return; const t=c.currentTime+dt; const s=c.createBufferSource(); s.buffer=noiseBuf(c);
   const f=c.createBiquadFilter(); f.type='bandpass'; f.Q.value=.8; f.frequency.setValueAtTime(300,t); f.frequency.exponentialRampToValueAtTime(3200,t+.35);
   const g=c.createGain(); g.gain.setValueAtTime(.0001,t); g.gain.exponentialRampToValueAtTime(.28,t+.08); g.gain.exponentialRampToValueAtTime(.0001,t+.4);
   s.connect(f).connect(g).connect(master); s.start(t); s.stop(t+.45); };
 
 /* ================= FALA, DICA E CARTÃO DA PALAVRA ================= */
 const canSpeak='speechSynthesis' in window;
-function speakRate(t,r){ duck(); try{ speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(t); u.lang='en-US'; u.rate=r; speechSynthesis.speak(u);}catch(e){} }
+let VOICE=null;
+function pickVoice(){ try{ const v=speechSynthesis.getVoices(); VOICE=v.find(x=>x.lang==='en-US'&&/Samantha|Google US|Aria|Jenny|Ava/.test(x.name))||v.find(x=>x.lang==='en-US')||v.find(x=>/^en/.test(x.lang))||null; }catch(e){} }
+if(canSpeak){ pickVoice(); try{ speechSynthesis.onvoiceschanged=pickVoice; }catch(e){} }
+let speakT=null;
+function speakRate(t,r){ duck(); clearTimeout(speakT);
+  speakT=setTimeout(()=>{ try{ const ss=speechSynthesis; if(ss.speaking||ss.pending) ss.cancel();
+    const u=new SpeechSynthesisUtterance(t); u.lang='en-US'; u.rate=r; if(VOICE) u.voice=VOICE; ss.speak(u);}catch(e){} },40); }
 const speak=t=>speakRate(t,.88);
 const SPK='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>';
 function remember(k){ S.cards=S.cards||{}; if(!S.cards[k]){ S.cards[k]={box:0,due:Date.now()}; save(); return true; } return false; }
@@ -1515,12 +1551,12 @@ setInterval(()=>{ refillHearts(); renderTop(); },60000);
 
 let curTab='path', openNode=null;
 function goTab(t){
-  curTab=t; ['path','words','radio','profile'].forEach(x=>$('tab-'+x).hidden=x!==t);
+  curTab=t; ['path','words','profile'].forEach(x=>$('tab-'+x).hidden=x!==t);
   document.querySelectorAll('#nav button').forEach(b=>b.setAttribute('aria-current',b.dataset.tab===t));
   renderTab(); window.scrollTo(0,0);
 }
 function renderTab(){ refillHearts(); renderTop();
-  if(curTab==='path') renderPath(); else if(curTab==='words') renderWords(); else if(curTab==='profile') renderProfile(); else renderRadioTab(); }
+  if(curTab==='path') renderPath(); else if(curTab==='words') renderWords(); else renderProfile(); }
 $('nav').onclick=e=>{ const b=e.target.closest('[data-tab]'); if(!b) return; sTap(); openNode=null; goTab(b.dataset.tab); };
 
 function nodeLabel(n){ return n.type==='chest'?'Baú de prêmios':n.type==='trophy'?'Desafio final':'Lição '+n.n; }
@@ -1572,7 +1608,7 @@ $('modal').onclick=e=>{ if(e.target===$('modal')) closeModal(); };
 function openChest(s,i){
   modal(`<div class="chestbig">${chestSVG(false,false)}</div><h3>Baú de prêmios!</h3><p>Toque para abrir</p><button class="btn gold" id="chestGo">Abrir baú</button>`);
   $('chestGo').onclick=()=>{
-    const g=20+(Math.random()*21|0); S.gems+=g; S.prog[s]=i+1; save(); sWin(); confetti();
+    const g=20+(Math.random()*21|0); S.gems+=g; S.prog[s]=i+1; save(); sChest(); confetti();
     $('mcard').innerHTML=`<div class="chestbig" style="animation:none">${chestSVG(true,false)}</div><h3>+${g} gemas!</h3><p>Gemas servem para recarregar as vidas quando acabarem.</p><button class="btn" id="chestOk">Continuar</button>`;
     $('chestOk').onclick=()=>{ closeModal(); renderTab(); };
   };
@@ -1607,7 +1643,7 @@ function startLesson(s,i){
   if(S.hearts<=0) return noHearts(false);
   const k=UNITS.findIndex(u=>u.s===s);
   L={s,k,i,node:NODES[i],ex:buildExercises(k,NODES[i]),q:0,ok:0,tries:0,combo:0,best:0,t0:Date.now(),miss:[]};
-  $('lesson').hidden=false; document.body.style.overflow='hidden'; whoosh();
+  $('lesson').hidden=false; document.body.style.overflow='hidden';document.body.classList.add('busy'); whoosh();
   renderEx();
 }
 function footCheck(){ $('lfoot').className='lfoot'; $('lfootIn').innerHTML='<button class="btn" id="lcheck" disabled>Verificar</button>'; $('lcheck').onclick=check; }
@@ -1724,6 +1760,7 @@ function explain(ex,info){
   return parts.join(' ');
 }
 function result(ok,info){
+  $('hint').hidden=true; clearTimeout(hintT);
   const ex=L.ex[L.q]; L.locked=true; L.bonus=null;
   const key=ex.w||(ex.s&&ex.s.en);
   if(ex.kind!=='match') L.tries++;
@@ -1731,7 +1768,7 @@ function result(ok,info){
     L.combo++; L.best=Math.max(L.best,L.combo); if(ex.kind!=='match') L.ok++;
     if(key) S.wrong=S.wrong.filter(x=>x!==key);
     if(ex.w) remember(ex.w);
-    sGood(); whoosh(.05); if([3,5,8].includes(L.combo)) sCombo(); else if(Math.random()<.35) meow(true,.35);
+    if([3,5,8].includes(L.combo)||(L.combo>8&&L.combo%5===0)) sCombo(L.combo); else { sGood(L.combo); if(Math.random()<.2) meow(true,.45); }
     S.okCount=(S.okCount||0)+1;
     if(S.okCount%10===0){ if(S.hearts<MAXH){ S.hearts++; L.bonus='heart'; } else { S.gems+=5; L.bonus='gems'; } }
   } else {
@@ -1763,7 +1800,7 @@ function nextEx(){
   L.q++; if(L.q>=L.ex.length) return finishLesson();
   renderEx();
 }
-function exitLesson(){ L=null; ['lesson','done','cards'].forEach(x=>$(x).hidden=true); document.body.style.overflow=''; renderTab(); }
+function exitLesson(){ L=null; ['lesson','done','cards'].forEach(x=>$(x).hidden=true); document.body.style.overflow='';document.body.classList.remove('busy'); renderTab(); }
 $('lquit').onclick=()=>{
   modal(`<div class="cat sad" id="mCat"></div><h3>Vai sair agora?</h3><p>Se sair, você perde o progresso desta lição.</p>
     <button class="btn blue" id="mStay">Continuar estudando</button><button class="btn ghost" id="mLeave" style="color:var(--bad)">Sair</button>`);
@@ -1810,7 +1847,7 @@ function finishLesson(){
     <button class="btn" id="dNext">Continuar</button>`;
   setCat($('dCat'),'happy'); $('dCat').classList.add('bigcat');
   $('doneIn').querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{ const ex=miss[+b.dataset.f]; speak(ex.s?ex.s.en:disp(ex.w)); });
-  sWin(); confetti();
+  sWin(); if(acc===100) sPerfect(); confetti();
   $('dNext').onclick=()=>newDay?showStreak():closeDone();
   L=null;
 }
@@ -1819,11 +1856,11 @@ function showStreak(){
   const week=[...Array(7)].map((_,i)=>{ const d=new Date(now.getTime()-(6-i)*864e5); return `<i class="${(S.days||[]).includes(d.toDateString())?'on':''}">${days[d.getDay()]}</i>`; }).join('');
   $('doneIn').innerHTML=`${ICON.flame}<div class="bigstreak">${S.streak}</div><h2 style="color:var(--tP)">${S.streak===1?'dia de ofensiva!':'dias seguidos!'}</h2>
     <div class="week">${week}</div><p>Volte amanhã para a chama não apagar.</p><button class="btn" id="dNext" style="--c:var(--tP);--cd:#e06a1c">Continuar</button>`;
-  [523,659,784,1047].forEach((f,i)=>bell(f,i*.09,.12)); meow(true,.5);
+  sStreak();
   $('dNext').onclick=closeDone;
 }
 function closeDone(){
-  $('done').hidden=true; document.body.style.overflow='';
+  $('done').hidden=true; document.body.style.overflow='';document.body.classList.remove('busy');
   goTab('path'); const c=document.querySelector('.nodewrap.current'); if(c) c.scrollIntoView({block:'center'});
 }
 
@@ -1848,7 +1885,7 @@ function startCards(){
   if(!q.length) q=Object.entries(S.cards).filter(([k])=>DICT[k]).sort((a,b)=>a[1].due-b[1].due).map(([w])=>w).slice(0,10);
   q=shuffle(q).slice(0,15);
   F={q,i:0,total:q.length,ok:0,xp:0,retry:new Set()};
-  $('cards').hidden=false; document.body.style.overflow='hidden'; renderCard();
+  $('cards').hidden=false; document.body.style.overflow='hidden';document.body.classList.add('busy'); renderCard();
 }
 function renderCard(){
   const w=F.q[F.i], d=DICT[w], c=S.cards[w], word=disp(w);
@@ -1874,17 +1911,18 @@ function rate(ok){
 }
 function finishCards(){
   S.xp+=F.xp; const gained=S.hearts<MAXH; if(gained){ S.hearts++; S.zeroAt=null; } save();
-  $('cards').hidden=true; document.body.style.overflow=''; goTab('words');
+  $('cards').hidden=true; document.body.style.overflow='';document.body.classList.remove('busy'); goTab('words');
   modal(`<div class="cat happy" id="mCat"></div><h3>Treino concluído!</h3><p>Você lembrou de primeira ${F.ok} de ${F.total}. +${F.xp} XP${gained?' e +1 vida':''}.</p><button class="btn" id="mOk">Continuar</button>`);
   setCat($('mCat'),'happy'); sWin(); $('mOk').onclick=closeModal;
 }
-$('cquit').onclick=()=>{ $('cards').hidden=true; document.body.style.overflow=''; renderTab(); };
+$('cquit').onclick=()=>{ $('cards').hidden=true; document.body.style.overflow='';document.body.classList.remove('busy'); renderTab(); };
 
 /* ================= PERFIL ================= */
 function renderProfile(){
   const li=levelInfo(S.xp), dx=S.day.d===today()?S.day.xp:0, pct=Math.min(1,dx/GOAL), r=34, C=2*Math.PI*r;
   const units=UNITS.filter(u=>prog(u.s)>=6).length, nm=S.name||'';
   $('tab-profile').innerHTML=`<div class="ph"><div class="cat idle" id="pCat"></div><div style="flex:1;min-width:0"><h2>${nm||'Seu perfil'}</h2><p>Nível ${li.l} · ${TITLES[Math.min(li.l-1,TITLES.length-1)]}</p></div></div>
+    <div class="card"><div class="switch"><span>Sons, músicas e voz do Turbi</span><button class="toggle" id="sfxToggle" aria-label="Sons"></button></div></div>
     <div class="card"><label class="lbl" for="pname">Seu nome</label><input id="pname" class="inp" maxlength="24" placeholder="Digite seu nome" value="${nm.replace(/"/g,'&quot;')}"></div>
     <div class="card"><div class="lbl">Próximo nível</div><div class="xpbar"><i style="width:${li.rest/li.need*100}%"></i></div><span class="pt">${li.rest} / ${li.need} XP</span></div>
     <div class="card goal"><svg viewBox="0 0 84 84"><circle cx="42" cy="42" r="${r}" fill="none" stroke="var(--line)" stroke-width="10"/><circle cx="42" cy="42" r="${r}" fill="none" stroke="var(--gold)" stroke-width="10" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-pct)}" transform="rotate(-90 42 42)"/><text x="42" y="48" text-anchor="middle" font-size="18" font-weight="900" fill="#2b3150">${Math.round(pct*100)}%</text></svg>
@@ -1899,17 +1937,11 @@ function renderProfile(){
     </div>`;
   setCat($('pCat'),'idle');
   $('pname').onchange=e=>{ S.name=e.target.value.trim(); save(); renderProfile(); };
+  $('sfxToggle').setAttribute('aria-pressed',S.sound);
+  $('sfxToggle').onclick=()=>{ S.sound=!S.sound; save(); $('sfxToggle').setAttribute('aria-pressed',S.sound); if(S.sound) sGood(1); };
 }
 
 /* ================= RÁDIO ================= */
-function renderRadioTab(){ renderRadio(); $('sfxToggle').setAttribute('aria-pressed',S.sound); $('musBtn').style.setProperty('--c',MUS.on?'#b3b9cc':'var(--pink)'); }
-$('musBtn').onclick=()=>{ MUS.on?musicOff():musicOn(); renderRadioTab(); };
-$('musQuick').onclick=()=>MUS.on?musicOff():musicOn();
-$('musNext').onclick=()=>{ if(MUS.on) newSong(); else musicOn(); renderRadioTab(); };
-$('musStyles').onclick=e=>{ const b=e.target.closest('[data-ms]'); if(!b) return; S.music.style=b.dataset.ms; save(); if(MUS.on){ MUS.style=S.music.style; newSong(); } renderRadio(); };
-$('musVol').value=S.music.vol;
-$('musVol').oninput=e=>{ S.music.vol=+e.target.value; save(); if(MUS.on&&MUS.bus) MUS.bus.gain.setTargetAtTime(S.music.vol*MUSIC_GAIN,ac.currentTime,.1); };
-$('sfxToggle').onclick=()=>{ S.sound=!S.sound; save(); renderRadioTab(); if(S.sound) sTap(); };
 
 function confetti(){
   if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -1922,8 +1954,7 @@ function confetti(){
 }
 
 /* ================= INÍCIO ================= */
-const wantMusic=S.music.on!==false; S.music.on=false;
-refillHearts(); renderRadio(); goTab('path');
+refillHearts(); goTab('path');
 (function intro(){
   setCat($('introCat'),'happy'); setTimeout(()=>setCat($('introCat'),'idle'),2000);
   $('introGo').onclick=()=>{
@@ -1931,7 +1962,6 @@ refillHearts(); renderRadio(); goTab('path');
     if(A(true)){ whoosh(); [523,659,784,1047].forEach((f,i)=>{ blip(f,f,.14,'square',.06,.15+i*.1); bell(f*2,.15+i*.1,.1); }); bell(2093,.6,.14); meow(true,.75); }
     $('intro').classList.add('out');
     setTimeout(()=>{ $('intro').hidden=true; const c=document.querySelector('.nodewrap.current'); if(c) c.scrollIntoView({block:'center',behavior:'smooth'}); },550);
-    if(wantMusic&&!MUS.on) setTimeout(musicOn,800);
   };
 })();
 
