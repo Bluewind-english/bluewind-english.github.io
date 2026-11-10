@@ -1490,10 +1490,14 @@ const canSpeak='speechSynthesis' in window;
 let VOICE=null;
 function pickVoice(){ try{ const v=speechSynthesis.getVoices(); VOICE=v.find(x=>x.lang==='en-US'&&/Samantha|Google US|Aria|Jenny|Ava/.test(x.name))||v.find(x=>x.lang==='en-US')||v.find(x=>/^en/.test(x.lang))||null; }catch(e){} }
 if(canSpeak){ pickVoice(); try{ speechSynthesis.onvoiceschanged=pickVoice; }catch(e){} }
-let speakT=null;
-function speakRate(t,r){ duck(); clearTimeout(speakT);
-  speakT=setTimeout(()=>{ try{ const ss=speechSynthesis; if(ss.speaking||ss.pending) ss.cancel();
-    const u=new SpeechSynthesisUtterance(t); u.lang='en-US'; u.rate=r; if(VOICE) u.voice=VOICE; ss.speak(u);}catch(e){} },40); }
+/* a voz precisa começar no mesmo instante do toque (exigência do iPhone) */
+function speakRate(t,r){ duck();
+  try{ const ss=speechSynthesis; if(ss.speaking||ss.pending) ss.cancel();
+    if(!VOICE) pickVoice();
+    const u=new SpeechSynthesisUtterance(t); u.lang='en-US'; u.rate=r; u.volume=1; if(VOICE) u.voice=VOICE;
+    ss.speak(u); if(ss.paused) ss.resume(); }catch(e){} }
+/* destrava a voz no primeiro toque do app */
+function unlockSpeech(){ try{ const u=new SpeechSynthesisUtterance(' '); u.volume=0; u.lang='en-US'; speechSynthesis.speak(u); }catch(e){} }
 const speak=t=>speakRate(t,.88);
 const SPK='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>';
 function remember(k){ S.cards=S.cards||{}; if(!S.cards[k]){ S.cards[k]={box:0,due:Date.now()}; save(); return true; } return false; }
@@ -2034,7 +2038,7 @@ buildScenes(); refillHearts(); goTab('path');
 (function intro(){
   setCat($('introCat'),'happy'); setTimeout(()=>setCat($('introCat'),'idle'),2000);
   $('introGo').onclick=()=>{
-    unlockAudio();
+    unlockAudio(); if(canSpeak) unlockSpeech();
     if(A(true)){ whoosh(); [523,659,784,1047].forEach((f,i)=>{ blip(f,f,.14,'square',.06,.15+i*.1); bell(f*2,.15+i*.1,.1); }); bell(2093,.6,.14); meow(true,.75); }
     $('intro').classList.add('out');
     setTimeout(()=>{ $('intro').hidden=true; const c=document.querySelector('.nodewrap.current'); if(c) c.scrollIntoView({block:'center',behavior:'smooth'}); },550);
