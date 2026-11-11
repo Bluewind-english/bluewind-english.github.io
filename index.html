@@ -401,6 +401,21 @@ body.busy .pathcat{display:none}
 button.flag{border:0;cursor:pointer}
 .pw{border-bottom:2px dashed #9fb3cf;cursor:pointer}
 .pw:active{background:#e8f6ff;border-radius:4px}
+.rlist{display:grid;gap:8px}
+.rrow{display:flex;align-items:center;gap:10px;border:2px solid var(--line);border-radius:16px;padding:10px 12px;background:#fff}
+.rrow.me{border-color:#84cfff;background:#e8f6ff}
+.rpos{flex:none;width:34px;text-align:center;font-family:var(--display);font-size:20px;color:var(--muted)}
+.rname{flex:1;min-width:0;display:flex;flex-direction:column}
+.rname b{font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rname small{font-size:12px;color:var(--muted);font-weight:800}
+.rxp{flex:none;font-weight:900;color:var(--gold-d)}
+.rjoin h3{margin:0;font-family:var(--display);font-weight:400;font-size:22px}
+.rjoin .cat{width:90px;height:100px;align-self:center}
+.inp.pin{letter-spacing:10px;font-size:24px;text-align:center;max-width:180px}
+.rpriv{color:#8a6d00}
+.rkerr{color:var(--bad);font-weight:900;margin:0;min-height:1em}
+.rme{text-align:center}
+.rout{background:none;border:0;color:var(--blue-d);font-weight:900;text-decoration:underline;cursor:pointer;font:inherit}
 .taphint{margin:-4px 0 0;font-size:13px;font-weight:800;color:#8a93ad;text-align:center}
 .intro{overflow-y:auto!important}
 .icat{height:min(230px,26vh)!important;width:calc(min(230px,26vh) * .86)!important}
@@ -445,6 +460,7 @@ button.flag{border:0;cursor:pointer}
 
 
 
+  <section class="tab" id="tab-rank" hidden></section>
   <section class="tab" id="tab-profile" hidden></section>
 </div>
 
@@ -452,6 +468,7 @@ button.flag{border:0;cursor:pointer}
   <button data-tab="path" aria-current="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6 6 .9-4.5 4.3 1 6.3L12 16.8 6.5 19.5l1-6.3L3 8.9 9 8z"/></svg><span id="navPath">Trilha</span></button>
   <button data-tab="words"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 3h11a3 3 0 0 1 3 3v15H8a3 3 0 0 1-3-3zm3 14a1 1 0 0 0 0 2h9v-2zM8 7v2h8V7z"/></svg><span id="navWords">Palavras</span></button>
 
+  <button data-tab="rank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3h10v3h3a1 1 0 0 1 1 1c0 3.3-2.2 5.6-5.2 5.9A5 5 0 0 1 13 15.9V18h3v3H8v-3h3v-2.1a5 5 0 0 1-2.8-3C5.2 12.6 3 10.3 3 7a1 1 0 0 1 1-1h3zm0 5H5.1c.3 1.6 1.2 2.7 2.2 3.2A7 7 0 0 1 7 9zm10 0v1a7 7 0 0 1-.3 2.2c1-.5 1.9-1.6 2.2-3.2z"/></svg><span id="navRank">Ranking</span></button>
   <button data-tab="profile"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 3l4 4h6l4-4v9a7 7 0 0 1-14 0zm4 8a1.2 1.2 0 1 0 0 2.4A1.2 1.2 0 0 0 9 11zm6 0a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/></svg><span id="navProfile">Perfil</span></button>
 </div></nav>
 
@@ -653,6 +670,28 @@ const STR={
   writeThis:{pt:()=>`Escreva isto em ${LN.pt[TL()]}`,en:()=>`Write this in ${LN.en[TL()]}`,es:()=>`Escribe esto en ${LN.es[TL()]}`},
   tapHeard:{pt:'Toque no que você ouvir',en:'Tap what you hear',es:'Toca lo que escuchas'},
   whatHeard:{pt:'O que você ouviu?',en:'What did you hear?',es:'¿Qué escuchaste?'},
+  tabRank:{pt:'Ranking',en:'Ranking',es:'Ranking'},
+  rankTitle:{pt:'Ranking da fábrica',en:'Shop floor ranking',es:'Ranking de la fábrica'},
+  rankJoinT:{pt:'Entre no ranking',en:'Join the ranking',es:'Entra al ranking'},
+  rankJoinP:{pt:'Escolha seu nome e um código de 4 números. Com eles você aparece no ranking e recupera seu progresso em outro celular.',en:"Pick your name and a 4-digit code. You'll show up in the ranking and can get your progress back on another phone.",es:'Elige tu nombre y un código de 4 números. Así apareces en el ranking y recuperas tu progreso en otro celular.'},
+  pinLbl:{pt:'Código de 4 números',en:'4-digit code',es:'Código de 4 números'},
+  pinTip:{pt:'Guarde esse código. Ele é pedido se você entrar em outro celular.',en:"Remember this code. You'll need it on another phone.",es:'Guarda este código. Lo necesitas si entras desde otro celular.'},
+  rankPrivacy:{pt:'Seu nome, nível, XP e lições ficam visíveis para os colegas e para a supervisão.',en:'Your name, level, XP and lessons will be visible to coworkers and supervisors.',es:'Tu nombre, nivel, XP y lecciones serán visibles para tus compañeros y la supervisión.'},
+  rankJoinBtn:{pt:'Entrar no ranking',en:'Join the ranking',es:'Entrar al ranking'},
+  errNAME:{pt:'Digite um nome com pelo menos 2 letras.',en:'Type a name with at least 2 letters.',es:'Escribe un nombre de al menos 2 letras.'},
+  errPIN:{pt:'O código precisa ter 4 números.',en:'The code must have 4 numbers.',es:'El código debe tener 4 números.'},
+  errWRONG:{pt:'Esse nome já existe e o código não confere. Se for você, confira o código. Se não for, use outro nome (por exemplo, com o sobrenome).',en:"That name already exists and the code doesn't match. If it's you, check the code. If not, use another name (add your last name).",es:'Ese nombre ya existe y el código no coincide. Si eres tú, revisa el código. Si no, usa otro nombre (por ejemplo, con tu apellido).'},
+  errLOCKED:{pt:'Muitas tentativas erradas. Espere 10 minutos.',en:'Too many wrong tries. Wait 10 minutes.',es:'Demasiados intentos fallidos. Espera 10 minutos.'},
+  errNET:{pt:'Sem conexão com o ranking agora. Tente de novo daqui a pouco.',en:"Can't reach the ranking right now. Try again in a moment.",es:'No hay conexión con el ranking ahora. Intenta de nuevo en un momento.'},
+  loading:{pt:'Carregando...',en:'Loading...',es:'Cargando...'},
+  refresh:{pt:'Atualizar',en:'Refresh',es:'Actualizar'},
+  rankAs:{pt:n=>`Você está como <b>${n}</b>`,en:n=>`You're in as <b>${n}</b>`,es:n=>`Estás como <b>${n}</b>`},
+  leaveRank:{pt:'Sair neste celular',en:'Log out on this phone',es:'Salir en este celular'},
+  rankEmpty:{pt:'Ninguém neste curso ainda. Faça uma lição e seja o primeiro!',en:'Nobody in this course yet. Do a lesson and be the first!',es:'Nadie en este curso todavía. ¡Haz una lección y sé el primero!'},
+  rankLessons:{pt:n=>`${n} ${plural(n,'lição','lições')}`,en:n=>`${n} ${plural(n,'lesson','lessons')}`,es:n=>`${n} ${plural(n,'lección','lecciones')}`},
+  you:{pt:'você',en:'you',es:'tú'},
+  seen:{pt:d=>d<=0?'hoje':d===1?'ontem':`há ${d} dias`,en:d=>d<=0?'today':d===1?'yesterday':`${d} days ago`,es:d=>d<=0?'hoy':d===1?'ayer':`hace ${d} días`},
+  restored:{pt:'Progresso recuperado da nuvem!',en:'Progress restored from the cloud!',es:'¡Progreso recuperado de la nube!'},
   tapHint:{pt:'Não sabe uma palavra? Toque nela para ver a tradução.',en:"Don't know a word? Tap it to see the translation.",es:'¿No sabes una palabra? Tócala para ver la traducción.'},
   tapPairs:{pt:'Toque nos pares',en:'Tap the pairs',es:'Toca los pares'},
   newWord:{pt:'Nova palavra',en:'New word',es:'Palabra nueva'},
@@ -844,7 +883,7 @@ function loadState(){
   KEY=(TL()==='en'&&BL()==='pt')?'bluewind-english-v1':`bluewind-${TL()}-${BL()}-v1`;
   S=DEF(); try{ const s=JSON.parse(localStorage.getItem(KEY)); if(s) S=Object.assign(S,s); }catch(e){}
 }
-function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} }
+function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} if(typeof syncCloud==='function') syncCloud(); }
 buildLook(); loadState();
 const $=id=>document.getElementById(id);
 const pick=a=>a[Math.random()*a.length|0];
@@ -1284,12 +1323,12 @@ setInterval(()=>{ refillHearts(); renderTop(); },60000);
 
 let curTab='path', openNode=null;
 function goTab(t){
-  curTab=t; ['path','words','profile'].forEach(x=>$('tab-'+x).hidden=x!==t); $('pathHead').hidden=t!=='path';
+  curTab=t; ['path','words','rank','profile'].forEach(x=>$('tab-'+x).hidden=x!==t); $('pathHead').hidden=t!=='path';
   document.querySelectorAll('#nav button').forEach(b=>b.setAttribute('aria-current',b.dataset.tab===t));
   renderTab(); window.scrollTo(0,0);
 }
 function renderTab(){ refillHearts(); renderTop();
-  if(curTab==='path') renderPath(); else if(curTab==='words') renderWords(); else renderProfile(); }
+  if(curTab==='path') renderPath(); else if(curTab==='words') renderWords(); else if(curTab==='rank') renderRank(); else renderProfile(); }
 $('nav').onclick=e=>{ const b=e.target.closest('[data-tab]'); if(!b) return; sTap(); openNode=null; goTab(b.dataset.tab); };
 
 function nodeLabel(n){ return n.type==='chest'?T('chest'):n.type==='trophy'?T('finalCh'):T('lesson')+' '+n.n; }
@@ -1734,13 +1773,81 @@ function buildScenes(){
     HILLS+leavesHTML(6,70);
   $('coverLogo').src=LOGO;
 }
+/* ================= RANKING E PROGRESSO NA NUVEM ================= */
+const CLOUD={url:'https://xxasbzfozhgjvugiajvt.supabase.co',key:'sb_publishable_vewOALKDkWzDIzu87tRKMA_U3p4AsW6'};
+let ME=null; try{ ME=JSON.parse(localStorage.getItem('bluewind-cloud')); if(!ME||!ME.token) ME=null; }catch(e){ ME=null; }
+async function rpc(fn,args){
+  const r=await fetch(`${CLOUD.url}/rest/v1/rpc/${fn}`,{method:'POST',headers:{apikey:CLOUD.key,'Content-Type':'application/json'},body:JSON.stringify(args)});
+  if(!r.ok) throw new Error('HTTP '+r.status);
+  const t=await r.text(); return t?JSON.parse(t):null;
+}
+const courseKey=()=>TL()+'-'+BL();
+let syncT=null;
+async function pushNow(){
+  if(!ME) return;
+  const units=UNITS.filter(u=>(S.prog[u.s]||0)>=6).length;
+  await rpc('bw_save',{p_token:ME.token,p_course:courseKey(),p_xp:S.xp|0,p_lessons:S.lessons|0,p_streak:streakNow()|0,
+    p_words:Object.keys(S.cards||{}).length,p_units:units,p_state:S});
+}
+function syncCloud(){ if(!ME) return; clearTimeout(syncT); syncT=setTimeout(()=>{ pushNow().catch(()=>{}); },4000); }
+/* em outro celular: se aqui está vazio e na nuvem tem progresso, traz de volta */
+async function cloudRestore(){
+  if(!ME||S.xp||S.lessons) return false;
+  try{ const st=await rpc('bw_load',{p_token:ME.token,p_course:courseKey()});
+    if(st&&(st.xp||st.lessons)){ S=Object.assign(DEF(),st); try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} return true; } }catch(e){}
+  return false;
+}
+function joinHTML(){
+  return `<div class="card rjoin"><div class="cat idle" id="rkCat"></div><h3>${T('rankJoinT')}</h3><p class="pt">${T('rankJoinP')}</p>
+    <label class="lbl" for="rkName">${T('yourName')}</label><input class="inp" id="rkName" maxlength="24" autocomplete="nickname" value="${(S.name||'').replace(/"/g,'&quot;')}">
+    <label class="lbl" for="rkPin">${T('pinLbl')}</label><input class="inp pin" id="rkPin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" placeholder="••••">
+    <p class="pt">${T('pinTip')}</p><p class="pt rpriv">${T('rankPrivacy')}</p>
+    <button class="btn" id="rkGo">${T('rankJoinBtn')}</button><p class="rkerr" id="rkErr"></p></div>`;
+}
+async function renderRank(){
+  const el=$('tab-rank');
+  if(!ME){
+    el.innerHTML=`<h2 class="h2">${T('rankTitle')}</h2>`+joinHTML(); setCat($('rkCat'),'idle');
+    $('rkPin').oninput=e=>{ e.target.value=e.target.value.replace(/\D/g,'').slice(0,4); };
+    $('rkGo').onclick=async()=>{
+      const name=$('rkName').value.trim(), pin=$('rkPin').value.trim(), err=k=>{ $('rkErr').textContent=T('err'+k); sBad(); };
+      if(name.length<2) return err('NAME'); if(!/^\d{4}$/.test(pin)) return err('PIN');
+      $('rkGo').disabled=true; $('rkGo').textContent=T('loading');
+      let r=null; try{ r=await rpc('bw_join',{p_name:name,p_pin:pin}); }catch(e){}
+      if(!r||!r.ok){ $('rkGo').disabled=false; $('rkGo').textContent=T('rankJoinBtn'); return err(r&&r.err||'NET'); }
+      ME={token:r.token,name:r.name}; try{ localStorage.setItem('bluewind-cloud',JSON.stringify(ME)); }catch(e){}
+      const back=await cloudRestore();
+      S.name=r.name; save(); try{ await pushNow(); }catch(e){}
+      sWin(); confetti(); renderTop(); renderRank();
+      if(back) modal(`<div class="cat happy" id="mCat"></div><h3>${T('restored')}</h3><button class="btn" id="mOk">OK</button>`), setCat($('mCat'),'happy'), $('mOk').onclick=closeModal;
+    };
+    return;
+  }
+  el.innerHTML=`<h2 class="h2">${T('rankTitle')}</h2><p class="pt" style="margin:-6px 0 0">${T('courseName')}</p>
+    <div class="rlist" id="rlist"><p class="pt">${T('loading')}</p></div>
+    <button class="btn ghost" id="rRefresh">${T('refresh')}</button>
+    <p class="pt rme">${T('rankAs',ME.name)} · <button class="rout" id="rOut">${T('leaveRank')}</button></p>`;
+  $('rRefresh').onclick=()=>{ sTap(); renderRank(); };
+  $('rOut').onclick=()=>{ ME=null; try{ localStorage.removeItem('bluewind-cloud'); }catch(e){} renderRank(); };
+  let list=null;
+  try{ await pushNow(); }catch(e){}
+  try{ list=await rpc('bw_ranking',{p_course:courseKey()}); }catch(e){}
+  if(curTab!=='rank'||!$('rlist')) return;
+  if(!list){ $('rlist').innerHTML=`<p class="rkerr">${T('errNET')}</p>`; return; }
+  if(!list.length){ $('rlist').innerHTML=`<p class="pt">${T('rankEmpty')}</p>`; return; }
+  const medal=i=>i===0?'🥇':i===1?'🥈':i===2?'🥉':String(i+1);
+  const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  $('rlist').innerHTML=list.map((p,i)=>{ const me=p.name.toLowerCase()===ME.name.toLowerCase(), d=Math.floor((Date.now()-new Date(p.updated_at).getTime())/864e5);
+    return `<div class="rrow${me?' me':''}"><span class="rpos">${medal(i)}</span><span class="rname"><b>${esc(p.name)}${me?` <small>(${T('you')})</small>`:''}</b><small>${T('level')} ${levelInfo(p.xp).l} · ${T('rankLessons',p.lessons)} · ${T('seen',d)}</small></span><span class="rxp">${p.xp} XP</span></div>`; }).join('');
+}
+
 /* ================= CURSO: escolher idioma ================= */
 function applyStatic(){
   document.documentElement.lang={pt:'pt-BR',en:'en',es:'es'}[BL()];
   $('flagBtn').textContent=TL().toUpperCase();
   $('coverSub').textContent=T('coverSub');
   $('wordsTitle').textContent=T('wordsTitle'); $('practiceBtn').textContent=T('practice');
-  $('navPath').textContent=T('tabPath'); $('navWords').textContent=T('tabWords'); $('navProfile').textContent=T('tabProfile');
+  $('navPath').textContent=T('tabPath'); $('navWords').textContent=T('tabWords'); $('navProfile').textContent=T('tabProfile'); $('navRank').textContent=T('tabRank');
   $('iTitle').textContent=CTITLE[TL()][BL()]; $('iSub').textContent=T('coverSub'); $('iBub').innerHTML=T('introBubble'); $('introGo').textContent=T('introGo');
 }
 function pickerHTML(){
@@ -1751,6 +1858,7 @@ function pickerHTML(){
 function setCourse(b,t){
   COURSE={base:b,target:t}; HAS_COURSE=true; try{ localStorage.setItem('bluewind-course',JSON.stringify(COURSE)); }catch(e){}
   buildLook(); loadState(); VOICE=null; if(canSpeak) pickVoice();
+  cloudRestore().then(b=>{ if(b){ refillHearts(); goTab(curTab); } });
   applyStatic(); refillHearts(); openNode=null; goTab(curTab);
 }
 function openCoursePicker(){
@@ -1770,6 +1878,7 @@ document.addEventListener('click',e=>{
 /* ================= INÍCIO ================= */
 applyStatic(); $('iPick').innerHTML=pickerHTML(); $('flagBtn').onclick=openCoursePicker;
 buildScenes(); refillHearts(); goTab('path'); setTimeout(()=>prerender(),300);
+if(ME){ cloudRestore().then(b=>{ if(b){ refillHearts(); goTab(curTab); } else syncCloud(); }); }
 (function intro(){
   setCat($('introCat'),'happy'); setTimeout(()=>setCat($('introCat'),'idle'),2000);
   $('introGo').onclick=()=>{
