@@ -96,6 +96,24 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 /* lição */
 .lesson{position:fixed;inset:0;z-index:20;background:var(--bg);display:flex;flex-direction:column;
   padding-top:env(safe-area-inset-top,0px)}
+/* cenário de natureza atrás da lição: céu, sol, nuvens, montanhas com neve, morros verdes e turbinas */
+#lesson{background:linear-gradient(180deg,#8fd3ff 0%,#bfe7ff 30%,#e3f5ff 55%,#f2fbff 70%)}
+#lesson>.lhead,#lesson>.lbody{position:relative;z-index:1}
+.lscene{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;--w:100vw}
+.lscene .lsun{position:absolute;right:7%;top:calc(env(safe-area-inset-top,0px) + 74px);width:78px;height:78px;border-radius:50%;
+  background:radial-gradient(circle,#fff6c4 0 38%,#ffd95a 58%,rgba(255,217,90,0) 72%);opacity:.9}
+.lscene .lcloud{position:absolute;left:0;height:26px;border-radius:20px;background:#fff;opacity:.85;animation:lcloud linear infinite;will-change:transform}
+.lscene .lcloud::before,.lscene .lcloud::after{content:"";position:absolute;bottom:8px;border-radius:50%;background:#fff}
+.lscene .lcloud::before{left:16%;width:40%;aspect-ratio:1}
+.lscene .lcloud::after{left:46%;width:30%;aspect-ratio:1}
+@keyframes lcloud{from{transform:translateX(-200px)}to{transform:translateX(calc(var(--w) + 200px))}}
+.lscene .lland{position:absolute;left:0;right:0;bottom:0;height:min(54%,480px)}
+.lscene .lland svg.lmt{position:absolute;inset:0;width:100%;height:100%}
+.lscene .lturbs{position:absolute;left:0;right:0;bottom:31%;height:26%}
+#lesson .ltitle{text-shadow:0 1px 0 rgba(255,255,255,.7)}
+#lesson .lines{background-color:rgba(255,255,255,.78);border-radius:12px}
+#lesson .lfoot:not(.good):not(.bad){background:rgba(255,255,255,.84);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-top-color:rgba(255,255,255,.9)}
+@media (prefers-reduced-motion:reduce){.lscene *{animation:none!important}}
 .lhead{display:flex;align-items:center;gap:12px;padding:12px max(16px,env(safe-area-inset-right,0px)) 8px max(16px,env(safe-area-inset-left,0px));max-width:620px;width:100%;margin:0 auto}
 .xbtn{width:36px;height:36px;display:grid;place-items:center;color:#b3b9cc;font-size:30px;font-weight:900;line-height:1}
 .prog{flex:1;height:16px;border-radius:9px;background:var(--line);overflow:hidden}
@@ -532,6 +550,7 @@ select.inp{appearance:auto}
 
 <!-- LIÇÃO -->
 <section class="lesson" id="lesson" hidden>
+  <div class="lscene" id="lscene" aria-hidden="true"></div>
   <div class="lhead">
     <button class="xbtn" id="lquit" aria-label="Sair da lição">×</button>
     <div class="prog"><i id="lprog" style="width:0"></i></div>
@@ -1350,6 +1369,20 @@ function speakRate(t,r,retry){ duck();
 /* destrava a voz no primeiro toque do app */
 function unlockSpeech(){ try{ const u=new SpeechSynthesisUtterance(' '); u.volume=0; u.lang=TTSL[TL()]; speechSynthesis.speak(u); }catch(e){} }
 const speak=t=>speakRate(t,.88);
+/* devagar de verdade: no iPhone a velocidade baixa às vezes é ignorada, então falamos palavra por palavra (cada uma uma fala separada, com pausa entre elas) */
+function speakSlow(t){
+  const words=String(t).trim().split(/\s+/).filter(Boolean);
+  if(words.length<2) return speakRate(t,.45);
+  duck();
+  try{ const ss=speechSynthesis, id=++SPK_N;
+    if(ss.paused) ss.resume();
+    if(!VOICE) pickVoice();
+    const go=()=>{ if(id!==SPK_N) return;
+      const list=[];
+      words.forEach(w=>{ const u=new SpeechSynthesisUtterance(w); u.lang=VOICE?VOICE.lang:TTSL[TL()]; u.rate=.65; u.volume=1; if(VOICE) u.voice=VOICE; list.push(u); ss.speak(u); });
+      SPK_U=list; if(ss.paused) ss.resume(); };
+    if(ss.speaking||ss.pending){ ss.cancel(); setTimeout(go,90); } else go();
+  }catch(e){} }
 const SPK='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>';
 function remember(k){ S.cards=S.cards||{}; if(!S.cards[k]){ S.cards[k]={box:0,due:Date.now()}; save(); return true; } return false; }
 function exampleFor(k){
@@ -1612,7 +1645,7 @@ $('lbody').onclick=e=>{
   if(!L||L.locked) return;
   const ex=L.ex[L.q];
   if(e.target.closest('#say1')) return speakRate(L.target,.9);
-  if(e.target.closest('#say2')) return speakRate(L.target,.5);
+  if(e.target.closest('#say2')) return speakSlow(L.target);
   const o=e.target.closest('.opt');
   if(o){ $('lbody').querySelectorAll('.opt').forEach(x=>x.setAttribute('aria-pressed',x===o)); L.sel=o.dataset.o; sTap();
     if(ex.kind==='pickEn'||ex.kind==='listenWord') hint(L.sel,true,true);
@@ -1902,7 +1935,34 @@ function leavesHTML(n,maxTop){
 }
 function gustsHTML(n){ let h=''; for(let i=0;i<n;i++){ const d=2.4+Math.random()*2.5; h+=`<i class="gust" style="top:${8+Math.random()*70}%;width:${70+Math.random()*90}px;animation-duration:${d}s;animation-delay:${-Math.random()*d}s"></i>`; } return h; }
 const HILLS='<svg class="hills" viewBox="0 0 400 60" preserveAspectRatio="none"><path d="M0 34C60 10 120 14 190 30S320 20 400 8V60H0Z" fill="#9fdc8a"/><path d="M0 46C80 30 150 34 230 46S350 40 400 32V60H0Z" fill="#6cc463"/></svg>';
+/* paisagem da lição: montanhas com neve no fundo, morros verdes, pinheiros e flores na frente */
+const LAND='<svg class="lmt" viewBox="0 0 400 300" preserveAspectRatio="xMidYMax slice">'+
+  /* montanhas do fundo */
+  '<path d="M-10 170L40 100L75 135L120 70L170 140L205 105L250 160L300 80L345 130L410 95V300H-10Z" fill="#a9c4e6"/>'+
+  '<path d="M40 100L52 117L45 114L36 122L30 114Z M120 70L136 92L127 88L118 98L110 89L104 92Z M300 80L317 104L307 99L299 108L291 99L283 105Z M410 95V112L398 108L391 116L384 110Z" fill="#fff"/>'+
+  /* montanhas do meio */
+  '<path d="M-10 200L55 135L100 175L160 115L215 180L265 140L330 190L380 150L410 170V300H-10Z" fill="#8db3d9"/>'+
+  '<path d="M55 135L70 152L62 149L54 157L46 149L40 151Z M160 115L178 137L168 133L160 142L151 134L143 138Z M265 140L280 157L271 154L264 161L257 154L250 156Z" fill="#fff"/>'+
+  /* morros verdes */
+  '<path d="M-10 200C60 175 110 185 170 200S300 185 410 175V300H-10Z" fill="#9bdc84"/>'+
+  '<path d="M-10 228C70 210 140 214 210 226S330 220 410 210V300H-10Z" fill="#6cc463"/>'+
+  /* pinheiros */
+  [[22,226,1],[38,222,.8],[318,228,1],[336,225,.75],[352,227,.9],[150,232,.7],[166,234,.85]].map(([x,y,k])=>
+    `<g transform="translate(${x} ${y}) scale(${k})"><rect x="-1.6" y="-2" width="3.2" height="8" fill="#7a5a3a"/><path d="M0 -30L11 -8H-11Z M0 -22L13 0H-13Z" fill="#2f8f4a"/><path d="M0 -30L11 -8H3Z M0 -22L13 0H5Z" fill="#257a3d"/></g>`).join('')+
+  /* campo da frente com flores */
+  '<path d="M-10 262C80 248 170 252 250 262S350 258 410 250V300H-10Z" fill="#4fb04e"/>'+
+  [[30,272,'#fff'],[58,280,'#ffc93c'],[96,270,'#ff7eb3'],[130,284,'#fff'],[205,276,'#ffc93c'],[240,286,'#ff7eb3'],[282,272,'#fff'],[320,282,'#ffc93c'],[368,270,'#ff7eb3'],[385,288,'#fff']].map(([x,y,c])=>
+    `<circle cx="${x}" cy="${y}" r="2.6" fill="${c}"/><circle cx="${x}" cy="${y}" r="1" fill="#ffb000"/>`).join('')+
+  '</svg>';
+function cloudHTML(n){ let h=''; for(let i=0;i<n;i++){ const d=45+Math.random()*40, w=70+Math.random()*60; h+=`<i class="lcloud" style="top:${14+Math.random()*26}%;width:${w}px;animation-duration:${d}s;animation-delay:${-Math.random()*d}s"></i>`; } return h; }
+function buildLessonScene(){
+  $('lscene').innerHTML='<div class="lsun"></div>'+cloudHTML(4)+gustsHTML(3)+
+    '<div class="lland">'+LAND+
+      '<div class="lturbs">'+turbineHTML('10%',44,3,.95)+turbineHTML('28%',30,2.4,.85)+turbineHTML('62%',50,3.4,.95)+turbineHTML('82%',34,2.7,.85)+'</div>'+
+    '</div>';
+}
 function buildScenes(){
+  buildLessonScene();
   $('iscene').innerHTML=gustsHTML(6)+
     '<div style="position:absolute;left:0;right:0;bottom:12%;height:30%">'+
       turbineHTML('6%',70,3.2,.9)+turbineHTML('22%',46,2.4,.75)+turbineHTML('74%',84,3.8,.95)+turbineHTML('88%',50,2.8,.8)+'</div>'+
