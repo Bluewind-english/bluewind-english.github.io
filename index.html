@@ -496,6 +496,57 @@ select.inp{appearance:auto}
 .nbtns{display:grid;gap:10px;width:100%;margin-top:6px}
 .lchip.lnat{justify-content:center;font-size:20px;padding:14px;background:#fff;color:var(--blue-d);border-color:#fff;box-shadow:0 5px 0 rgba(0,40,100,.3)}
 .lchip.lnat b{font-size:15px}
+.mcardpath{display:grid;grid-template-columns:76px 1fr;gap:10px 12px;align-items:center;margin:4px 0 22px;padding:14px;border-radius:20px;background:linear-gradient(135deg,#1c4686,#2a62b0);color:#fff;box-shadow:0 5px 0 #143466}
+.mcp-av{width:76px;height:76px;border-radius:50%;overflow:hidden;border:3px solid #d4f531}
+.mcp-av svg,.cav svg{width:100%;height:100%;display:block}
+.mcp-txt{display:grid;gap:2px}.mcp-txt small{font-size:11px;font-weight:900;letter-spacing:1px;text-transform:uppercase;color:#d4f531;display:flex;align-items:center;gap:4px}
+.mcp-txt small svg{width:14px;height:14px}.mcp-txt b{font-family:var(--display);font-weight:400;font-size:24px;line-height:1}.mcp-txt span{font-size:13px;font-weight:700;opacity:.9;line-height:1.3}
+.mcardpath .btn{grid-column:1/-1}
+#mchat{display:flex;flex-direction:column;gap:10px}
+.cmsg{display:flex;gap:8px;align-items:flex-end;max-width:92%;animation:mpop .3s ease-out}
+@keyframes mpop{from{opacity:0;transform:translateY(8px)}}
+.cmsg.me{flex-direction:row-reverse;align-self:flex-end}
+.cav{flex:none;width:44px;height:44px;border-radius:50%;overflow:hidden;border:2px solid var(--line)}
+.cbub{position:relative;background:#eef4ff;border:2px solid #cfe0ff;border-radius:16px 16px 16px 4px;padding:8px 12px;font-size:17px;font-weight:800;line-height:1.3;color:var(--ink);display:grid;gap:2px}
+.cmsg.me .cbub{background:var(--good-bg);border-color:#b5ebc6;border-radius:16px 16px 4px 16px}
+.cbub small{font-size:11px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
+.cbub em{font-style:normal;font-size:13px;font-weight:700;color:var(--muted)}
+.cbub .cspk{position:absolute;right:-12px;top:-12px;width:32px;height:32px;border-radius:10px}
+.cbub .cspk svg{width:18px;height:18px}
+.cmsg.sup .cbub{padding-right:26px}
+.mturbi .say{margin-bottom:0;font-size:16px}
+#mtask{display:flex;flex-direction:column;gap:14px;border-top:2px dashed var(--line);padding-top:14px}
+#mtask:empty{display:none}
+.mlisten .slow{width:auto;height:auto;padding:10px 14px;display:flex;gap:6px;align-items:center}
+.mlisten .slow svg{width:18px;height:18px}
+.mopt{display:flex;align-items:center;gap:10px;text-align:left;font-size:17px}
+.spk.mini{width:30px;height:30px;border-radius:9px}.spk.mini svg{width:16px;height:16px}
+.micbtn{display:flex;flex-direction:column;align-items:center;gap:6px;margin:4px auto 0;width:150px;padding:18px 10px;border-radius:24px;background:var(--bad,#ff5a5f);color:#fff;font-weight:900;font-size:14px;text-transform:uppercase;box-shadow:0 5px 0 var(--bad-d,#d63c41)}
+.micbtn svg{width:44px;height:44px}
+.micbtn.on{animation:micp 1s ease-in-out infinite;background:var(--good);box-shadow:0 5px 0 var(--good-d)}
+@keyframes micp{50%{transform:scale(1.06)}}
+.mchunk{background:#fff;border-radius:12px;padding:10px 12px;font-size:15px;font-weight:700;line-height:1.4;border-left:5px solid var(--gold);color:var(--ink);display:grid;gap:2px}
+.mchunk small{font-size:11px;font-weight:900;letter-spacing:1px;text-transform:uppercase;color:var(--gold-d);display:flex;gap:4px;align-items:center}
+.mchunk small svg{width:14px;height:14px}
+.mweek{background:#fff8e1}.mweek b{font-size:18px}.mweek span{font-size:13px;color:var(--muted)}
+.mend{display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+.mend h2{font-family:var(--display);font-weight:400;font-size:30px;margin:0;color:var(--good-d)}
+.mend .tiles3{grid-template-columns:repeat(2,1fr)}
+.node.mnode{width:96px;height:78px;border-radius:26px}
+.node.mnode svg{width:42px;height:42px}
+.pwrap{border:2px solid var(--line);border-radius:16px;overflow:hidden;background:#eef6ff}
+.pscene{display:block;width:100%;height:auto}
+b.prep{color:#0891b2;background:#cff7fe;border-radius:6px;padding:0 3px;font-weight:900}
+.prept{border-left-color:#06b6d4}
+.tipm.prept{margin-top:8px}
+.intro.tg{background:linear-gradient(180deg,#2b5aa8 0%,#5d6fb6 28%,#e07a45 62%,#f4b26a 82%)}
+.intro.tg .hills path:nth-child(1){fill:#d8a24a}.intro.tg .hills path:nth-child(2){fill:#b9772f}
+.tgdecor{position:absolute;left:0;right:0;bottom:34%;width:100%;height:17%;pointer-events:none}
+.hpop{position:fixed;inset:0;z-index:90;display:grid;place-items:center;padding:20px;background:rgba(20,30,60,.55);animation:fade .3s both}
+.hpop[hidden]{display:none}
+.hpop-in{width:min(100%,420px);background:#fff;border-radius:22px;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.35);animation:pop .35s ease-out both}
+.hpop-in img{display:block;width:100%;height:auto}
+.hpop-in .btn{margin:14px;width:calc(100% - 28px)}
 @media (max-height:760px){.icat{height:17vh!important;width:calc(17vh * .86)!important}.ititle2{font-size:30px!important}.icover{max-width:250px;margin:0 auto;padding:8px 12px!important}.iwrap{gap:8px!important}.ibub{font-size:14px}.lchip{padding:6px 10px;font-size:14px}}
 </style>
 
@@ -546,6 +597,16 @@ select.inp{appearance:auto}
   <footer class="lfoot" id="lfoot"><div class="lfoot-in" id="lfootIn"></div></footer>
 </section>
 
+<!-- MISSÃO DE DIÁLOGO -->
+<section class="lesson" id="mission" hidden>
+  <div class="lhead">
+    <button class="xbtn" id="mquit" aria-label="Sair">×</button>
+    <div class="prog"><i id="mprog" style="width:0;background:var(--gold)"></i></div>
+  </div>
+  <div class="lbody" id="mbody"><div id="mchat"></div><div id="mtask"></div></div>
+  <footer class="lfoot" id="mfoot"><div class="lfoot-in" id="mfootIn"></div></footer>
+</section>
+
 <!-- FIM DE LIÇÃO / OFENSIVA -->
 <section class="lesson done" id="done" hidden><div class="done-in" id="doneIn"></div></section>
 
@@ -568,6 +629,7 @@ select.inp{appearance:auto}
 <canvas class="confetti" id="confetti"></canvas>
 <div class="hint" id="hint" hidden></div>
 
+<div class="hpop" id="hPop" hidden><div class="hpop-in"><img id="hImg" alt="Happy Thanksgiving - BlueWind"><button class="btn gold" id="hOk">Happy Thanksgiving! 🦃</button></div></div>
 <div class="intro" id="intro">
   <div class="iscene" id="iscene" aria-hidden="true"></div>
   <div class="iwrap">
@@ -611,6 +673,9 @@ sents:[["The part is ten feet long.", "A peça tem dez pés de comprimento.", "L
 {s:"U8",c:"#22c55e",d:"#16a34a",name:{"pt": "Turno e supervisor", "en": "Shift and supervisor", "es": "Turno y supervisor"},desc:{"pt": "Ponto, intervalo, reunião, pedir ajuda", "en": "Clock in, break, meeting, asking for help", "es": "Checar, descanso, junta, pedir ayuda"},
 words:[["shift", "turno", "shíft", "turno"], ["overtime", "hora extra", "ÔU-ver-taim", "horas extra"], ["break", "intervalo", "brêik", "descanso"], ["lunch", "almoço", "lântch", "almuerzo"], ["clock in", "bater o ponto (entrada)", "klók ín", "checar entrada"], ["clock out", "bater o ponto (saída)", "klók áut", "checar salida"], ["badge", "crachá", "bédj", "gafete"], ["supervisor", "supervisor", "SÚ-per-vai-zor", "supervisor"], ["lead", "líder", "líd", "líder"], ["operator", "operador", "Ó-pe-rei-tor", "operador"], ["technician", "técnico", "tek-NÍ-shan", "técnico"], ["coworker", "colega de trabalho", "KÔU-uâr-ker", "compañero de trabajo"], ["manager", "gerente", "MÉ-ni-djer", "gerente"], ["meeting", "reunião", "MÍ-tin", "junta (reunión)"], ["schedule", "escala (cronograma)", "SKÉ-djul", "horario"], ["deadline", "prazo", "DÉD-lain", "fecha límite"], ["task", "tarefa", "tésk", "tarea"], ["training", "treinamento", "TRÊI-nin", "capacitación"], ["day off", "folga", "dêi óf", "día libre"], ["sick", "doente", "sík", "enfermo"], ["late", "atrasado", "lêit", "tarde"], ["early", "cedo", "ÂR-li", "temprano"], ["help", "ajuda / ajudar", "rélp", "ayuda / ayudar"], ["ready", "pronto", "RÉ-di", "listo"], ["finished", "terminado", "FÍ-nisht", "terminado"], ["floor", "chão", "flór", "piso"], ["area", "área", "É-ri-a", "área"], ["restroom", "banheiro", "RÉST-rum", "baño"], ["break room", "sala de descanso", "brêik rúm", "sala de descanso"], ["parking lot", "estacionamento", "PÁR-kin lót", "estacionamiento"], ["paycheck", "contracheque (salário)", "PÊI-tchék", "cheque de pago"], ["ask", "perguntar / pedir", "ésk", "preguntar / pedir"], ["explain", "explicar", "eks-PLÊIN", "explicar"], ["repeat", "repetir", "ri-PÍT", "repetir"], ["understand", "entender", "ân-der-STÉND", "entender"], ["slowly", "devagar", "SLÔU-li", "despacio"], ["again", "de novo", "a-GUÉN", "otra vez"]],
 sents:[["What time does the shift start?", "Que horas começa o turno?", "¿A qué hora empieza el turno?"], ["Don't forget to clock in.", "Não esqueça de bater o ponto.", "No olvides checar tu entrada."], ["I can work overtime on Saturday.", "Posso fazer hora extra no sábado.", "Puedo trabajar horas extra el sábado."], ["Our break is at ten.", "Nosso intervalo é às dez.", "Nuestro descanso es a las diez."], ["Where is the break room?", "Onde fica a sala de descanso?", "¿Dónde está la sala de descanso?"], ["Can you repeat that, please?", "Pode repetir, por favor?", "¿Puedes repetir eso, por favor?"], ["Please speak slowly.", "Por favor, fale devagar.", "Por favor, habla despacio."], ["I don't understand.", "Eu não entendo.", "No entiendo."], ["The meeting is after lunch.", "A reunião é depois do almoço.", "La junta es después del almuerzo."], ["I need help with this task.", "Preciso de ajuda com esta tarefa.", "Necesito ayuda con esta tarea."], ["I will be late tomorrow.", "Vou chegar atrasado amanhã.", "Voy a llegar tarde mañana."], ["The work is finished.", "O trabalho está terminado.", "El trabajo está terminado."]]},
+{s:"UP",c:"#06b6d4",d:"#0891b2",name:{"pt": "Preposições na fábrica", "en": "Prepositions at work", "es": "Preposiciones en la fábrica"},desc:{"pt": "Em cima, embaixo, dentro, ao lado: onde está cada coisa", "en": "On, under, in, next to: where things are", "es": "Encima, debajo, dentro, al lado: dónde está cada cosa"},
+words:[["in", "dentro de", "ín", "dentro de"], ["on", "em cima de", "ón", "encima de"], ["at", "em (ponto exato / hora)", "ét", "en (punto exacto / hora)"], ["to", "para (direção)", "tú", "a / hacia"], ["under", "embaixo de", "ÂN-der", "debajo de"], ["behind", "atrás de", "bi-RÁIND", "detrás de"], ["next to", "ao lado de", "nékst tú", "al lado de"], ["between", "entre", "bi-TUÍN", "entre"], ["in front of", "na frente de", "in FRÂNT óv", "enfrente de"], ["above", "acima de", "a-BÂV", "arriba de"], ["near", "perto de", "nír", "cerca de"], ["from", "de (origem)", "frâm", "de (origen)"]],
+sents:[["The wrench is on the table.", "A chave está em cima da mesa.", "La llave está encima de la mesa."], ["The hammer is in the toolbox.", "O martelo está dentro da caixa de ferramentas.", "El martillo está dentro de la caja de herramientas."], ["The bucket is under the table.", "O balde está embaixo da mesa.", "La cubeta está debajo de la mesa."], ["The extinguisher is next to the door.", "O extintor está ao lado da porta.", "El extintor está al lado de la puerta."], ["The forklift is behind the truck.", "A empilhadeira está atrás do caminhão.", "El montacargas está detrás del camión."], ["Meet me at the gate.", "Me encontre no portão.", "Nos vemos en la entrada."], ["The meeting is at three.", "A reunião é às três.", "La junta es a las tres."], ["Take this to the warehouse.", "Leve isto para o almoxarifado.", "Lleva esto al almacén."], ["The mold is between the two booths.", "O molde está entre as duas cabines.", "El molde está entre las dos cabinas."], ["Park in front of the office.", "Estacione na frente do escritório.", "Estaciona enfrente de la oficina."], ["The shelf is above the workbench.", "A prateleira fica acima da bancada.", "La repisa está arriba del banco de trabajo."], ["The resin comes from Brazil.", "A resina vem do Brasil.", "La resina viene de Brasil."]]},
 {s:"U9",c:"#f59e0b",d:"#d97f06",name:{"pt": "RH e benefícios", "en": "HR and benefits", "es": "RR. HH. y beneficios"},desc:{"pt": "Contratação, salário, férias, benefícios", "en": "Hiring, pay, vacation, benefits", "es": "Contratación, sueldo, vacaciones, beneficios"},
 words:[["human resources", "recursos humanos", "RIÚ-man ri-SÓR-sez", "recursos humanos"], ["hire", "contratar", "RÁI-er", "contratar"], ["job application", "ficha de candidatura", "djób a-pli-KÊI-shan", "solicitud de empleo"], ["interview", "entrevista", "ÍN-ter-viu", "entrevista"], ["background check", "checagem de antecedentes", "BÉK-graund tchék", "verificación de antecedentes"], ["drug test", "exame toxicológico", "drâg tést", "prueba de drogas"], ["onboarding", "integração (de novos funcionários)", "ON-bór-din", "incorporación (inducción)"], ["salary", "salário", "SÉ-la-ri", "salario"], ["hourly wage", "salário por hora", "ÁUR-li uêidj", "salario por hora"], ["raise", "aumento (de salário)", "rêiz", "aumento (de sueldo)"], ["benefits", "benefícios", "BÉ-ne-fits", "beneficios"], ["health insurance", "plano de saúde", "rélth in-SHU-rans", "seguro médico"], ["vacation", "férias", "vei-KÊI-shan", "vacaciones"], ["paid time off", "folga remunerada (PTO)", "pêid táim óf", "tiempo libre pagado"], ["holiday", "feriado", "RÓ-li-dêi", "día festivo"], ["sick leave", "licença médica", "sík lív", "incapacidad por enfermedad"], ["policy", "política (regra da empresa)", "PÓ-li-si", "política"], ["handbook", "manual do funcionário", "RÉND-buk", "manual del empleado"], ["promotion", "promoção", "pro-MÔU-shan", "ascenso"], ["resign", "pedir demissão", "ri-ZÁIN", "renunciar"]],
 sents:[["HR is in the main office.", "O RH fica no escritório principal.", "Recursos humanos está en la oficina principal."], ["Fill out the job application, please.", "Preencha a ficha de candidatura, por favor.", "Llena la solicitud de empleo, por favor."], ["Your interview is on Monday.", "Sua entrevista é na segunda-feira.", "Tu entrevista es el lunes."], ["When do I get paid?", "Quando eu recebo?", "¿Cuándo me pagan?"], ["I want to request vacation.", "Eu quero pedir férias.", "Quiero pedir vacaciones."], ["How many days of paid time off do I have?", "Quantos dias de folga remunerada eu tenho?", "¿Cuántos días de tiempo libre pagado tengo?"], ["Read the employee handbook.", "Leia o manual do funcionário.", "Lee el manual del empleado."], ["The health insurance starts next month.", "O plano de saúde começa no mês que vem.", "El seguro médico empieza el próximo mes."]]},
@@ -1428,6 +1493,7 @@ function hint(raw,noT=false,isId=false){
 }
 
 /* ================= ÍCONES ================= */
+const MICON='<svg viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M4 4h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H10l-5 4v-4H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zM7 9a1.5 1.5 0 1 0 0 3a1.5 1.5 0 1 0 0-3zm5 0a1.5 1.5 0 1 0 0 3a1.5 1.5 0 1 0 0-3zm5 0a1.5 1.5 0 1 0 0 3a1.5 1.5 0 1 0 0-3z"/></svg>';
 const ICON={
   star:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.2l-5.9 3.2 1.3-6.5L2.5 9.3l6.6-.8z"/></svg>',
   check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
@@ -1505,10 +1571,10 @@ function popover(u,n,i,st){
   return `<div class="popover"><b>${title}</b><span>${sub}</span><button class="btn" data-start="${u.s}|${i}">${st==='done'?T('again'):T('startXp',n.type==='trophy'?30:15)}</button></div>`;
 }
 function renderPath(){
-  let h='';
+  let h=typeof missionCard==='function'?missionCard():'';
   UNITS.forEach((u,k)=>{
     const open=unitOpen(k), p=prog(u.s);
-    if(k===BASE_UNITS) h+=`<div class="areahead"><b>${T('areaTitle')}</b><span>${T('areaSub')}</span></div>`;
+    if(u.s==='U9') h+=`<div class="areahead"><b>${T('areaTitle')}</b><span>${T('areaSub')}</span></div>`;
     h+=`<div class="unit" style="--uc:${u.c};--ud:${u.d}">
       <div class="ubanner ${open?'':'locked'}"><div class="ut"><small>${T('unitLbl',k+1,u.W.length)}</small><b>${u.name[BL()]}</b><span>${open?u.desc[BL()]:k>=BASE_UNITS?T('finish8'):T('finishPrev')}</span></div><span class="ucount">${p}/6</span></div><div class="nodes"><div class="uscene" aria-hidden="true">${sceneSVG(k)}</div>`;
     NODES.forEach((n,i)=>{
@@ -1523,12 +1589,23 @@ function renderPath(){
         ${i===2&&k%2===0?`<div class="cat idle pathcat" style="left:-188px;top:-60px;pointer-events:none"></div>`:''}
         ${openNode===id?popover(u,n,i,st):''}</div>`;
     });
+    const MS=typeof MISSIONS!=='undefined'&&MISSIONS[u.s];
+    if(MS){ const id='M|'+u.s, done=S.missions&&S.missions[MS.id], st=!open||p<NODES.length?'locked':done?'done':'current';
+      h+=`<div class="nodewrap ${st}${openNode===id?' haspop':''}" style="--o:0px">
+        ${st==='current'&&openNode!==id?`<span class="start-tag">${mt('tagMission')}</span>`:''}
+        <button class="node mnode${st!=='current'?' '+st:''}" data-mnode="${u.s}" aria-label="${mt('mission')}">${MICON}</button>
+        ${openNode===id?(st==='locked'?`<div class="popover locked"><b>${mt('mission')}: ${avL(MS.title)}</b><span>${mt('mLocked')}</span></div>`
+          :`<div class="popover"><b>${mt('mission')}: ${avL(MS.title)}</b><span>${avL(MS.sub)}</span><button class="btn" data-mission="${u.s}">${done?mt('again'):mt('go')}</button></div>`):''}</div>`; }
     h+=`</div></div>`;
   });
   $('tab-path').innerHTML=h; watchScenes();
   $('tab-path').querySelectorAll('.pathcat').forEach(el=>el.innerHTML=catSVG('idle'));
 }
 $('tab-path').onclick=e=>{
+  const mb_=e.target.closest('[data-mission]');
+  if(mb_){ sTap(); openNode=null; renderPath(); startMission(mb_.dataset.mission); return; }
+  const mn=e.target.closest('[data-mnode]');
+  if(mn){ sTap(); const id='M|'+mn.dataset.mnode; openNode=openNode===id?null:id; renderPath(); return; }
   const sb=e.target.closest('[data-start]');
   if(sb){ const [s,i]=sb.dataset.start.split('|'); openNode=null; renderPath(); startLesson(s,+i); return; }
   const b=e.target.closest('[data-node]');
@@ -1631,7 +1708,7 @@ function renderEx(){
 function drawTiles(){
   $('zone').innerHTML=L.placed.map(id=>`<button class="tile" data-id="${id}">${L.tiles[id].w}</button>`).join('');
   $('bank').innerHTML=L.tiles.map(t=>`<button class="tile ${L.placed.includes(t.id)?'ghost':''}" data-id="${t.id}">${t.w}</button>`).join('');
-  $('lcheck').disabled=!L.placed.length;
+  if($('lcheck')) $('lcheck').disabled=!L.placed.length;
 }
 $('lbody').onclick=e=>{
   if(!L||L.locked) return;
@@ -1679,9 +1756,10 @@ function check(){
 function wInfo(k){ const p=pronOf(k); return `<b>${disp(k)}</b>${p?` (${p})`:''} = "${trn(k)}"`; }
 function explain(ex,info){
   const mem=k=>hasMem()&&MEM[k]?`<div class="tipm">${MEM[k]}</div>`:'';
-  if(ex.kind==='pickPt') return T('exPickPt',trn(info.chosen),wInfo(info.chosen),wInfo(ex.w))+mem(ex.w);
-  if(ex.kind==='pickEn') return T('exPickEn',wInfo(info.chosen),trn(ex.w),wInfo(ex.w))+mem(ex.w);
-  if(ex.kind==='listenWord') return T('exListenWord',wInfo(ex.w),wInfo(info.chosen));
+  const pt_=k=>typeof prepTip==='function'?prepTip([k]):'';
+  if(ex.kind==='pickPt') return T('exPickPt',trn(info.chosen),wInfo(info.chosen),wInfo(ex.w))+mem(ex.w)+pt_(ex.w);
+  if(ex.kind==='pickEn') return T('exPickEn',wInfo(info.chosen),trn(ex.w),wInfo(ex.w))+mem(ex.w)+pt_(ex.w);
+  if(ex.kind==='listenWord') return T('exListenWord',wInfo(ex.w),wInfo(info.chosen))+pt_(ex.w);
   if(ex.kind==='listenPick') return T('exListenPick',ex.s[TL()]);
   const want=L.words.map(clean), got=info.placed.map(clean);
   const extra=got.filter(x=>!want.includes(x)), missing=want.filter(x=>!got.includes(x)), parts=[];
@@ -1696,6 +1774,10 @@ function explain(ex,info){
     else parts.push(tip('order'));
   }
   if(ex.kind==='listenBuild') parts.push(T('exAgain'));
+  /* errou uma preposição? o Turbi explica a regrinha */
+  if(typeof prepTip==='function'){ const pw=[...extra,...missing]; let tipP=prepTip(pw,L.words.join(' '));
+    if(!tipP&&!extra.length&&!missing.length){ const i2=want.findIndex((w,i)=>got[i]!==w); if(i2>=0) tipP=prepTip([want[i2],got[i2]],L.words.join(' ')); }
+    if(tipP) parts.push(tipP); }
   return parts.join(' ');
 }
 function result(ok,info){
@@ -1885,25 +1967,25 @@ function renderProfile(){
 /* ================= RÁDIO ================= */
 
 /* explosão de confete saindo do Turbi */
+/* um único desenhista de confete: antes cada efeito rodava o seu, um apagava o outro e a tela piscava/pesava */
+const FX={P:[],run:false};
+function fxCanvas(){ const cv=$('confetti'); if(cv.width!==innerWidth||cv.height!==innerHeight){ cv.width=innerWidth; cv.height=innerHeight; } return cv; }
+function fxLoop(){ const cv=fxCanvas(), x=cv.getContext('2d'); x.clearRect(0,0,cv.width,cv.height);
+  FX.P=FX.P.filter(p=>--p.life>0&&p.y<cv.height+40);
+  FX.P.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; if(p.g) { p.vy+=p.g; p.vx*=.98; } p.a+=p.spin; x.save(); x.translate(p.x,p.y); x.rotate(p.a); x.fillStyle=p.c;
+    if(p.s){ x.beginPath(); x.arc(0,0,p.r*.6,0,7); x.fill(); } else x.fillRect(-p.w/2,-p.h/2,p.w,p.h); x.restore(); });
+  if(FX.P.length) requestAnimationFrame(fxLoop); else { FX.run=false; x.clearRect(0,0,cv.width,cv.height); } }
+function fxAdd(list){ FX.P.push(...list); if(FX.P.length>400) FX.P.splice(0,FX.P.length-400); if(!FX.run){ FX.run=true; requestAnimationFrame(fxLoop); } }
 function burst(el){
-  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if(!el||matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const r=el.getBoundingClientRect(), cx=r.left+r.width/2, cy=r.top+r.height*.35;
-  const cv=$('confetti'), x=cv.getContext('2d'); cv.width=innerWidth; cv.height=innerHeight;
   const cols=['#2a62b0','#2fb4ff','#ffc93c','#ff8a3d','#3cc96a','#ff7eb3'];
-  const P=Array.from({length:46},()=>{ const a=Math.random()*Math.PI*2, v=3+Math.random()*6; return {x:cx,y:cy,vx:Math.cos(a)*v,vy:Math.sin(a)*v-4,r:4+Math.random()*5,c:cols[Math.random()*6|0],a:Math.random()*6,s:Math.random()<.4}; });
-  let f=0;(function loop(){ x.clearRect(0,0,cv.width,cv.height);
-    P.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; p.vy+=.28; p.vx*=.98; p.a+=.2; x.save(); x.translate(p.x,p.y); x.rotate(p.a); x.fillStyle=p.c;
-      if(p.s){ x.beginPath(); x.arc(0,0,p.r*.6,0,7); x.fill(); } else x.fillRect(-p.r/2,-p.r/4,p.r,p.r/2); x.restore(); });
-    if(++f<70) requestAnimationFrame(loop); else x.clearRect(0,0,cv.width,cv.height); })();
+  fxAdd(Array.from({length:46},()=>{ const a=Math.random()*Math.PI*2, v=3+Math.random()*6, rr=4+Math.random()*5; return {x:cx,y:cy,vx:Math.cos(a)*v,vy:Math.sin(a)*v-4,g:.28,r:rr,w:rr,h:rr/2,c:cols[Math.random()*6|0],a:Math.random()*6,spin:.2,s:Math.random()<.4,life:70}; }));
 }
 function confetti(){
   if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  const cv=$('confetti'), x=cv.getContext('2d'); cv.width=innerWidth; cv.height=innerHeight;
-  const cols=['#2a62b0','#2fb4ff','#ffc93c','#14b8a6','#ff8a3d','#ffffff'];
-  const P=Array.from({length:120},()=>({x:Math.random()*cv.width,y:-20-Math.random()*cv.height*.5,vx:(Math.random()-.5)*3,vy:2+Math.random()*3,r:Math.random()*6,c:cols[Math.random()*6|0],a:Math.random()*6}));
-  let f=0;(function loop(){ x.clearRect(0,0,cv.width,cv.height);
-    P.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.a+=.1; x.save();x.translate(p.x,p.y);x.rotate(p.a);x.fillStyle=p.c;x.fillRect(-4,-2,8+p.r,5);x.restore();});
-    if(++f<180) requestAnimationFrame(loop); else x.clearRect(0,0,cv.width,cv.height); })();
+  const cv=fxCanvas(), cols=['#2a62b0','#2fb4ff','#ffc93c','#14b8a6','#ff8a3d','#ffffff'];
+  fxAdd(Array.from({length:120},()=>({x:Math.random()*cv.width,y:-20-Math.random()*cv.height*.5,vx:(Math.random()-.5)*3,vy:2+Math.random()*3,g:0,r:0,w:8+Math.random()*6,h:5,c:cols[Math.random()*6|0],a:Math.random()*6,spin:.1,s:false,life:180})));
 }
 
 
@@ -1927,11 +2009,31 @@ function leavesHTML(n,maxTop){
 }
 function gustsHTML(n){ let h=''; for(let i=0;i<n;i++){ const d=2.4+Math.random()*2.5; h+=`<i class="gust" style="top:${8+Math.random()*70}%;width:${70+Math.random()*90}px;animation-duration:${d}s;animation-delay:${-Math.random()*d}s"></i>`; } return h; }
 const HILLS='<svg class="hills" viewBox="0 0 400 60" preserveAspectRatio="none"><path d="M0 34C60 10 120 14 190 30S320 20 400 8V60H0Z" fill="#9fdc8a"/><path d="M0 46C80 30 150 34 230 46S350 40 400 32V60H0Z" fill="#6cc463"/></svg>';
+/* ===== DATAS COMEMORATIVAS: decoram o cenário da abertura (o Turbi fica igual) ===== */
+function thanksgivingDay(y){ const d=new Date(y,10,1); const off=(4-d.getDay()+7)%7; return new Date(y,10,1+off+21); }
+function holiday(){ try{ const q=new URLSearchParams(location.search).get('festa'); if(q) return q; }catch(e){}
+  const n=new Date(), dd=(n-thanksgivingDay(n.getFullYear()))/864e5;
+  if(dd>=-7&&dd<=3) return 'thanksgiving';
+  return ''; }
+const HOLI=holiday();
+function pumpkin(x,s){ return `<g transform="translate(${x} 0) scale(${s})"><path d="M0 -26q0-8 6-10" stroke="#3f7a2a" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <ellipse cx="-14" cy="-12" rx="14" ry="13" fill="#e8742a"/><ellipse cx="14" cy="-12" rx="14" ry="13" fill="#e8742a"/><ellipse cx="0" cy="-12" rx="15" ry="14" fill="#f48a34"/>
+  <path d="M-8 -24Q-12 -12 -8 0M8 -24Q12 -12 8 0" stroke="#d0621f" stroke-width="2" fill="none"/></g>`; }
+function tgDecor(){
+  const hay=x=>`<g transform="translate(${x} 0)"><rect x="-26" y="-30" width="52" height="30" rx="5" fill="#e9c46a"/><path d="M-26 -20H26M-26 -10H26" stroke="#c9a24a" stroke-width="2"/><rect x="-8" y="-30" width="4" height="30" fill="#b5651d"/><rect x="6" y="-30" width="4" height="30" fill="#b5651d"/></g>`;
+  const crow=`<g transform="translate(340 -2)"><rect x="-2" y="-92" width="5" height="92" fill="#8a5a2b"/><rect x="-30" y="-66" width="62" height="5" fill="#8a5a2b"/>
+    <path d="M-16 -66H18L14 -30H-12Z" fill="#c94a2a"/><path d="M-16 -54H18M-14 -42H16M-4 -66V-30M6 -66V-30" stroke="#8f2f1a" stroke-width="2"/>
+    <path d="M-30 -66l-6 8M-30 -63l-8 2M32 -66l6 8M32 -63l8 2" stroke="#e9c46a" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="1" cy="-78" r="11" fill="#f2d7a0"/><circle cx="-3" cy="-79" r="1.6" fill="#3a2a1a"/><circle cx="5" cy="-79" r="1.6" fill="#3a2a1a"/><path d="M-3 -73q4 3 8 0" stroke="#3a2a1a" stroke-width="1.5" fill="none"/>
+    <path d="M-20 -86H22L14 -90Q1 -106 -12 -90Z" fill="#c99a3a"/><rect x="-10" y="-92" width="22" height="4" fill="#8f2f1a"/></g>`;
+  return `<svg class="tgdecor" viewBox="0 0 400 110" preserveAspectRatio="xMidYMax meet" aria-hidden="true"><g transform="translate(0 104)"><ellipse cx="58" cy="0" rx="62" ry="7" fill="#c98a3a" opacity=".55"/><ellipse cx="356" cy="0" rx="48" ry="7" fill="#c98a3a" opacity=".55"/>${hay(48)}${pumpkin(30,.9)}${pumpkin(78,.65)}${crow}${pumpkin(372,.8)}</g></svg>`;
+}
 function buildScenes(){
   $('iscene').innerHTML=gustsHTML(6)+
     '<div style="position:absolute;left:0;right:0;bottom:12%;height:30%">'+
       turbineHTML('6%',70,3.2,.9)+turbineHTML('22%',46,2.4,.75)+turbineHTML('74%',84,3.8,.95)+turbineHTML('88%',50,2.8,.8)+'</div>'+
-    HILLS+leavesHTML(12,90);
+    HILLS+(HOLI==='thanksgiving'?tgDecor()+leavesHTML(24,95):leavesHTML(12,90));
+  if(HOLI==='thanksgiving') $('intro').classList.add('tg');
   $('pathScene').innerHTML=gustsHTML(3)+
     '<div style="position:absolute;left:0;right:0;bottom:26px;height:96px">'+
       turbineHTML('8%',40,2.6,.95)+turbineHTML('26%',30,2,.8)+turbineHTML('68%',46,3,.95)+turbineHTML('86%',34,2.3,.85)+'</div>'+
@@ -2379,10 +2481,472 @@ document.addEventListener('click',e=>{
 });
 
 /* ================= INÍCIO ================= */
+/* ================= MISSÕES DE DIÁLOGO (demo: Primeiro dia) =================
+   O supervisor fala na língua que a pessoa aprende (voz de adulto).
+   O Turbi é o guia: fala na língua da pessoa, com voz infantil. */
+const X3=(en,pt,es)=>({en,pt,es});
+const MT={
+  tag:L3('NOVO · Missão de diálogo','NEW · Dialogue mission','NUEVO · Misión de diálogo'),
+  title:L3('Primeiro dia','First day','Primer día'),
+  sub:L3('Apresente-se ao supervisor e descubra onde bater o ponto.','Introduce yourself to the supervisor and find the time clock.','Preséntate al supervisor y encuentra el reloj checador.'),
+  go:L3('Começar missão','Start mission','Empezar misión'),
+  again:L3('Jogar de novo','Play again','Jugar otra vez'),
+  doneTag:L3('Missão completa','Mission complete','Misión completa'),
+  cont:L3('Continuar','Continue','Continuar'), check:L3('Verificar','Check','Verificar'),
+  you:L3('Você','You','Tú'), sup:L3('Mike · Supervisor','Mike · Supervisor','Mike · Supervisor'),
+  qHear:L3('O que ele disse?','What did he say?','¿Qué dijo?'),
+  qReply:L3('Escolha sua resposta:','Choose your answer:','Elige tu respuesta:'),
+  qBuild:L3('Monte sua resposta:','Build your answer:','Arma tu respuesta:'),
+  qSpeak:L3('Fale em voz alta:','Say it out loud:','Dilo en voz alta:'),
+  tapTalk:L3('Toque e fale','Tap and speak','Toca y habla'),
+  listening:L3('Ouvindo... pode falar!','Listening... go ahead!','Escuchando... ¡habla!'),
+  saidIt:L3('Já falei em voz alta','I said it out loud','Ya lo dije en voz alta'),
+  noMic:L3('Este celular não deixa o app ouvir o microfone. Fale a frase em voz alta e toque no botão.','This phone does not let the app use the microphone. Say the sentence out loud and tap the button.','Este celular no deja que la app use el micrófono. Di la frase en voz alta y toca el botón.'),
+  retryMic:L3('Quase! Tente de novo, devagar e claro.','Almost! Try again, slowly and clearly.','¡Casi! Inténtalo otra vez, despacio y claro.'),
+  heard:L3('Eu ouvi:','I heard:','Escuché:'),
+  listen:L3('Ouvir','Listen','Escuchar'), slow:L3('Devagar','Slow','Despacio'),
+  meaning:L3('Quer dizer:','It means:','Significa:'),
+  useful:L3('Frase útil','Useful phrase','Frase útil'),
+  wrong:L3('Ops!','Oops!','¡Uy!'), right:L3('Isso!','That\'s it!','¡Eso!'),
+  missDone:L3('Missão completa!','Mission complete!','¡Misión completa!'),
+  learned:L3('Frases que você aprendeu','Phrases you learned','Frases que aprendiste'),
+  week:L3('Desafio da semana','Challenge of the week','Reto de la semana'),
+  weekTxt:L3('Esta semana, cumprimente um colega de verdade com esta frase:','This week, greet a real coworker with this phrase:','Esta semana, saluda a un compañero de verdad con esta frase:'),
+  quitQ:L3('Sair da missão?','Leave the mission?','¿Salir de la misión?'),
+  stay:L3('Continuar jogando','Keep playing','Seguir jugando'), leave:L3('Sair','Leave','Salir'),
+  rewards:L3('Recompensa','Reward','Recompensa'),
+  rule:L3('Regrinha','Quick rule','Reglita'), lookAgain:L3('Olhe a figura de novo!','Look at the picture again!','¡Mira el dibujo otra vez!'),
+  mission:L3('Missão','Mission','Misión'), tagMission:L3('Missão!','Mission!','¡Misión!'),
+  mLocked:L3('Termine o Desafio final da unidade para liberar a missão.','Finish the unit\'s final challenge to unlock the mission.','Termina el desafío final de la unidad para desbloquear la misión.'),
+};
+const mt=k=>avL(MT[k]);
+/* {n} vira o primeiro nome da pessoa */
+const MISSION_FIRST={id:'first',steps:[
+  {t:'turbi',say:L3('Hoje é seu primeiro dia na fábrica! O supervisor está vindo falar com você. Escute com atenção!','Today is your first day at the plant! The supervisor is coming to talk to you. Listen carefully!','¡Hoy es tu primer día en la fábrica! El supervisor viene a hablar contigo. ¡Escucha con atención!')},
+  {t:'hear',line:X3('Good morning! Are you new here?','Bom dia! Você é novo aqui?','¡Buenos días! ¿Eres nuevo aquí?'),
+    opts:[L3('Perguntou se você é novo aqui','He asked if you are new here','Preguntó si eres nuevo aquí'),L3('Perguntou onde fica o banheiro','He asked where the restroom is','Preguntó dónde está el baño'),L3('Perguntou que horas são','He asked what time it is','Preguntó qué hora es')],
+    chunk:X3('Are you new here?','Você é novo aqui?','¿Eres nuevo aquí?')},
+  {t:'reply',q:X3('Good morning! Are you new here?','Bom dia! Você é novo aqui?','¡Buenos días! ¿Eres nuevo aquí?'),
+    opts:[X3('Yes, I am. My name is {n}.','Sim, sou. Meu nome é {n}.','Sí, soy nuevo. Me llamo {n}.'),
+          X3('No, I am a hammer.','Não, eu sou um martelo.','No, soy un martillo.'),
+          X3('Good night!','Boa noite!','¡Buenas noches!')],
+    why:[null,L3('Hahaha! Você disse que é um martelo! Tente de novo.','Hahaha! You said you are a hammer! Try again.','¡Jajaja! ¡Dijiste que eres un martillo! Inténtalo otra vez.'),
+         L3('Isso é para se despedir à noite. Agora é de manhã!','That is for saying goodbye at night. It is morning now!','Eso es para despedirse de noche. ¡Ahora es de mañana!')],
+    chunk:X3('My name is...','Meu nome é...','Me llamo...')},
+  {t:'sup',line:X3('Nice to meet you, {n}! I\'m Mike, the shift supervisor.','Prazer em te conhecer, {n}! Eu sou o Mike, o supervisor do turno.','¡Mucho gusto, {n}! Soy Mike, el supervisor del turno.')},
+  {t:'build',ans:X3('Nice to meet you too','Prazer em te conhecer também','Mucho gusto también'),extra:X3(['night','hammer'],['noite','martelo'],['noche','martillo']),
+    chunk:X3('Nice to meet you','Prazer em te conhecer','Mucho gusto')},
+  {t:'hear',line:X3('First, you need to clock in. Do you have your badge?','Primeiro, você precisa bater o ponto. Você tem seu crachá?','Primero, tienes que checar tu entrada. ¿Tienes tu gafete?'),
+    opts:[L3('Bater o ponto com o crachá','Clock in with your badge','Checar la entrada con el gafete'),L3('Ir almoçar','Go to lunch','Ir a comer'),L3('Ligar a máquina','Turn on the machine','Encender la máquina')],
+    chunk:X3('clock in','bater o ponto','checar la entrada')},
+  {t:'reply',q:X3('Do you have your badge?','Você tem seu crachá?','¿Tienes tu gafete?'),
+    opts:[X3('Yes. Where is the time clock?','Sim. Onde fica o relógio de ponto?','Sí. ¿Dónde está el reloj checador?'),
+          X3('Yes, I like pizza.','Sim, eu gosto de pizza.','Sí, me gusta la pizza.'),
+          X3('No, thank you.','Não, obrigado.','No, gracias.')],
+    why:[null,L3('Pizza é bom, mas ele perguntou do crachá!','Pizza is good, but he asked about your badge!','¡La pizza es rica, pero te preguntó por el gafete!'),
+         L3('Você recusou o crachá! Sem ele você não entra na fábrica.','You refused the badge! Without it you can\'t get in.','¡Rechazaste el gafete! Sin él no puedes entrar.')],
+    chunk:X3('Where is the...?','Onde fica o...?','¿Dónde está el...?')},
+  {t:'hear',line:X3('It\'s next to the break room. And don\'t forget your safety glasses!','Fica ao lado da sala de descanso. E não esqueça seus óculos de segurança!','Está al lado de la sala de descanso. ¡Y no olvides tus lentes de seguridad!'),
+    ask:L3('O que ele pediu para você não esquecer?','What did he ask you not to forget?','¿Qué te pidió que no olvides?'),
+    opts:[L3('Os óculos de segurança','The safety glasses','Los lentes de seguridad'),L3('O almoço','Your lunch','El almuerzo'),L3('O celular','Your phone','El celular')],
+    chunk:X3('next to','ao lado de','al lado de')},
+  {t:'speak',ans:X3('Thank you! See you later.','Obrigado! Até mais tarde.','¡Gracias! Hasta luego.'),chunk:X3('See you later','Até mais tarde','Hasta luego')},
+  {t:'sup',line:X3('See you later! Welcome to the team!','Até mais! Bem-vindo à equipe!','¡Hasta luego! ¡Bienvenido al equipo!'),end:true},
+],week:X3('Good morning! How are you?','Bom dia! Tudo bem?','¡Buenos días! ¿Cómo estás?')};
+
+const SUP_AV={skin:'#c98d62',face:'square',body:'plus',hair:'short',hairc:'#2b1d14',beard:'goatee',lashes:'no',earrings:'none',shirt:'polo',vest:'lime',head:'helmet',hatc:'#ffffff',glasses:'clear',ears:'none',mask:'none',gloves:'none'};
+/* personagens das missões (falam na língua que a pessoa aprende) */
+const CHARS={
+  mike:{name:'Mike',role:L3('Supervisor','Supervisor','Supervisor'),av:{skin:'#c98d62',face:'square',body:'plus',hair:'short',hairc:'#2b1d14',beard:'goatee',lashes:'no',earrings:'none',shirt:'polo',vest:'lime',head:'helmet',hatc:'#ffffff',glasses:'clear',ears:'none',mask:'none',gloves:'none'}},
+  jake:{name:'Jake',role:L3('Colega','Coworker','Compañero'),av:{skin:'#f5c9a5',face:'oval',body:'slim',hair:'short',hairc:'#d9a54a',beard:'stubble',lashes:'no',earrings:'none',shirt:'tee',vest:'none',head:'cap',hatc:'#ffffff',glasses:'clear',ears:'plugs',mask:'none',gloves:'black'}},
+  tony:{name:'Tony',role:L3('Operador de empilhadeira','Forklift driver','Operador de montacargas'),av:{skin:'#6b4128',face:'round',body:'plus',hair:'buzz',hairc:'#2b1d14',beard:'full',lashes:'no',earrings:'none',shirt:'polo',vest:'lime',head:'helmet',hatc:'#ffd23f',glasses:'smoke',ears:'muffs',mask:'none',gloves:'orange'}},
+  rosa:{name:'Rosa',role:L3('Almoxarifado','Warehouse','Almacén'),av:{skin:'#c98d62',face:'oval',body:'med',hair:'longcurly',hairc:'#2b1d14',beard:'none',lashes:'yes',earrings:'hoop',shirt:'polo',vest:'lime',head:'none',hatc:'#ffffff',glasses:'none',ears:'none',mask:'none',gloves:'none'}},
+  linda:{name:'Linda',role:L3('Qualidade','Quality','Calidad'),av:{skin:'#fde0c8',face:'thin',body:'slim',hair:'bun',hairc:'#b8452a',beard:'none',lashes:'yes',earrings:'stud',shirt:'polo',vest:'none',head:'none',hatc:'#ffffff',glasses:'clear',ears:'none',mask:'none',gloves:'blue'}},
+};
+const MISSIONS={
+U1:{id:'U1',who:'jake',title:L3('Na bancada','At the workbench','En el banco de trabajo'),sub:L3('Ajude o Jake a achar as ferramentas.','Help Jake find his tools.','Ayuda a Jake a encontrar sus herramientas.'),steps:[
+  {t:'turbi',say:L3('O Jake está consertando um molde na bancada e precisa da sua ajuda. Preste atenção na ferramenta que ele pedir!','Jake is fixing a mold at the workbench and needs your help. Listen for the tool he asks for!','Jake está arreglando un molde en el banco de trabajo y necesita tu ayuda. ¡Escucha qué herramienta te pide!')},
+  {t:'hear',line:X3('Hey! Can you pass me the wrench?','Ei! Você pode me passar a chave?','¡Oye! ¿Me pasas la llave?'),ask:L3('Qual ferramenta ele pediu?','Which tool did he ask for?','¿Qué herramienta pidió?'),
+    opts:[L3('A chave (de boca)','The wrench','La llave (de boca)'),L3('O martelo','The hammer','El martillo'),L3('A trena','The tape measure','La cinta métrica')],chunk:X3('Can you pass me the...?','Você pode me passar a...?','¿Me pasas la...?')},
+  {t:'reply',opts:[X3('Sure, here you go.','Claro, aqui está.','Claro, aquí tienes.'),X3('No, I am sleeping.','Não, estou dormindo.','No, estoy durmiendo.'),X3('The wrench is a fish.','A chave é um peixe.','La llave es un pez.')],
+    why:[null,L3('Dormindo no trabalho? O supervisor não vai gostar!','Sleeping at work? The supervisor won\'t like that!','¿Dormido en el trabajo? ¡Al supervisor no le va a gustar!'),L3('Hahaha! A chave não é um peixe. Tente de novo.','Hahaha! A wrench is not a fish. Try again.','¡Jajaja! La llave no es un pez. Inténtalo otra vez.')],chunk:X3('Here you go','Aqui está','Aquí tienes')},
+  {t:'sup',line:X3('Thanks! Now I need the tape measure.','Valeu! Agora eu preciso da trena.','¡Gracias! Ahora necesito la cinta métrica.')},
+  {t:'build',ans:X3('Where is the tape measure','Onde está a trena','Dónde está la cinta métrica'),extra:X3(['hammer','fish'],['martelo','peixe'],['martillo','pez']),chunk:X3('Where is the...?','Onde está a...?','¿Dónde está la...?')},
+  {t:'hear',line:X3('It\'s in the red toolbox, under the table.','Está na caixa de ferramentas vermelha, embaixo da mesa.','Está en la caja de herramientas roja, debajo de la mesa.'),ask:L3('Onde está a trena?','Where is the tape measure?','¿Dónde está la cinta métrica?'),
+    opts:[L3('Na caixa vermelha, embaixo da mesa','In the red toolbox, under the table','En la caja roja, debajo de la mesa'),L3('Em cima do molde','On the mold','Encima del molde'),L3('No carro do Jake','In Jake\'s car','En el carro de Jake')],chunk:X3('under the table','embaixo da mesa','debajo de la mesa')},
+  {t:'speak',ans:X3('I need the pliers, please.','Eu preciso do alicate, por favor.','Necesito las pinzas, por favor.'),chunk:X3('I need the...','Eu preciso do...','Necesito las...')},
+  {t:'sup',line:X3('Here are the pliers. Great teamwork!','Aqui está o alicate. Ótimo trabalho em equipe!','Aquí están las pinzas. ¡Buen trabajo en equipo!')},
+],week:X3('Can you pass me the hammer?','Você pode me passar o martelo?','¿Me pasas el martillo?')},
+
+U2:{id:'U2',who:'jake',title:L3('A furadeira parou','The drill stopped','El taladro se paró'),sub:L3('Resolva o problema com as ferramentas elétricas.','Solve a problem with the power tools.','Resuelve un problema con las herramientas eléctricas.'),steps:[
+  {t:'turbi',say:L3('A furadeira do Jake parou no meio do trabalho. Vamos descobrir o que aconteceu?','Jake\'s drill stopped in the middle of the job. Let\'s find out what happened!','El taladro de Jake se paró a mitad del trabajo. ¿Vamos a ver qué pasó?')},
+  {t:'hear',line:X3('Oh no! The drill battery is dead.','Ah, não! A bateria da furadeira acabou.','¡Ay, no! La batería del taladro se acabó.'),ask:L3('Qual é o problema?','What is the problem?','¿Cuál es el problema?'),
+    opts:[L3('A bateria da furadeira acabou','The drill battery is dead','La batería del taladro se acabó'),L3('A furadeira caiu no chão','The drill fell on the floor','El taladro se cayó al piso'),L3('Acabou o café','There is no more coffee','Se acabó el café')],chunk:X3('The battery is dead','A bateria acabou','La batería se acabó')},
+  {t:'reply',opts:[X3('I\'ll get a charged battery.','Vou pegar uma bateria carregada.','Voy por una batería cargada.'),X3('Let\'s eat the battery.','Vamos comer a bateria.','Vamos a comernos la batería.'),X3('The drill is my friend.','A furadeira é minha amiga.','El taladro es mi amigo.')],
+    why:[null,L3('Nunca coma uma bateria! Tente de novo.','Never eat a battery! Try again.','¡Nunca te comas una batería! Inténtalo otra vez.'),L3('Que amizade bonita, mas a furadeira precisa de bateria!','Nice friendship, but the drill needs a battery!','¡Bonita amistad, pero el taladro necesita batería!')],chunk:X3('I\'ll get...','Vou pegar...','Voy por...')},
+  {t:'hear',line:X3('Be careful! Unplug the grinder before you change the disc.','Cuidado! Tire a esmerilhadeira da tomada antes de trocar o disco.','¡Cuidado! Desconecta la esmeriladora antes de cambiar el disco.'),ask:L3('O que fazer antes de trocar o disco?','What should you do before changing the disc?','¿Qué hay que hacer antes de cambiar el disco?'),
+    opts:[L3('Tirar da tomada','Unplug it','Desconectarla'),L3('Ligar mais forte','Turn it up','Ponerla más fuerte'),L3('Jogar água nela','Pour water on it','Echarle agua')],chunk:X3('unplug','tirar da tomada','desconectar')},
+  {t:'build',ans:X3('Okay I will unplug it first','Ok vou tirar da tomada primeiro','Ok la voy a desconectar primero'),extra:X3(['drill','water'],['furadeira','água'],['taladro','agua']),chunk:X3('first','primeiro','primero')},
+  {t:'speak',ans:X3('Can I use the sander?','Posso usar a lixadeira?','¿Puedo usar la lijadora?'),chunk:X3('Can I use the...?','Posso usar a...?','¿Puedo usar la...?')},
+  {t:'sup',line:X3('Sure! Wear your safety glasses.','Claro! Use seus óculos de segurança.','¡Claro! Ponte tus lentes de seguridad.')},
+],week:X3('The battery is dead.','A bateria acabou.','La batería se acabó.')},
+
+U3:{id:'U3',who:'tony',title:L3('Cuidado com a empilhadeira','Watch out for the forklift','Cuidado con el montacargas'),sub:L3('Converse com o operador de empilhadeira.','Talk with the forklift driver.','Habla con el operador de montacargas.'),steps:[
+  {t:'turbi',say:L3('Você está andando no corredor e escuta um alarme: bip, bip! É o Tony, com a empilhadeira.','You are walking down the aisle and hear an alarm: beep, beep! It\'s Tony with the forklift.','Vas caminando por el pasillo y escuchas una alarma: ¡bip, bip! Es Tony con el montacargas.')},
+  {t:'hear',line:X3('Watch out! The forklift is coming through.','Cuidado! A empilhadeira vai passar.','¡Cuidado! Va a pasar el montacargas.'),ask:L3('O que ele avisou?','What did he warn you about?','¿Qué te avisó?'),
+    opts:[L3('A empilhadeira vai passar','The forklift is coming through','Va a pasar el montacargas'),L3('O almoço está pronto','Lunch is ready','La comida está lista'),L3('A ponte rolante quebrou','The crane is broken','El puente grúa se descompuso')],chunk:X3('Watch out!','Cuidado!','¡Cuidado!')},
+  {t:'reply',opts:[X3('Thanks for the warning!','Obrigado pelo aviso!','¡Gracias por el aviso!'),X3('Yes, I want to drive it.','Sim, eu quero dirigir.','Sí, quiero manejarlo.'),X3('Good night!','Boa noite!','¡Buenas noches!')],
+    why:[null,L3('Só quem tem licença pode dirigir a empilhadeira!','Only licensed people can drive the forklift!','¡Solo quien tiene licencia puede manejar el montacargas!'),L3('Isso é para se despedir à noite. Ele só te avisou do perigo!','That is for saying goodbye at night. He just warned you!','Eso es para despedirse de noche. ¡Solo te avisó del peligro!')],chunk:X3('Thanks for the warning','Obrigado pelo aviso','Gracias por el aviso')},
+  {t:'build',ans:X3('Is the overhead crane free','A ponte rolante está livre','Está libre el puente grúa'),extra:X3(['forklift','lunch'],['empilhadeira','almoço'],['montacargas','comida']),chunk:X3('Is the... free?','A... está livre?','¿Está libre el...?')},
+  {t:'hear',line:X3('No, it\'s busy now. Wait ten minutes, please.','Não, está ocupada agora. Espere dez minutos, por favor.','No, está ocupado ahorita. Espera diez minutos, por favor.'),ask:L3('O que ele pediu?','What did he ask?','¿Qué te pidió?'),
+    opts:[L3('Esperar dez minutos','Wait ten minutes','Esperar diez minutos'),L3('Ir embora para casa','Go home','Irte a tu casa'),L3('Usar a empilhadeira','Use the forklift','Usar el montacargas')],chunk:X3('Wait ten minutes','Espere dez minutos','Espera diez minutos')},
+  {t:'speak',ans:X3('Okay. Call me when it is free.','Ok. Me chama quando estiver livre.','Ok. Llámame cuando esté libre.'),chunk:X3('Call me when...','Me chama quando...','Llámame cuando...')},
+  {t:'sup',line:X3('No problem. I\'ll call you on the radio.','Sem problema. Te chamo pelo rádio.','No hay problema. Te llamo por el radio.')},
+],week:X3('Watch out!','Cuidado!','¡Cuidado!')},
+
+U4:{id:'U4',who:'mike',title:L3('Segurança em primeiro lugar','Safety first','La seguridad primero'),sub:L3('O supervisor viu algo errado. Resolva!','The supervisor saw a problem. Fix it!','El supervisor vio un problema. ¡Resuélvelo!'),steps:[
+  {t:'turbi',say:L3('Opa! O Mike, supervisor, está vindo rápido na sua direção. Acho que você esqueceu alguma coisa...','Uh-oh! Mike, the supervisor, is walking fast toward you. I think you forgot something...','¡Uy! Mike, el supervisor, viene rápido hacia ti. Creo que olvidaste algo...')},
+  {t:'hear',line:X3('Stop! Where are your safety glasses?','Pare! Cadê seus óculos de segurança?','¡Alto! ¿Dónde están tus lentes de seguridad?'),ask:L3('O que você esqueceu?','What did you forget?','¿Qué olvidaste?'),
+    opts:[L3('Os óculos de segurança','The safety glasses','Los lentes de seguridad'),L3('As luvas','The gloves','Los guantes'),L3('O capacete','The hard hat','El casco')],chunk:X3('safety glasses','óculos de segurança','lentes de seguridad')},
+  {t:'reply',opts:[X3('Sorry! They are in my locker. I\'ll get them now.','Desculpa! Estão no meu armário. Vou pegar agora.','¡Perdón! Están en mi casillero. Voy por ellos ahora.'),X3('I don\'t need them. I have good eyes.','Não preciso. Eu enxergo bem.','No los necesito. Veo bien.'),X3('Glasses are for movies.','Óculos são para o cinema.','Los lentes son para el cine.')],
+    why:[null,L3('Enxergar bem não protege seus olhos de respingos! O EPI é obrigatório.','Good eyes don\'t protect you from splashes! PPE is required.','¡Ver bien no te protege de las salpicaduras! El EPP es obligatorio.'),L3('Hahaha! Na fábrica, óculos de segurança são obrigatórios.','Hahaha! At the plant, safety glasses are required.','¡Jajaja! En la fábrica los lentes de seguridad son obligatorios.')],chunk:X3('Sorry!','Desculpa!','¡Perdón!')},
+  {t:'hear',line:X3('Good. And be careful: the floor is slippery here.','Ótimo. E cuidado: o chão está escorregadio aqui.','Bien. Y cuidado: el piso está resbaloso aquí.'),ask:L3('Qual é o perigo?','What is the hazard?','¿Cuál es el peligro?'),
+    opts:[L3('O chão está escorregadio','The floor is slippery','El piso está resbaloso'),L3('O chão está quente','The floor is hot','El piso está caliente'),L3('A porta está trancada','The door is locked','La puerta está cerrada con llave')],chunk:X3('slippery','escorregadio','resbaloso')},
+  {t:'build',ans:X3('I will put a cone here','Vou colocar um cone aqui','Voy a poner un cono aquí'),extra:X3(['glasses','hot'],['óculos','quente'],['lentes','caliente']),chunk:X3('I will put... here','Vou colocar... aqui','Voy a poner... aquí')},
+  {t:'speak',ans:X3('Safety first!','Segurança em primeiro lugar!','¡La seguridad primero!'),chunk:X3('Safety first','Segurança em primeiro lugar','La seguridad primero')},
+  {t:'sup',line:X3('Exactly! Thank you for helping.','Exatamente! Obrigado por ajudar.','¡Exacto! Gracias por ayudar.')},
+],week:X3('Safety first!','Segurança em primeiro lugar!','¡La seguridad primero!')},
+
+U5:{id:'U5',who:'rosa',title:L3('No almoxarifado','At the warehouse','En el almacén'),sub:L3('Peça os materiais para a Rosa.','Ask Rosa for supplies.','Pídele los materiales a Rosa.'),steps:[
+  {t:'turbi',say:L3('Acabou a lixa na sua área! Vamos até o almoxarifado falar com a Rosa.','Your area ran out of sandpaper! Let\'s go to the warehouse and talk to Rosa.','¡Se acabó la lija en tu área! Vamos al almacén a hablar con Rosa.')},
+  {t:'hear',line:X3('Hi! What do you need today?','Oi! Do que você precisa hoje?','¡Hola! ¿Qué necesitas hoy?'),ask:L3('O que ela perguntou?','What did she ask?','¿Qué te preguntó?'),
+    opts:[L3('Do que você precisa','What you need','Qué necesitas'),L3('Onde você mora','Where you live','Dónde vives'),L3('Se você está com fome','If you are hungry','Si tienes hambre')],chunk:X3('What do you need?','Do que você precisa?','¿Qué necesitas?')},
+  {t:'reply',opts:[X3('I need sandpaper, grit 80, please.','Preciso de lixa, grão 80, por favor.','Necesito lija, grano 80, por favor.'),X3('I need a vacation.','Preciso de férias.','Necesito vacaciones.'),X3('I need a pizza.','Preciso de uma pizza.','Necesito una pizza.')],
+    why:[null,L3('Todo mundo precisa, mas o almoxarifado não tem férias! Hahaha!','Everybody does, but the warehouse doesn\'t have vacations! Hahaha!','¡Todos, pero el almacén no tiene vacaciones! ¡Jajaja!'),L3('Pizza só no intervalo! Peça a lixa.','Pizza only on break! Ask for the sandpaper.','¡La pizza en el descanso! Pide la lija.')],chunk:X3('I need..., please','Preciso de..., por favor','Necesito..., por favor')},
+  {t:'sup',line:X3('Sure. How many boxes?','Claro. Quantas caixas?','Claro. ¿Cuántas cajas?')},
+  {t:'build',ans:X3('Two boxes please','Duas caixas por favor','Dos cajas por favor'),extra:X3(['pizza','three'],['pizza','três'],['pizza','tres']),chunk:X3('How many?','Quantas?','¿Cuántas?')},
+  {t:'hear',line:X3('I only have one box now. The rest arrives on Monday.','Só tenho uma caixa agora. O resto chega na segunda.','Solo tengo una caja ahorita. Lo demás llega el lunes.'),ask:L3('Quando chega o resto?','When does the rest arrive?','¿Cuándo llega lo demás?'),
+    opts:[L3('Na segunda-feira','On Monday','El lunes'),L3('Hoje à tarde','This afternoon','Hoy en la tarde'),L3('Na sexta-feira','On Friday','El viernes')],chunk:X3('on Monday','na segunda','el lunes')},
+  {t:'speak',ans:X3('No problem. Can I have masking tape too?','Sem problema. Pode me dar fita crepe também?','No hay problema. ¿Me das cinta masking también?'),chunk:X3('Can I have...?','Pode me dar...?','¿Me das...?')},
+  {t:'sup',line:X3('Here you go. Have a good day!','Aqui está. Tenha um bom dia!','Aquí tienes. ¡Que tengas buen día!')},
+],week:X3('I need sandpaper, please.','Preciso de lixa, por favor.','Necesito lija, por favor.')},
+
+U6:{id:'U6',who:'mike',title:L3('Problema na infusão','Infusion problem','Problema en la infusión'),sub:L3('Encontre e conserte o defeito na peça.','Find and fix the defect on the part.','Encuentra y arregla el defecto en la pieza.'),steps:[
+  {t:'turbi',say:L3('A infusão terminou, mas o Mike não parece feliz. Vamos ver o que aconteceu com a peça.','The infusion is done, but Mike doesn\'t look happy. Let\'s see what happened to the part.','La infusión terminó, pero Mike no se ve contento. Vamos a ver qué pasó con la pieza.')},
+  {t:'hear',line:X3('We have a dry spot on the part.','Temos uma área seca na peça.','Tenemos una zona seca en la pieza.'),ask:L3('Qual é o defeito?','What is the defect?','¿Cuál es el defecto?'),
+    opts:[L3('Uma área seca na peça','A dry spot on the part','Una zona seca en la pieza'),L3('Uma mancha de café','A coffee stain','Una mancha de café'),L3('Falta de energia','A power outage','Un apagón')],chunk:X3('dry spot','área seca','zona seca')},
+  {t:'reply',opts:[X3('I think the vacuum is low. I\'ll check it.','Acho que o vácuo está baixo. Vou verificar.','Creo que el vacío está bajo. Lo voy a revisar.'),X3('It\'s fine. Let\'s send it.','Está bom. Vamos mandar assim.','Está bien. Vamos a mandarla así.'),X3('I like dry things.','Eu gosto de coisas secas.','Me gustan las cosas secas.')],
+    why:[null,L3('Mandar peça com defeito? A qualidade vai reprovar!','Send a part with a defect? Quality will reject it!','¿Mandar una pieza con defecto? ¡Calidad la va a rechazar!'),L3('Hahaha! Mas a área seca é um defeito. Tente de novo.','Hahaha! But a dry spot is a defect. Try again.','¡Jajaja! Pero la zona seca es un defecto. Inténtalo otra vez.')],chunk:X3('I\'ll check it','Vou verificar','Lo voy a revisar')},
+  {t:'build',ans:X3('There is a leak in the bag','Tem um vazamento na bolsa','Hay una fuga en la bolsa'),extra:X3(['coffee','dry'],['café','seca'],['café','seca']),chunk:X3('There is a leak','Tem um vazamento','Hay una fuga')},
+  {t:'hear',line:X3('Good job! Fix the leak with sealant tape and call me.','Muito bem! Conserte o vazamento com fita selante e me chame.','¡Bien hecho! Arregla la fuga con cinta selladora y llámame.'),ask:L3('O que ele pediu?','What did he ask you to do?','¿Qué te pidió?'),
+    opts:[L3('Consertar o vazamento e chamar ele','Fix the leak and call him','Arreglar la fuga y llamarlo'),L3('Ir almoçar','Go to lunch','Ir a comer'),L3('Jogar a peça fora','Throw the part away','Tirar la pieza')],chunk:X3('Fix the leak','Conserte o vazamento','Arregla la fuga')},
+  {t:'speak',ans:X3('The leak is fixed. The vacuum is good now.','O vazamento está consertado. O vácuo está bom agora.','La fuga está arreglada. El vacío ya está bien.'),chunk:X3('is fixed','está consertado','está arreglada')},
+  {t:'sup',line:X3('Perfect! Now we can start the next part.','Perfeito! Agora podemos começar a próxima peça.','¡Perfecto! Ahora podemos empezar la siguiente pieza.')},
+],week:X3('There is a leak.','Tem um vazamento.','Hay una fuga.')},
+
+U7:{id:'U7',who:'linda',title:L3('Inspeção de qualidade','Quality inspection','Inspección de calidad'),sub:L3('Ajude a Linda a medir a peça.','Help Linda measure the part.','Ayuda a Linda a medir la pieza.'),steps:[
+  {t:'turbi',say:L3('A Linda, da qualidade, está inspecionando a sua peça. Será que está tudo certo com as medidas?','Linda from quality is inspecting your part. Are the measurements okay?','Linda, de calidad, está inspeccionando tu pieza. ¿Estarán bien las medidas?')},
+  {t:'hear',line:X3('This area looks too thin. What is the thickness?','Esta área parece fina demais. Qual é a espessura?','Esta zona se ve muy delgada. ¿Cuál es el espesor?'),ask:L3('O que ela quer saber?','What does she want to know?','¿Qué quiere saber?'),
+    opts:[L3('A espessura da peça','The thickness of the part','El espesor de la pieza'),L3('O peso da peça','The weight of the part','El peso de la pieza'),L3('A cor da peça','The color of the part','El color de la pieza')],chunk:X3('thickness','espessura','espesor')},
+  {t:'reply',opts:[X3('It\'s three millimeters.','São três milímetros.','Son tres milímetros.'),X3('It\'s three o\'clock.','São três horas.','Son las tres.'),X3('It\'s blue.','É azul.','Es azul.')],
+    why:[null,L3('Isso é a hora! Ela perguntou a espessura.','That\'s the time! She asked for the thickness.','¡Esa es la hora! Te preguntó el espesor.'),L3('Isso é a cor! Ela perguntou a espessura.','That\'s the color! She asked for the thickness.','¡Ese es el color! Te preguntó el espesor.')],chunk:X3('It\'s three millimeters','São três milímetros','Son tres milímetros')},
+  {t:'hear',line:X3('The minimum is four. Please measure it again with the caliper.','O mínimo é quatro. Por favor, meça de novo com o paquímetro.','El mínimo es cuatro. Por favor, mídelo otra vez con el calibrador.'),ask:L3('O que ela pediu?','What did she ask?','¿Qué te pidió?'),
+    opts:[L3('Medir de novo com o paquímetro','Measure again with the caliper','Medir otra vez con el calibrador'),L3('Pintar a peça de novo','Paint the part again','Pintar la pieza otra vez'),L3('Pesar a peça na balança','Weigh the part on the scale','Pesar la pieza en la báscula')],chunk:X3('measure it again','meça de novo','mídelo otra vez')},
+  {t:'build',ans:X3('Now it is four point five','Agora está com quatro e meio','Ahora tiene cuatro punto cinco'),extra:X3(['blue','three'],['azul','três'],['azul','tres']),chunk:X3('Now it is...','Agora está com...','Ahora tiene...')},
+  {t:'speak',ans:X3('Is the part okay now?','A peça está boa agora?','¿Ya está bien la pieza?'),chunk:X3('Is it okay?','Está bom?','¿Está bien?')},
+  {t:'sup',line:X3('Yes, it\'s within tolerance. Approved!','Sim, está dentro da tolerância. Aprovada!','Sí, está dentro de la tolerancia. ¡Aprobada!')},
+],week:X3('Can you measure it again?','Você pode medir de novo?','¿Puedes medirlo otra vez?')},
+
+U8:{id:'U8',who:'mike',title:L3('Hora extra no sábado','Saturday overtime','Horas extra el sábado'),sub:L3('Combine a hora extra com o supervisor.','Plan overtime with the supervisor.','Acuerda las horas extra con el supervisor.'),steps:[
+  {t:'turbi',say:L3('Fim do turno! O Mike quer conversar com você sobre o fim de semana.','End of the shift! Mike wants to talk to you about the weekend.','¡Fin del turno! Mike quiere hablar contigo sobre el fin de semana.')},
+  {t:'hear',line:X3('Can you work overtime on Saturday?','Você pode fazer hora extra no sábado?','¿Puedes trabajar horas extra el sábado?'),ask:L3('O que ele perguntou?','What did he ask?','¿Qué te preguntó?'),
+    opts:[L3('Se você pode fazer hora extra no sábado','If you can work overtime on Saturday','Si puedes trabajar horas extra el sábado'),L3('Se você quer folga no sábado','If you want Saturday off','Si quieres el sábado libre'),L3('Se você vai na reunião de segunda','If you are going to Monday\'s meeting','Si vas a la junta del lunes')],chunk:X3('work overtime','fazer hora extra','trabajar horas extra')},
+  {t:'reply',opts:[X3('Yes, I can. What time?','Sim, posso. Que horas?','Sí, puedo. ¿A qué hora?'),X3('Yes, I am Saturday.','Sim, eu sou sábado.','Sí, yo soy sábado.'),X3('I like pizza.','Eu gosto de pizza.','Me gusta la pizza.')],
+    why:[null,L3('Hahaha! Você não é um dia da semana. Tente de novo.','Hahaha! You are not a day of the week. Try again.','¡Jajaja! No eres un día de la semana. Inténtalo otra vez.'),L3('Ele perguntou sobre o sábado, não sobre comida!','He asked about Saturday, not about food!','¡Te preguntó por el sábado, no por la comida!')],chunk:X3('What time?','Que horas?','¿A qué hora?')},
+  {t:'hear',line:X3('From seven to three. Don\'t forget to clock in at the gate.','Das sete às três. Não esqueça de bater o ponto no portão.','De siete a tres. No olvides checar tu entrada en la entrada.'),ask:L3('Qual é o horário?','What are the hours?','¿Cuál es el horario?'),
+    opts:[L3('Das sete às três','From seven to three','De siete a tres'),L3('Das três às sete','From three to seven','De tres a siete'),L3('O dia todo','All day','Todo el día')],chunk:X3('from... to...','das... às...','de... a...')},
+  {t:'build',ans:X3('I will be there at seven','Vou estar lá às sete','Voy a estar ahí a las siete'),extra:X3(['three','pizza'],['três','pizza'],['tres','pizza']),chunk:X3('I will be there','Vou estar lá','Voy a estar ahí')},
+  {t:'speak',ans:X3('See you on Saturday!','Até sábado!','¡Nos vemos el sábado!'),chunk:X3('See you on...','Até...','Nos vemos el...')},
+  {t:'sup',line:X3('Thank you! Have a good weekend.','Obrigado! Bom fim de semana.','¡Gracias! Buen fin de semana.')},
+],week:X3('Can you repeat that, please?','Pode repetir, por favor?','¿Puedes repetir eso, por favor?')},
+
+UP:{id:'UP',who:'jake',title:L3('Cadê a ferramenta?','Where is the tool?','¿Dónde está la herramienta?'),sub:L3('Use as preposições para ajudar o Jake.','Use prepositions to help Jake.','Usa las preposiciones para ayudar a Jake.'),steps:[
+  {t:'turbi',say:L3('O Jake é muito bagunceiro e perdeu tudo! Olhe as figuras e diga onde está cada coisa.','Jake is very messy and lost everything! Look at the pictures and say where each thing is.','¡Jake es muy desordenado y perdió todo! Mira los dibujos y di dónde está cada cosa.')},
+  {t:'pic',item:'wrench',pos:'on',line:X3('Where is my wrench?','Onde está a minha chave?','¿Dónde está mi llave?'),
+    opts:[X3('It\'s on the table.','Está em cima da mesa.','Está encima de la mesa.'),X3('It\'s under the table.','Está embaixo da mesa.','Está debajo de la mesa.'),X3('It\'s in the box.','Está dentro da caixa.','Está dentro de la caja.')],rule:'on'},
+  {t:'pic',item:'bucket',pos:'under',line:X3('And my bucket?','E o meu balde?','¿Y mi cubeta?'),
+    opts:[X3('It\'s under the table.','Está embaixo da mesa.','Está debajo de la mesa.'),X3('It\'s on the table.','Está em cima da mesa.','Está encima de la mesa.'),X3('It\'s behind the box.','Está atrás da caixa.','Está detrás de la caja.')],rule:'under'},
+  {t:'pic',item:'hammer',pos:'in',line:X3('Where is the hammer?','Onde está o martelo?','¿Dónde está el martillo?'),
+    opts:[X3('It\'s in the box.','Está dentro da caixa.','Está dentro de la caja.'),X3('It\'s on the box.','Está em cima da caixa.','Está encima de la caja.'),X3('It\'s next to the box.','Está ao lado da caixa.','Está al lado de la caja.')],rule:'in'},
+  {t:'pic',item:'tape',pos:'next',line:X3('I can\'t find the tape measure!','Não acho a trena!','¡No encuentro la cinta métrica!'),
+    opts:[X3('It\'s next to the box.','Está ao lado da caixa.','Está al lado de la caja.'),X3('It\'s in the box.','Está dentro da caixa.','Está dentro de la caja.'),X3('It\'s above the box.','Está acima da caixa.','Está arriba de la caja.')],rule:'next to'},
+  {t:'pic',item:'helmet',pos:'above',line:X3('Where did I put my hard hat?','Onde eu coloquei meu capacete?','¿Dónde puse mi casco?'),
+    opts:[X3('It\'s on the shelf, above the table.','Está na prateleira, acima da mesa.','Está en la repisa, arriba de la mesa.'),X3('It\'s under the table.','Está embaixo da mesa.','Está debajo de la mesa.'),X3('It\'s in front of the box.','Está na frente da caixa.','Está enfrente de la caja.')],rule:'above'},
+  {t:'pic',item:'gloves',pos:'between',line:X3('And my gloves?','E as minhas luvas?','¿Y mis guantes?'),
+    opts:[X3('They are between the two boxes.','Estão entre as duas caixas.','Están entre las dos cajas.'),X3('They are behind the table.','Estão atrás da mesa.','Están detrás de la mesa.'),X3('They are on the shelf.','Estão na prateleira.','Están en la repisa.')],rule:'between'},
+  {t:'pic',item:'drill',pos:'behind',line:X3('Last one: where is the drill?','Última: onde está a furadeira?','La última: ¿dónde está el taladro?'),
+    opts:[X3('It\'s behind the box.','Está atrás da caixa.','Está detrás de la caja.'),X3('It\'s in front of the box.','Está na frente da caixa.','Está enfrente de la caja.'),X3('It\'s in the box.','Está dentro da caixa.','Está dentro de la caja.')],rule:'behind'},
+  {t:'build',ans:X3('Put the tools in the toolbox','Coloque as ferramentas na caixa','Pon las herramientas en la caja'),extra:X3(['on','under'],['embaixo','cima'],['debajo','encima']),chunk:X3('in the toolbox','na caixa','en la caja')},
+  {t:'speak',ans:X3('The meeting is at three, in the break room.','A reunião é às três, na sala de descanso.','La junta es a las tres, en la sala de descanso.'),chunk:X3('at three / in the room','às três / na sala','a las tres / en la sala'),rule:'at'},
+  {t:'sup',line:X3('Thank you! Now everything is in the right place.','Valeu! Agora está tudo no lugar certo.','¡Gracias! Ahora todo está en su lugar.')},
+],week:X3('Where is the...? It\'s next to the...','Onde está o...? Está ao lado do...','¿Dónde está el...? Está al lado del...')},
+};
+MISSIONS.U28=Object.assign(MISSION_FIRST,{who:'mike',title:MT.title,sub:MT.sub});
+
+/* regrinhas das preposições do inglês, explicadas na língua da pessoa */
+const PREP_RULE={
+  in:L3('<b>IN</b> = dentro. Use para coisas dentro de algo (in the box, in the booth) e para lugares grandes (in the plant, in Florida).','<b>IN</b> = inside something (in the box, in the booth) and big places (in the plant, in Florida).','<b>IN</b> = dentro. Para cosas dentro de algo (in the box, in the booth) y lugares grandes (in the plant, in Florida).'),
+  on:L3('<b>ON</b> = em cima, encostado na superfície (on the table, on the wall, on the floor).','<b>ON</b> = on top of a surface or touching it (on the table, on the wall, on the floor).','<b>ON</b> = encima, tocando la superficie (on the table, on the wall, on the floor).'),
+  at:L3('<b>AT</b> = um ponto exato: um lugar (at the gate, at work) ou uma hora (at three, at 7 a.m.).','<b>AT</b> = an exact point: a place (at the gate, at work) or a time (at three, at 7 a.m.).','<b>AT</b> = un punto exacto: un lugar (at the gate, at work) o una hora (at three, at 7 a.m.).'),
+  to:L3('<b>TO</b> = movimento, para onde você vai (go to the office, take it to the warehouse).','<b>TO</b> = movement, where you are going (go to the office, take it to the warehouse).','<b>TO</b> = movimiento, a dónde vas (go to the office, take it to the warehouse).'),
+  under:L3('<b>UNDER</b> = embaixo de (under the table).','<b>UNDER</b> = below something (under the table).','<b>UNDER</b> = debajo de (under the table).'),
+  behind:L3('<b>BEHIND</b> = atrás de (behind the box). O contrário é <b>IN FRONT OF</b> = na frente de.','<b>BEHIND</b> = at the back of (behind the box). The opposite is <b>IN FRONT OF</b>.','<b>BEHIND</b> = detrás de (behind the box). Lo contrario es <b>IN FRONT OF</b> = enfrente de.'),
+  'in front of':L3('<b>IN FRONT OF</b> = na frente de (in front of the office). O contrário é <b>BEHIND</b> = atrás de.','<b>IN FRONT OF</b> = facing the front of something. The opposite is <b>BEHIND</b>.','<b>IN FRONT OF</b> = enfrente de. Lo contrario es <b>BEHIND</b> = detrás de.'),
+  'next to':L3('<b>NEXT TO</b> = ao lado de, encostadinho (next to the door).','<b>NEXT TO</b> = right beside something (next to the door).','<b>NEXT TO</b> = al lado de (next to the door).'),
+  between:L3('<b>BETWEEN</b> = entre duas coisas (between the two boxes).','<b>BETWEEN</b> = in the middle of two things (between the two boxes).','<b>BETWEEN</b> = entre dos cosas (between the two boxes).'),
+  above:L3('<b>ABOVE</b> = acima de, mais alto e sem encostar (the shelf above the table).','<b>ABOVE</b> = higher than something, not touching it (the shelf above the table).','<b>ABOVE</b> = arriba de, más alto y sin tocar (the shelf above the table).'),
+  near:L3('<b>NEAR</b> = perto de (near the exit).','<b>NEAR</b> = close to (near the exit).','<b>NEAR</b> = cerca de (near the exit).'),
+  from:L3('<b>FROM</b> = de onde vem, a origem (from Brazil, from the warehouse).','<b>FROM</b> = where something comes from (from Brazil, from the warehouse).','<b>FROM</b> = de dónde viene, el origen (from Brazil, from the warehouse).'),
+};
+const PREP_WORDS=['in front of','next to','between','behind','under','above','near','from','into','on','in','at','to'];
+/* deixa as preposições coloridas nas frases em inglês (o texto já vem escapado) */
+function hiPrep(html){ if(TL()!=='en') return html;
+  return html.replace(/\b(in front of|next to|between|behind|under|above|near|from|into|on|in|at|to)\b/gi,'<b class="prep">$1</b>'); }
+function prepTip(words,ctx){ if(TL()!=='en') return ''; const c=' '+clean(ctx||'')+' ';
+  let w=words.map(x=>clean(x)).find(x=>PREP_RULE[x]||x==='next'||x==='front'||x==='of');
+  if(!w) return '';
+  if((w==='to'||w==='next')&&/ next to /.test(c)) w='next to';
+  if((w==='in'||w==='front'||w==='of')&&/ in front of /.test(c)) w='in front of';
+  return PREP_RULE[w]?`<div class="tipm prept">${avL(PREP_RULE[w])}</div>`:''; }
+
+/* cenas desenhadas para as preposições */
+function prepItem(k,x,y,s){ s=s||1;
+  const g=(inner)=>`<g transform="translate(${x} ${y}) scale(${s})">${inner}</g>`;
+  if(k==='wrench') return g(`<path d="M-26 4L14 4" stroke="#8a95a8" stroke-width="7" stroke-linecap="round"/><path d="M14 -6a10 10 0 1 1 0 20a10 10 0 0 1 0-20z" fill="#8a95a8"/><rect x="16" y="0" width="12" height="8" fill="#fff"/>`);
+  if(k==='hammer') return g(`<rect x="-4" y="-22" width="8" height="34" rx="3" fill="#b8742a"/><rect x="-16" y="-28" width="32" height="12" rx="3" fill="#5b6275"/>`);
+  if(k==='bucket') return g(`<path d="M-18 -20H18L14 14H-14Z" fill="#ff8a3d"/><path d="M-18 -20Q0 -38 18 -20" stroke="#5b6275" stroke-width="3" fill="none"/><rect x="-18" y="-22" width="36" height="5" rx="2" fill="#e06a1c"/>`);
+  if(k==='tape') return g(`<rect x="-16" y="-16" width="32" height="32" rx="8" fill="#ffc93c"/><circle cx="0" cy="0" r="7" fill="#5b6275"/><rect x="14" y="8" width="16" height="6" fill="#e0a400"/>`);
+  if(k==='helmet') return g(`<path d="M-20 4C-20 -18 20 -18 20 4Z" fill="#ffd23f"/><rect x="-26" y="2" width="52" height="7" rx="3" fill="#e0b400"/>`);
+  if(k==='gloves') return g(`<path d="M-14 14V-6Q-14 -14 -8 -14V-20Q-4 -24 0 -20V-22Q4 -26 8 -22V-18Q12 -20 14 -16V14Z" fill="#3d8bff"/><rect x="-14" y="10" width="28" height="8" rx="2" fill="#1f5fc4"/>`);
+  if(k==='drill') return g(`<rect x="-22" y="-14" width="34" height="16" rx="5" fill="#3cc96a"/><rect x="12" y="-10" width="16" height="6" fill="#8a95a8"/><path d="M-12 2L-6 22H6L2 2Z" fill="#29a352"/>`);
+  return '';
+}
+function prepScene(item,pos){
+  const box=(x,col,w)=>{ w=w||58; return `<g><rect x="${x}" y="110" width="${w}" height="44" rx="4" fill="${col||'#c98d62'}"/><rect x="${x}" y="110" width="${w}" height="10" fill="rgba(0,0,0,.12)"/></g>`; };
+  let back='', front='';
+  const table=`<rect x="20" y="96" width="170" height="10" rx="3" fill="#8a5a2b"/><rect x="30" y="106" width="9" height="62" fill="#6b4420"/><rect x="171" y="106" width="9" height="62" fill="#6b4420"/>`;
+  const shelf=`<rect x="34" y="34" width="142" height="7" rx="2" fill="#9aa0a8"/><rect x="44" y="41" width="5" height="12" fill="#9aa0a8"/><rect x="161" y="41" width="5" height="12" fill="#9aa0a8"/>`;
+  const floor=`<rect x="0" y="168" width="320" height="22" fill="#dfe6f0"/>`;
+  let it='';
+  if(pos==='on') it=prepItem(item,105,86);
+  if(pos==='under') it=prepItem(item,105,150);
+  if(pos==='above') it=prepItem(item,105,26);
+  if(pos==='in'){ back=`<rect x="225" y="104" width="58" height="12" rx="3" fill="#7a4e30"/>`; it=prepItem(item,254,116,.8); front=`<rect x="225" y="114" width="58" height="40" rx="4" fill="#c98d62"/><rect x="225" y="114" width="58" height="6" fill="rgba(0,0,0,.15)"/>`; }
+  if(pos==='next'){ back=box(205); it=prepItem(item,286,150,.8); }
+  if(pos==='behind'){ it=prepItem(item,280,120,1.3); front=box(220); }
+  if(pos==='between'){ back=box(204,'',46)+box(268,'',46); it=prepItem(item,259,152,.6); }
+  if(!back&&!front&&pos!=='behind') back=box(225);
+  return `<svg class="pscene" viewBox="0 0 320 190" xmlns="http://www.w3.org/2000/svg" role="img"><rect width="320" height="190" fill="#eef6ff"/>${floor}${shelf}${table}${back}${it}${front}</svg>`;
+}
+let MI=null;
+const firstName=()=>{ const n=((ME&&ME.name)||S.name||'').trim().split(/\s+/)[0]; return n||'Alex'; };
+const mx=o=>String(o[TL()]).replace(/\{n\}/g,firstName());
+const mb=o=>String(o[BL()]).replace(/\{n\}/g,firstName());
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+
+/* voz do Turbi: na língua da pessoa, aguda e animada (voz infantil) */
+function voiceFor(l){ try{ const v=speechSynthesis.getVoices(), L0=TTSL[l], pre=L0.slice(0,2), nl=s=>String(s).replace('_','-');
+  return v.find(x=>nl(x.lang)===L0&&/Premium|Enhanced|Aprimorad|Mejorad|Natural|Neural/i.test(x.name))||v.find(x=>nl(x.lang)===L0&&/Samantha|Google|Aria|Jenny|Ava|Luciana|Paulina|Francisca|Monica|Joana/.test(x.name))||v.find(x=>nl(x.lang)===L0)||v.find(x=>x.lang.startsWith(pre))||null; }catch(e){ return null; } }
+function turbiSay(t){ if(!canSpeak) return; duck();
+  try{ const ss=speechSynthesis, id=++SPK_N; clearTimeout(SPK_T);
+    const go=()=>{ if(id!==SPK_N) return; const u=new SpeechSynthesisUtterance(t), v=voiceFor(BL());
+      u.lang=v?v.lang:TTSL[BL()]; if(v) u.voice=v; u.pitch=1.3; u.rate=1.08; u.volume=1; SPK_U=u; ss.speak(u); if(ss.paused) ss.resume(); };
+    if(ss.speaking||ss.pending){ ss.cancel(); setTimeout(go,90); } else go();
+  }catch(e){} }
+const supSay=t=>{ if(canSpeak) speakRate(t,.85); };
+
+function missionCard(){ return ''; }
+function missionCardOld(){
+  const done=S.missions&&S.missions.first;
+  return `<div class="mcardpath"><div class="mcp-av">${avatarSVG(avValid(SUP_AV)||SUP_AV)}</div><div class="mcp-txt"><small>${done?ICON.check+' '+mt('doneTag'):mt('tag')}</small><b>${mt('title')}</b><span>${mt('sub')}</span></div>
+    <button class="btn gold" data-mission="first">${done?mt('again'):mt('go')}</button></div>`;
+}
+function startMission(id){
+  const m=MISSIONS[id]||Object.values(MISSIONS).find(x=>x.id===id)||MISSION_FIRST;
+  MI={m,i:-1,log:[],t0:Date.now(),errs:0};
+  $('mission').hidden=false; document.body.style.overflow='hidden'; document.body.classList.add('busy'); whoosh();
+  $('mchat').innerHTML=''; nextStep();
+}
+function chatAdd(who,text,base){
+  const ch=CHARS[(MI&&MI.m.who)||'mike']||CHARS.mike;
+  const av=who==='sup'?avatarSVG(avValid(ch.av)||ch.av):avatarSVG(myAvatar());
+  const div=document.createElement('div'); div.className='cmsg '+who;
+  div.innerHTML=`<div class="cav">${av}</div><div class="cbub"><small>${who==='sup'?esc(ch.name+' · '+avL(ch.role)):mt('you')}</small><span>${hiPrep(esc(text))}</span>${who==='sup'?`<button class="spk cspk" aria-label="${mt('listen')}">${SPK}</button>`:''}${base&&base!==text?`<em>${esc(base)}</em>`:''}</div>`;
+  if(who==='sup') div.querySelector('.cspk').onclick=()=>supSay(text);
+  $('mchat').appendChild(div); mScroll();
+}
+/* rola para o fim, mostrando a última fala e a tarefa logo acima do rodapé */
+function mScroll(){ requestAnimationFrame(()=>{ const b=$('mbody'); if(b) b.scrollTo({top:b.scrollHeight,behavior:'smooth'}); }); }
+function turbiRow(text,mood){ return `<div class="sayrow mturbi"><div class="cat ${mood||'idle'}" id="mCatT"></div><div class="say"><span>${text}</span></div></div>`; }
+function mFoot(html,cls){ $('mfoot').className='lfoot'+(cls?' '+cls:''); $('mfootIn').innerHTML=html; $('mfoot').scrollTop=0; }
+function nextStep(){
+  const st=MI.m.steps;
+  MI.i++; $('mprog').style.width=(MI.i/st.length*100)+'%';
+  if(MI.i>=st.length) return finishMission();
+  const s=st[MI.i]; MI.sel=null; MI.tries=0; let h='';
+  const task=$('mtask');
+  if(s.t==='turbi'){
+    task.innerHTML=turbiRow(avL(s.say),'happy'); turbiSay(avL(s.say));
+    mFoot(`<button class="btn" id="mgo">${mt('cont')}</button>`); $('mgo').onclick=()=>{ sTap(); nextStep(); };
+  } else if(s.t==='sup'){
+    chatAdd('sup',mx(s.line),mb(s.line)); supSay(mx(s.line)); task.innerHTML='';
+    mFoot(`<button class="btn" id="mgo">${mt('cont')}</button>`); $('mgo').onclick=()=>{ sTap(); nextStep(); };
+  } else if(s.t==='hear'){
+    if(MI.shown!==MI.i) chatAdd('sup',mx(s.line)); supSay(mx(s.line));
+    h=turbiRow(s.ask?avL(s.ask):mt('qHear'),'think')+`<div class="listen mlisten"><button class="slow" id="mrep">${SPK} ${mt('listen')}</button><button class="slow" id="mslow">${mt('slow')}</button></div>`;
+    MI.order=shuffle(s.opts.map((o,k)=>k));
+    h+=`<div class="opts">${MI.order.map(k=>`<button class="opt" data-k="${k}">${avL(s.opts[k])}</button>`).join('')}</div>`;
+    task.innerHTML=h; $('mrep').onclick=()=>supSay(mx(s.line)); $('mslow').onclick=()=>speakSlow(mx(s.line));
+    mFoot(`<button class="btn" id="mgo" disabled>${mt('check')}</button>`); $('mgo').onclick=checkStep;
+  } else if(s.t==='reply'){
+    MI.order=shuffle(s.opts.map((o,k)=>k));
+    h=turbiRow(mt('qReply'),'think')+`<div class="opts">${MI.order.map(k=>`<button class="opt wide mopt" data-k="${k}"><span class="spk mini">${SPK}</span>${esc(mx(s.opts[k]))}</button>`).join('')}</div>`;
+    task.innerHTML=h; mFoot(`<button class="btn" id="mgo" disabled>${mt('check')}</button>`); $('mgo').onclick=checkStep;
+  } else if(s.t==='build'){
+    const words=mx(s.ans).split(' '); MI.words=words; MI.placed=[];
+    MI.tiles=shuffle(words.concat(s.extra[TL()])).map((w,id)=>({id,w}));
+    h=turbiRow(`${mt('qBuild')} <b>"${esc(mb(s.ans))}"</b>`,'think')+`<div class="lines" id="mzone"></div><div class="bank" id="mbank"></div>`;
+    task.innerHTML=h; drawMTiles(); mFoot(`<button class="btn" id="mgo" disabled>${mt('check')}</button>`); $('mgo').onclick=checkStep;
+  } else if(s.t==='pic'){
+    if(MI.shown!==MI.i) chatAdd('sup',mx(s.line)); supSay(mx(s.line));
+    MI.order=shuffle(s.opts.map((o,k)=>k));
+    h=`<div class="pwrap">${prepScene(s.item,s.pos)}</div>`+`<div class="opts">${MI.order.map(k=>`<button class="opt wide mopt" data-k="${k}"><span class="spk mini">${SPK}</span><span>${hiPrep(esc(mx(s.opts[k])))}</span></button>`).join('')}</div>`;
+    task.innerHTML=h; mFoot(`<button class="btn" id="mgo" disabled>${mt('check')}</button>`); $('mgo').onclick=checkStep;
+  } else if(s.t==='speak'){
+    const tx=mx(s.ans);
+    h=turbiRow(`${mt('qSpeak')} <b>"${esc(tx)}"</b><br><small style="font-weight:700;color:var(--muted,#6b7a90)">${esc(mb(s.ans))}</small>`,'think')
+      +`<div class="listen mlisten"><button class="slow" id="mrep">${SPK} ${mt('listen')}</button><button class="slow" id="mslow">${mt('slow')}</button></div>`
+      +`<button class="micbtn" id="mmic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.9V21h2v-3.1A7 7 0 0 0 19 11z"/></svg><span id="mmicT">${mt('tapTalk')}</span></button><p class="pt" id="mheard" style="text-align:center;margin:0"></p>`;
+    task.innerHTML=h; $('mrep').onclick=()=>supSay(tx); $('mslow').onclick=()=>speakSlow(tx);
+    $('mmic').onclick=()=>listenMic(tx);
+    mFoot(`<button class="btn ghost" id="mgo">${mt('saidIt')}</button>`); $('mgo').onclick=()=>speakOk(tx,true);
+    if(!SRec) $('mheard').textContent=mt('noMic');
+  }
+  MI.shown=MI.i; mScroll();
+  const ct=$('mCatT'); if(ct) setCat(ct,ct.classList.contains('happy')?'happy':'think');
+}
+function drawMTiles(){
+  $('mzone').innerHTML=MI.placed.map(id=>`<button class="tile" data-id="${id}">${esc(MI.tiles[id].w)}</button>`).join('');
+  $('mbank').innerHTML=MI.tiles.map(t=>`<button class="tile ${MI.placed.includes(t.id)?'ghost':''}" data-id="${t.id}">${esc(t.w)}</button>`).join('');
+  if($('mgo')) $('mgo').disabled=!MI.placed.length;
+}
+function checkStep(){
+  const s=MI.m.steps[MI.i]; let ok;
+  if(s.t==='build') ok=MI.placed.map(id=>clean(MI.tiles[id].w)).join(' ')===MI.words.map(clean).join(' ');
+  else ok=MI.sel===0;
+  if(ok) stepRight(s); else stepWrong(s);
+}
+function chunkTip(s){
+  let h='';
+  if(s.rule&&TL()==='en'&&PREP_RULE[s.rule]) h+=`<div class="mchunk prept"><small>${mt('rule')}</small><span>${avL(PREP_RULE[s.rule])}</span></div>`;
+  if(s.chunk) h+=`<div class="mchunk"><small>${mt('useful')}</small><b>${hiPrep(esc(mx(s.chunk)))}</b> = ${esc(mb(s.chunk))}</div>`;
+  else if(s.t==='pic') h+=`<div class="mchunk"><small>${mt('useful')}</small><b>${hiPrep(esc(mx(s.opts[0])))}</b> = ${esc(mb(s.opts[0]))}</div>`;
+  return h; }
+function stepRight(s){
+  sGood(1); const sp=$('mCatT'); if(sp){ setCat(sp,'happy'); sp.classList.add('party'); burst(sp); }
+  if(s.t==='reply'||s.t==='pic'){ chatAdd('me',mx(s.opts[0])); supSay(mx(s.opts[0])); }
+  if(s.t==='build'){ chatAdd('me',mx(s.ans)); supSay(mx(s.ans)); }
+  if(s.t==='hear'||s.t==='speak') { /* nada a acrescentar no chat */ }
+  if(s.t!=='reply'&&s.t!=='build') turbiSay(mt('right'));
+  $('mtask').querySelectorAll('button').forEach(b=>b.disabled=true);
+  mFoot(`<div class="fbh"><div class="cat happy party fcat">${catSVG('happy')}</div><h3>${mt('right')}</h3></div>${chunkTip(s)}<button class="btn" id="mgo">${mt('cont')}</button>`,'good');
+  $('mgo').onclick=()=>{ sTap(); nextStep(); };
+}
+function stepWrong(s){
+  sBad(); MI.errs++; const c=$('mCatT'); if(c) setCat(c,'sad');
+  let why='';
+  if(s.t==='pic'&&MI.sel!=null){ const o=s.opts[MI.sel]; why=`<b>"${esc(mx(o))}"</b> = "${esc(mb(o))}". `+(TL()==='en'&&PREP_RULE[s.rule]?avL(PREP_RULE[s.rule]):''); turbiSay(mt('lookAgain')); }
+  else if(s.t==='reply'&&MI.sel!=null){ const o=s.opts[MI.sel]; why=`<b>"${esc(mx(o))}"</b> = "${esc(mb(o))}". `+(s.why[MI.sel]?avL(s.why[MI.sel]):''); turbiSay((s.why[MI.sel]?avL(s.why[MI.sel]):'')); }
+  else if(s.t==='hear'){ why=`${mt('meaning')} <b>"${esc(mx(s.line))}"</b> = "${esc(mb(s.line))}"`; turbiSay(mt('wrong')); }
+  else { why=`<b>${esc(mx(s.ans))}</b> = "${esc(mb(s.ans))}"`; turbiSay(mt('wrong')); }
+  mFoot(`<div class="fbh"><div class="cat sad fcat">${catSVG('sad')}</div><h3>${mt('wrong')}</h3></div><div class="whyx">${why}</div><button class="btn red" id="mgo">${mt('cont')}</button>`,'bad');
+  $('mgo').onclick=()=>{ sTap(); MI.i--; nextStep(); };
+}
+/* reconhecimento de voz (quando o celular permite) */
+const SRec=window.SpeechRecognition||window.webkitSpeechRecognition||null;
+let MREC=null;
+const normW=t=>String(t).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9ñ' ]/g,' ').split(/\s+/).filter(Boolean);
+function listenMic(tx){
+  if(!SRec){ $('mheard').textContent=mt('noMic'); return; }
+  try{ speechSynthesis.cancel(); }catch(e){}
+  try{ if(MREC) MREC.abort(); }catch(e){}
+  const r=new SRec(); MREC=r; r.lang=TTSL[TL()]; r.interimResults=false; r.maxAlternatives=4; r.continuous=false;
+  $('mmic').classList.add('on'); $('mmicT').textContent=mt('listening'); $('mheard').textContent='';
+  let got=false;
+  r.onresult=e=>{ got=true; const want=normW(tx), alts=[...e.results[0]].map(a=>a.transcript);
+    const score=a=>{ const w=normW(a); return want.filter(x=>w.includes(x)).length/want.length; };
+    const best=alts.reduce((b,a)=>score(a)>score(b)?a:b,alts[0]||'');
+    $('mheard').innerHTML=`${mt('heard')} <b>"${esc(best)}"</b>`;
+    if(score(best)>=.6) speakOk(tx,false); else { $('mheard').innerHTML+=`<br>${mt('retryMic')}`; sBad(); } };
+  r.onerror=e=>{ if(e.error==='not-allowed'||e.error==='service-not-allowed') $('mheard').textContent=mt('noMic'); else if(!got) $('mheard').textContent=mt('retryMic'); };
+  r.onend=()=>{ MREC=null; if($('mmic')){ $('mmic').classList.remove('on'); $('mmicT').textContent=mt('tapTalk'); } };
+  try{ r.start(); }catch(e){ $('mheard').textContent=mt('noMic'); $('mmic').classList.remove('on'); }
+}
+function speakOk(tx,manual){
+  try{ if(MREC) MREC.abort(); }catch(e){}
+  chatAdd('me',tx); stepRight(MI.m.steps[MI.i]);
+}
+function finishMission(){
+  const m=MI.m, first=!(S.missions&&S.missions[m.id]), xp=first?20:5, gems=MI.errs===0?15:10;
+  S.missions=S.missions||{}; S.missions[m.id]=1; S.xp+=xp; S.gems+=gems;
+  const t=today(); if(S.day.d!==t) S.day={d:t,xp:0}; S.day.xp+=xp;
+  if(S.last!==t){ const y=new Date(Date.now()-864e5).toDateString(); S.streak=S.last===y?S.streak+1:1; S.last=t; }
+  S.days=(S.days||[]).filter(d=>Date.now()-new Date(d).getTime()<7*864e5); if(!S.days.includes(t)) S.days.push(t);
+  save(); renderTop();
+  const chunks=m.steps.filter(s=>s.chunk||s.t==='pic').map(s=>s.chunk?s:{chunk:s.opts[0]});
+  $('mtask').innerHTML=''; $('mchat').innerHTML='';
+  $('mtask').innerHTML=`<div class="mend"><div class="cat happy bigcat" id="mCatE"></div><h2>${mt('missDone')}</h2>
+    <div class="tiles3"><div class="t3" style="--c:var(--gold-d)"><small>XP</small><b>${ICON.bolt}${xp}</b></div><div class="t3" style="--c:var(--blue)"><small>${mt('rewards')}</small><b>${ICON.gem}${gems}</b></div></div>
+    <div class="mist"><div class="lbl">${mt('learned')}</div>${chunks.map((s,i)=>`<div class="row"><span>${hiPrep(esc(mx(s.chunk)))}<small>${esc(mb(s.chunk))}</small></span>${canSpeak?`<button class="spk" data-c="${i}" aria-label="${mt('listen')}">${SPK}</button>`:''}</div>`).join('')}</div>
+    <div class="mchunk mweek"><small>${ICON.flame} ${mt('week')}</small>${mt('weekTxt')}<b>"${esc(mx(m.week))}"</b><span>${esc(mb(m.week))}</span></div></div>`;
+  setCat($('mCatE'),'happy'); $('mCatE').classList.add('bigcat');
+  $('mtask').querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>supSay(mx(chunks[+b.dataset.c].chunk)));
+  turbiSay(mt('missDone')); sWin(); confetti();
+  mFoot(`<button class="btn" id="mgo">${mt('cont')}</button>`); $('mgo').onclick=exitMission;
+  $('mprog').style.width='100%'; $('mbody').scrollTop=0;
+}
+function exitMission(){
+  try{ if(MREC) MREC.abort(); }catch(e){} try{ speechSynthesis.cancel(); }catch(e){}
+  MI=null; $('mission').hidden=true; document.body.style.overflow=''; document.body.classList.remove('busy'); renderTab();
+}
+$('mtask').onclick=e=>{
+  if(!MI) return; const s=MI.m.steps[MI.i]; if(!s) return;
+  const o=e.target.closest('.opt');
+  if(o&&!o.disabled){ $('mtask').querySelectorAll('.opt').forEach(x=>x.setAttribute('aria-pressed',x===o)); MI.sel=+o.dataset.k; sTap();
+    if(s.t==='reply'||s.t==='pic') supSay(mx(s.opts[MI.sel]));
+    $('mgo').disabled=false; return; }
+  const t=e.target.closest('.tile');
+  if(t&&!t.disabled){ const id=+t.dataset.id;
+    if(t.closest('#mbank')){ if(!MI.placed.includes(id)){ MI.placed.push(id); blip(700,1000,.06,'sine',.1); } }
+    else { MI.placed.splice(MI.placed.indexOf(id),1); blip(600,400,.06,'sine',.1); }
+    drawMTiles(); }
+};
+$('mquit').onclick=()=>{
+  modal(`<div class="cat sad" id="mCat"></div><h3>${mt('quitQ')}</h3>
+    <button class="btn blue" id="mStay">${mt('stay')}</button><button class="btn ghost" id="mLeave" style="color:var(--bad)">${mt('leave')}</button>`);
+  setCat($('mCat'),'sad');
+  $('mStay').onclick=closeModal; $('mLeave').onclick=()=>{ closeModal(); exitMission(); };
+};
+
 applyStatic(); $('iPick').innerHTML=pickerHTML(); $('flagBtn').onclick=openCoursePicker;
 buildScenes(); refillHearts(); goTab('path'); setTimeout(()=>prerender(),300);
 if(ME){ cloudRestore().then(b=>{ if(b){ refillHearts(); goTab(curTab); } else syncCloud(); }); }
 (function intro(){
+  if(HOLI==='thanksgiving'){ let seen=''; try{ seen=localStorage.getItem('bluewind-festa')||''; }catch(e){}
+    const key='tg-'+new Date().toDateString();
+    if(seen!==key||/festa=/.test(location.search)){ /* só mostra se a imagem carregar (se faltar o arquivo, nada aparece) */
+      $('hImg').onload=()=>{ $('hPop').hidden=false; }; $('hImg').src='thanksgiving.jpg?v=1';
+      $('hOk').onclick=()=>{ sTap(); $('hPop').hidden=true; try{ localStorage.setItem('bluewind-festa',key); }catch(e){} }; } }
   if(!HAS_COURSE){ $('introGo').hidden=true; $('iBub').hidden=true; }
   setCat($('introCat'),'happy'); setTimeout(()=>setCat($('introCat'),'idle'),2000);
   $('introGo').onclick=()=>{
