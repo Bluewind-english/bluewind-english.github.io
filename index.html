@@ -2012,8 +2012,9 @@ const HILLS='<svg class="hills" viewBox="0 0 400 60" preserveAspectRatio="none">
 /* ===== DATAS COMEMORATIVAS: decoram o cenário da abertura (o Turbi fica igual) ===== */
 function thanksgivingDay(y){ const d=new Date(y,10,1); const off=(4-d.getDay()+7)%7; return new Date(y,10,1+off+21); }
 function holiday(){ try{ const q=new URLSearchParams(location.search).get('festa'); if(q) return q; }catch(e){}
-  const n=new Date(), dd=(n-thanksgivingDay(n.getFullYear()))/864e5;
-  if(dd>=-7&&dd<=3) return 'thanksgiving';
+  /* outono de Thanksgiving: de 10 de novembro até o domingo depois do feriado */
+  const n=new Date(), y=n.getFullYear(), ini=new Date(y,10,10), fim=new Date(thanksgivingDay(y).getTime()+4*864e5);
+  if(n>=ini&&n<fim) return 'thanksgiving';
   return ''; }
 const HOLI=holiday();
 function pumpkin(x,s){ return `<g transform="translate(${x} 0) scale(${s})"><path d="M0 -26q0-8 6-10" stroke="#3f7a2a" stroke-width="4" fill="none" stroke-linecap="round"/>
