@@ -629,7 +629,6 @@ b.prep{color:#0891b2;background:#cff7fe;border-radius:6px;padding:0 3px;font-wei
 <canvas class="confetti" id="confetti"></canvas>
 <div class="hint" id="hint" hidden></div>
 
-<div class="hpop" id="hPop" hidden><div class="hpop-in"><img id="hImg" alt="Happy Thanksgiving - BlueWind"><button class="btn gold" id="hOk">Happy Thanksgiving! 🦃</button></div></div>
 <div class="intro" id="intro">
   <div class="iscene" id="iscene" aria-hidden="true"></div>
   <div class="iwrap">
@@ -2942,12 +2941,22 @@ $('mquit').onclick=()=>{
 applyStatic(); $('iPick').innerHTML=pickerHTML(); $('flagBtn').onclick=openCoursePicker;
 buildScenes(); refillHearts(); goTab('path'); setTimeout(()=>prerender(),300);
 if(ME){ cloudRestore().then(b=>{ if(b){ refillHearts(); goTab(curTab); } else syncCloud(); }); }
+/* ===== ATUALIZAÇÃO AUTOMÁTICA: se existir uma versão nova no site, o app recarrega sozinho ===== */
+const APP_VER='19';
+/* usa a pergunta "mudou?" do navegador: se nada mudou, o site responde vazio (quase não gasta dados) */
+let lastCheck=0;
+function checkUpdate(){
+  if(!/^https?:/.test(location.protocol)||Date.now()-lastCheck<30*60000) return; lastCheck=Date.now();
+  fetch(location.pathname,{cache:'no-cache'}).then(r=>r.ok?r.text():'').then(t=>{
+    const m=/const APP_VER='(\d+)'/.exec(t||''); if(!m||m[1]===APP_VER) return;
+    let tried=''; try{ tried=sessionStorage.getItem('bw-upd')||''; }catch(e){}
+    if(tried===m[1]) return; try{ sessionStorage.setItem('bw-upd',m[1]); }catch(e){}
+    location.replace(location.pathname+'?v='+m[1]);
+  }).catch(()=>{});
+}
+checkUpdate();
+document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible') checkUpdate(); });
 (function intro(){
-  if(HOLI==='thanksgiving'){ let seen=''; try{ seen=localStorage.getItem('bluewind-festa')||''; }catch(e){}
-    const key='tg-'+new Date().toDateString();
-    if(seen!==key||/festa=/.test(location.search)){ /* só mostra se a imagem carregar (se faltar o arquivo, nada aparece) */
-      $('hImg').onload=()=>{ $('hPop').hidden=false; }; $('hImg').src='thanksgiving.jpg?v=1';
-      $('hOk').onclick=()=>{ sTap(); $('hPop').hidden=true; try{ localStorage.setItem('bluewind-festa',key); }catch(e){} }; } }
   if(!HAS_COURSE){ $('introGo').hidden=true; $('iBub').hidden=true; }
   setCat($('introCat'),'happy'); setTimeout(()=>setCat($('introCat'),'idle'),2000);
   $('introGo').onclick=()=>{
