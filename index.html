@@ -548,7 +548,9 @@ b.prep{color:#0891b2;background:#cff7fe;border-radius:6px;padding:0 3px;font-wei
 .hpop-in img{display:block;width:100%;height:auto}
 .hpop-in .btn{margin:14px;width:calc(100% - 28px)}
 /* missão: fundo de fábrica, Turbi menor, espaço para as pecinhas */
-#mission{background:#e9eef5}
+#mission,#lesson,#cards{background:#e9eef5}
+#lesson .lhead,#lesson .lbody,#cards .lhead,#cards .lbody{position:relative;z-index:1}
+.mbg.soft::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,.4)}
 .mbg{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .mbg svg{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:max(100%,560px);height:100%}
 #mission .lhead,#mission .lbody{position:relative;z-index:1}
@@ -599,6 +601,7 @@ b.prep{color:#0891b2;background:#cff7fe;border-radius:6px;padding:0 3px;font-wei
 
 <!-- LIÇÃO -->
 <section class="lesson" id="lesson" hidden>
+  <div class="mbg soft" id="lbg"></div>
   <div class="lhead">
     <button class="xbtn" id="lquit" aria-label="Sair da lição">×</button>
     <div class="prog"><i id="lprog" style="width:0"></i></div>
@@ -624,6 +627,7 @@ b.prep{color:#0891b2;background:#cff7fe;border-radius:6px;padding:0 3px;font-wei
 
 <!-- FLASHCARDS -->
 <section class="lesson" id="cards" hidden>
+  <div class="mbg soft" id="cbg"></div>
   <div class="lhead">
     <button class="xbtn" id="cquit" aria-label="Sair">×</button>
     <div class="prog"><i id="cprog" style="width:0;background:var(--blue)"></i></div>
@@ -1671,6 +1675,7 @@ function startLesson(s,i){
   if(S.hearts<=0) return noHearts(false);
   const k=UNITS.findIndex(u=>u.s===s);
   L={s,k,i,node:NODES[i],ex:buildExercises(k,NODES[i]),q:0,ok:0,tries:0,combo:0,best:0,t0:Date.now(),miss:[]};
+  setBg('lbg');
   $('lesson').hidden=false; document.body.style.overflow='hidden';document.body.classList.add('busy'); whoosh();
   renderEx();
 }
@@ -1916,6 +1921,7 @@ function renderWords(){
 $('practiceBtn').onclick=()=>startCards();
 let F=null;
 function startCards(){
+  setBg('cbg');
   let q=dueWords();
   if(!q.length) q=Object.entries(S.cards).filter(([k])=>DICT[k]).sort((a,b)=>a[1].due-b[1].due).map(([w])=>w).slice(0,10);
   q=shuffle(q).slice(0,15);
@@ -2841,6 +2847,10 @@ function factoryBg(kind){
       <g transform="translate(400 520)"><rect width="150" height="12" rx="4" fill="#8a5a2b"/><rect x="14" y="12" width="10" height="98" fill="#5b6275"/><rect x="126" y="12" width="10" height="98" fill="#5b6275"/><rect x="40" y="-24" width="20" height="24" rx="4" fill="#fff"/><path d="M60 -18q10 0 10 8t-10 8" stroke="#fff" stroke-width="4" fill="none"/></g>`; }
   return `<svg viewBox="0 0 640 860" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${b}<rect width="640" height="860" fill="#ffffff" opacity=".26"/></svg>`;
 }
+/* fundo de fábrica sorteado para lições e cartões (nunca repete o anterior) */
+const BG_KINDS=['shop','shop2','floor','safety','warehouse','molds','quality','office','office2'];
+let lastBg='';
+function setBg(el){ try{ const opts=BG_KINDS.filter(k=>k!==lastBg); const k=opts[Math.floor(Math.random()*opts.length)]; lastBg=k; $(el).innerHTML=factoryBg(k); }catch(e){} }
 function startMission(id){
   const m=MISSIONS[id]||Object.values(MISSIONS).find(x=>x.id===id)||MISSION_FIRST;
   MI={m,i:-1,log:[],t0:Date.now(),errs:0};
@@ -3039,7 +3049,7 @@ applyStatic(); $('iPick').innerHTML=pickerHTML(); $('flagBtn').onclick=openCours
 buildScenes(); refillHearts(); goTab('path'); setTimeout(()=>prerender(),300);
 if(ME){ cloudRestore().then(b=>{ if(b){ refillHearts(); goTab(curTab); } else syncCloud(); }); }
 /* ===== ATUALIZAÇÃO AUTOMÁTICA: se existir uma versão nova no site, o app recarrega sozinho ===== */
-const APP_VER='20';
+const APP_VER='21';
 /* usa a pergunta "mudou?" do navegador: se nada mudou, o site responde vazio (quase não gasta dados) */
 let lastCheck=0;
 function checkUpdate(){
