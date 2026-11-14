@@ -547,6 +547,17 @@ b.prep{color:#0891b2;background:#cff7fe;border-radius:6px;padding:0 3px;font-wei
 .hpop-in{width:min(100%,420px);background:#fff;border-radius:22px;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.35);animation:pop .35s ease-out both}
 .hpop-in img{display:block;width:100%;height:auto}
 .hpop-in .btn{margin:14px;width:calc(100% - 28px)}
+/* missão: fundo de fábrica, Turbi menor, espaço para as pecinhas */
+#mission{background:#e9eef5}
+.mbg{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.mbg svg{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:max(100%,560px);height:100%}
+#mission .lhead,#mission .lbody{position:relative;z-index:1}
+#mbody{padding-bottom:calc(240px + env(safe-area-inset-bottom,0px))}
+#mtask{background:rgba(255,255,255,.92);border:2px solid #fff;border-radius:22px;padding:14px;box-shadow:0 6px 20px rgba(20,40,80,.12)}
+#mtask .sayrow .cat{width:72px;height:84px}
+#mtask .mturbi .say{font-size:15px}
+.cmsg .cbub{box-shadow:0 3px 10px rgba(20,40,80,.1)}
+#mtask .mend{padding:4px 0}
 @media (max-height:760px){.icat{height:17vh!important;width:calc(17vh * .86)!important}.ititle2{font-size:30px!important}.icover{max-width:250px;margin:0 auto;padding:8px 12px!important}.iwrap{gap:8px!important}.ibub{font-size:14px}.lchip{padding:6px 10px;font-size:14px}}
 </style>
 
@@ -599,6 +610,7 @@ b.prep{color:#0891b2;background:#cff7fe;border-radius:6px;padding:0 3px;font-wei
 
 <!-- MISSÃO DE DIÁLOGO -->
 <section class="lesson" id="mission" hidden>
+  <div class="mbg" id="mbg"></div>
   <div class="lhead">
     <button class="xbtn" id="mquit" aria-label="Sair">×</button>
     <div class="prog"><i id="mprog" style="width:0;background:var(--gold)"></i></div>
@@ -1431,13 +1443,16 @@ function speakRate(t,r,retry){ duck();
 function unlockSpeech(){ try{ const u=new SpeechSynthesisUtterance(' '); u.volume=0; u.lang=TTSL[TL()]; speechSynthesis.speak(u); }catch(e){} }
 const speak=t=>speakRate(t,.88);
 /* botão Devagar: fala palavra por palavra, com pausa entre elas e voz mais lenta */
-function speakSlow(t){ duck();
+function speakSlow(t,retry){ duck();
   try{ const ss=speechSynthesis, id=++SPK_N; clearTimeout(SPK_T);
     if(ss.speaking||ss.pending) ss.cancel(); if(ss.paused) ss.resume(); if(!VOICE) pickVoice();
     const words=String(t).split(/\s+/).filter(Boolean), parts=words.length>1?words:[t];
     setTimeout(()=>{ if(id!==SPK_N) return;
       SPK_U=parts.map(w=>{ const u=new SpeechSynthesisUtterance(w); u.lang=VOICE?VOICE.lang:TTSL[TL()]; u.rate=parts.length>1?.62:.42; u.volume=1; if(VOICE) u.voice=VOICE; return u; });
-      SPK_U.forEach(u=>ss.speak(u)); if(ss.paused) ss.resume(); },90);
+      let started=false; SPK_U[0].onstart=()=>{ started=true; };
+      SPK_U.forEach(u=>ss.speak(u)); if(ss.paused) ss.resume();
+      /* no iPhone a fila de falas às vezes trava: se não começar, tenta de novo uma vez */
+      SPK_T=setTimeout(()=>{ if(!started&&id===SPK_N&&!retry){ try{ ss.cancel(); }catch(e){} speakSlow(t,true); } },1300); },90);
   }catch(e){} }
 const SPK='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>';
 function remember(k){ S.cards=S.cards||{}; if(!S.cards[k]){ S.cards[k]={box:0,due:Date.now()}; save(); return true; } return false; }
@@ -2504,6 +2519,7 @@ const MT={
   noMic:L3('Este celular não deixa o app ouvir o microfone. Fale a frase em voz alta e toque no botão.','This phone does not let the app use the microphone. Say the sentence out loud and tap the button.','Este celular no deja que la app use el micrófono. Di la frase en voz alta y toca el botón.'),
   retryMic:L3('Quase! Tente de novo, devagar e claro.','Almost! Try again, slowly and clearly.','¡Casi! Inténtalo otra vez, despacio y claro.'),
   heard:L3('Eu ouvi:','I heard:','Escuché:'),
+  noNet:L3('Sem internet, o microfone não funciona. Fale a frase e toque no botão.','No internet: the microphone needs it. Say the sentence and tap the button.','Sin internet el micrófono no funciona. Di la frase y toca el botón.'),
   listen:L3('Ouvir','Listen','Escuchar'), slow:L3('Devagar','Slow','Despacio'),
   meaning:L3('Quer dizer:','It means:','Significa:'),
   useful:L3('Frase útil','Useful phrase','Frase útil'),
@@ -2771,11 +2787,65 @@ function missionCardOld(){
   return `<div class="mcardpath"><div class="mcp-av">${avatarSVG(avValid(SUP_AV)||SUP_AV)}</div><div class="mcp-txt"><small>${done?ICON.check+' '+mt('doneTag'):mt('tag')}</small><b>${mt('title')}</b><span>${mt('sub')}</span></div>
     <button class="btn gold" data-mission="first">${done?mt('again'):mt('go')}</button></div>`;
 }
+/* fundos de fábrica desenhados (um ambiente diferente para cada missão; leves, não gastam dados) */
+const MBG={U1:'shop',U2:'shop',UP:'shop2',U3:'floor',U4:'safety',U5:'warehouse',U6:'molds',U7:'quality',U8:'office',U28:'office2'};
+function fbBase(wall,floor,extraTop){
+  const truss=Array.from({length:8},(_,i)=>{const x=i*80;return `<path d="M${x} 70L${x+40} 30L${x+80} 70" stroke="#b9c4d4" stroke-width="4" fill="none"/>`;}).join('');
+  const lights=[90,250,410,570].map(x=>`<g><rect x="${x-4}" y="70" width="8" height="40" fill="#9aa6b8"/><path d="M${x-26} 110h52l-10 14h-32z" fill="#7d8ba0"/><ellipse cx="${x}" cy="126" rx="18" ry="4" fill="#fff8d6"/><path d="M${x-18} 128L${x-90} 520H${x+90}L${x+18} 128Z" fill="#fff8d6" opacity=".16"/></g>`).join('');
+  return `<rect width="640" height="860" fill="${wall}"/><rect width="640" height="80" fill="#cdd6e2"/>${truss}<rect y="68" width="640" height="6" fill="#aeb9c9"/>${extraTop||''}${lights}
+    <rect y="630" width="640" height="230" fill="${floor}"/><path d="M0 630h640" stroke="rgba(0,0,0,.12)" stroke-width="4"/><path d="M0 700h640M0 800h640" stroke="#ffd23f" stroke-width="8" stroke-dasharray="40 24"/>`;
+}
+const fbWins=(y)=>[60,200,340,480].map(x=>`<rect x="${x}" y="${y}" width="90" height="56" rx="4" fill="#cfe6ff" stroke="#b9c4d4" stroke-width="4"/><path d="M${x+45} ${y}v56M${x} ${y+28}h90" stroke="#b9c4d4" stroke-width="3"/>`).join('');
+const fbCrane=`<g><rect x="0" y="250" width="640" height="16" fill="#ffc93c"/><path d="M0 250h640M0 266h640" stroke="#e0a400" stroke-width="2"/><rect x="300" y="266" width="44" height="18" rx="3" fill="#e0a400"/><path d="M322 284v86" stroke="#5b6275" stroke-width="3"/><path d="M314 370h16v8q-8 14-16 4" stroke="#5b6275" stroke-width="4" fill="none"/></g>`;
+const fbForklift=(x,y,s)=>`<g transform="translate(${x} ${y}) scale(${s||1})"><rect x="0" y="20" width="90" height="50" rx="8" fill="#ff8a3d"/><rect x="18" y="-10" width="50" height="34" rx="6" fill="none" stroke="#5b6275" stroke-width="5"/><rect x="90" y="-40" width="8" height="110" fill="#5b6275"/><rect x="98" y="58" width="40" height="6" fill="#5b6275"/><circle cx="22" cy="74" r="14" fill="#2b2b33"/><circle cx="72" cy="74" r="14" fill="#2b2b33"/><circle cx="22" cy="74" r="5" fill="#9aa6b8"/><circle cx="72" cy="74" r="5" fill="#9aa6b8"/></g>`;
+const fbRack=(x,y,w,h,levels)=>{ let r=`<g><rect x="${x}" y="${y}" width="8" height="${h}" fill="#2a62b0"/><rect x="${x+w-8}" y="${y}" width="8" height="${h}" fill="#2a62b0"/>`;
+  const cols=['#c98d62','#d9a46d','#e9c46a','#b07a52'];
+  for(let i=1;i<=levels;i++){ const ly=y+i*h/levels; r+=`<rect x="${x}" y="${ly-6}" width="${w}" height="7" fill="#ff8a3d"/>`;
+    for(let b=0,bx=x+12;bx<x+w-30;b++){ const bw=24+((b*7+i*5)%3)*8, bh=20+((b+i)%3)*8; r+=`<rect x="${bx}" y="${ly-6-bh}" width="${bw}" height="${bh}" fill="${cols[(b+i)%4]}"/>`; bx+=bw+6; } }
+  return r+'</g>'; };
+const fbMold=(x,y,s)=>`<g transform="translate(${x} ${y}) scale(${s||1})"><path d="M0 120V60Q0 0 100 0H230Q300 0 300 60V120Z" fill="#f4f7fb" stroke="#c5cfdc" stroke-width="4"/><path d="M20 120V64Q20 22 100 22H228Q280 22 280 64V120" fill="none" stroke="#e1e7ef" stroke-width="3"/><rect x="20" y="120" width="16" height="40" fill="#5b6275"/><rect x="264" y="120" width="16" height="40" fill="#5b6275"/><rect x="-6" y="118" width="312" height="10" rx="3" fill="#7d8ba0"/><text x="150" y="80" font-family="Nunito,Arial,sans-serif" font-weight="900" font-size="22" fill="#c5cfdc" text-anchor="middle">NACELLE MOLD</text></g>`;
+const fbBench=(x,y)=>`<g transform="translate(${x} ${y})"><rect x="0" y="0" width="260" height="14" rx="3" fill="#8a5a2b"/><rect x="10" y="14" width="12" height="110" fill="#5b6275"/><rect x="238" y="14" width="12" height="110" fill="#5b6275"/><rect x="22" y="70" width="216" height="8" fill="#7d8ba0"/>
+  <rect x="30" y="-22" width="40" height="22" rx="4" fill="#3cc96a"/><rect x="70" y="-18" width="20" height="6" fill="#8a95a8"/><rect x="120" y="-12" width="60" height="12" rx="3" fill="#ffc93c"/><rect x="200" y="-30" width="40" height="30" rx="3" fill="#ff5a5f"/></g>`;
+const fbPeg=(x,y)=>{ let t=`<g transform="translate(${x} ${y})"><rect width="260" height="150" rx="6" fill="#d9b98a"/>`;
+  for(let i=0;i<12;i++) for(let j=0;j<7;j++) t+=`<circle cx="${12+i*21}" cy="${12+j*21}" r="2" fill="#b8956a"/>`;
+  t+=`<rect x="20" y="20" width="8" height="70" rx="3" fill="#8a95a8"/><circle cx="24" cy="20" r="10" fill="#8a95a8"/><rect x="60" y="24" width="10" height="60" rx="3" fill="#b8742a"/><rect x="48" y="18" width="34" height="12" rx="3" fill="#5b6275"/>
+    <path d="M110 24v60M104 24h12" stroke="#ff5a5f" stroke-width="7" stroke-linecap="round"/><path d="M150 22l20 60M190 22l-20 60" stroke="#2a62b0" stroke-width="6" stroke-linecap="round"/><rect x="210" y="30" width="30" height="30" rx="8" fill="#ffc93c"/><circle cx="225" cy="45" r="6" fill="#5b6275"/></g>`;
+  return t; };
+const fbSign=(x,y,txt,col)=>`<g transform="translate(${x} ${y})"><rect width="120" height="56" rx="6" fill="${col||'#2a62b0'}"/><text x="60" y="35" font-family="Nunito,Arial,sans-serif" font-weight="900" font-size="15" fill="#fff" text-anchor="middle">${txt}</text></g>`;
+const fbWarn=(x,y)=>`<g transform="translate(${x} ${y})"><path d="M30 0L60 52H0Z" fill="#ffd23f" stroke="#2b2b33" stroke-width="4"/><rect x="27" y="16" width="6" height="20" fill="#2b2b33"/><circle cx="30" cy="43" r="3.5" fill="#2b2b33"/></g>`;
+const fbDrum=(x,y,c)=>`<g transform="translate(${x} ${y})"><rect width="54" height="74" rx="6" fill="${c}"/><path d="M0 18h54M0 56h54" stroke="rgba(0,0,0,.2)" stroke-width="4"/><ellipse cx="27" cy="2" rx="27" ry="6" fill="rgba(255,255,255,.3)"/></g>`;
+function factoryBg(kind){
+  let b='', k=kind||'shop';
+  if(k==='shop'||k==='shop2'){ b=fbBase(k==='shop'?'#dfe6ef':'#e6e2d8','#b9c3cf',fbWins(150))+fbPeg(k==='shop'?110:280,300)+fbBench(k==='shop'?110:280,480)+fbRack(k==='shop'?400:20,330,200,290,3)+fbSign(k==='shop'?410:140,250,'TOOL ROOM','#2a62b0'); }
+  if(k==='floor'){ b=fbBase('#dde4ee','#aeb8c6',fbWins(150)+fbCrane)+fbRack(20,380,170,240,3)+fbRack(450,380,170,240,3)+fbForklift(250,560,1.2)+fbSign(260,300,'AISLE 3','#ff8a3d'); }
+  if(k==='safety'){ b=fbBase('#e3ebe6','#b9c3cf',fbWins(150))+fbSign(110,280,'SAFETY FIRST','#3cc96a')+fbWarn(245,282)+fbWarn(110,370)
+    +`<g transform="translate(330 290)"><rect width="200" height="180" rx="8" fill="#f4f7fb" stroke="#c5cfdc" stroke-width="4"/><text x="100" y="30" font-family="Nunito,Arial,sans-serif" font-weight="900" font-size="16" fill="#2a62b0" text-anchor="middle">PPE STATION</text>
+      <path d="M30 80C30 55 70 55 70 80Z" fill="#ffd23f"/><rect x="24" y="78" width="52" height="7" rx="3" fill="#e0b400"/><rect x="95" y="62" width="40" height="16" rx="8" fill="none" stroke="#5b6275" stroke-width="4"/><path d="M150 60h30v30h-30z" fill="#3d8bff"/>
+      <rect x="30" y="110" width="40" height="50" rx="6" fill="#ff5a5f"/><path d="M50 122v26M37 135h26" stroke="#fff" stroke-width="6"/></g>`
+    +`<g transform="translate(130 480)"><rect width="34" height="80" rx="10" fill="#ff3b30"/><rect x="8" y="-14" width="18" height="16" fill="#2b2b33"/></g>`+[200,270,480].map(x=>`<path d="M${x} 630l18-60 18 60z" fill="#ff8a3d"/><path d="M${x+8} 600h20" stroke="#fff" stroke-width="6"/>`).join(''); }
+  if(k==='warehouse'){ b=fbBase('#e2e6ec','#b9c3cf','')+fbRack(10,150,200,470,5)+fbRack(430,150,200,470,5)
+    +`<g transform="translate(225 300)"><rect width="190" height="140" rx="6" fill="#5b6275"/><rect x="14" y="14" width="162" height="80" rx="4" fill="#cfe6ff"/><text x="95" y="122" font-family="Nunito,Arial,sans-serif" font-weight="900" font-size="18" fill="#fff" text-anchor="middle">WAREHOUSE</text></g>
+      <rect x="225" y="440" width="190" height="20" fill="#8a5a2b"/>`+fbDrum(250,556,'#2a62b0')+fbDrum(320,556,'#3cc96a'); }
+  if(k==='molds'){ b=fbBase('#dfe6ef','#b4bfcc',fbWins(150)+fbCrane)+fbMold(200,440,.9)+fbDrum(110,556,'#2a62b0')+fbDrum(110,482,'#3cc96a')+fbDrum(50,556,'#ff8a3d')
+    +`<g transform="translate(470 520)"><rect width="110" height="90" rx="10" fill="#5b6275"/><circle cx="55" cy="40" r="22" fill="#e6ebf2" stroke="#2b2b33" stroke-width="4"/><path d="M55 40l12-12" stroke="#ff3b30" stroke-width="4"/><text x="55" y="82" font-family="Nunito,Arial,sans-serif" font-weight="900" font-size="12" fill="#fff" text-anchor="middle">VACUUM</text></g>
+      <path d="M470 560C450 560 480 600 470 600" stroke="#2b2b33" stroke-width="6" fill="none"/>`; }
+  if(k==='quality'){ b=fbBase('#e6ecf3','#c1cad6',fbWins(150))+fbSign(120,270,'QUALITY LAB','#2a62b0')
+    +`<g transform="translate(80 440)"><rect width="480" height="16" rx="4" fill="#e6ebf2" stroke="#c5cfdc" stroke-width="3"/><rect x="20" y="16" width="14" height="170" fill="#7d8ba0"/><rect x="446" y="16" width="14" height="170" fill="#7d8ba0"/>
+      <rect x="40" y="-90" width="140" height="90" rx="6" fill="#2b2b33"/><rect x="48" y="-82" width="124" height="66" fill="#2fb4ff"/><path d="M60 -40l20-14 20 8 20-20 30 16" stroke="#fff" stroke-width="4" fill="none"/>
+      <path d="M300 0V-90l60 -20" stroke="#5b6275" stroke-width="6" fill="none"/><path d="M340 -122h50l-10 20h-30z" fill="#ffc93c"/>
+      <rect x="360" y="-14" width="80" height="10" fill="#8a95a8"/><rect x="360" y="-30" width="10" height="26" fill="#8a95a8"/><rect x="390" y="-30" width="10" height="26" fill="#8a95a8"/></g>`; }
+  if(k==='office'||k==='office2'){ b=fbBase(k==='office'?'#e8e3f0':'#e3ecf2','#c1b8a8',fbWins(150))
+    +(k==='office'?`<g transform="translate(100 330)">${[0,1,2,3].map(i=>`<rect x="${i*52}" y="0" width="48" height="290" rx="4" fill="${i%2?'#3d8bff':'#2a62b0'}"/><rect x="${i*52+8}" y="20" width="32" height="6" fill="rgba(255,255,255,.5)"/><rect x="${i*52+8}" y="34" width="32" height="6" fill="rgba(255,255,255,.5)"/><rect x="${i*52+36}" y="140" width="6" height="22" fill="#e6ebf2"/>`).join('')}</g>`:`<g transform="translate(100 300)">${fbSign(0,0,'WELCOME!','#3cc96a').replace('<g transform="translate(0 0)">','<g>')}<rect x="0" y="150" width="170" height="110" rx="8" fill="#2a62b0"/><rect x="0" y="140" width="180" height="14" rx="4" fill="#8a5a2b"/><rect x="30" y="110" width="30" height="30" rx="4" fill="#e6ebf2"/><rect x="80" y="118" width="36" height="24" rx="3" fill="#ffc93c"/><text x="98" y="135" font-family="Nunito,Arial,sans-serif" font-weight="900" font-size="9" fill="#2b2b33" text-anchor="middle">BADGE</text></g>`)
+      +`<g transform="translate(300 330)"><rect width="90" height="120" rx="10" fill="#5b6275"/><rect x="12" y="14" width="66" height="40" rx="4" fill="#3cc96a"/><text x="45" y="40" font-family="Nunito,Arial,sans-serif" font-weight="900" font-size="16" fill="#fff" text-anchor="middle">7:00</text><rect x="20" y="70" width="50" height="34" rx="4" fill="#2b2b33"/><text x="45" y="-8" font-family="Nunito,Arial,sans-serif" font-weight="900" font-size="13" fill="#5b6275" text-anchor="middle">TIME CLOCK</text></g>
+      <g transform="translate(410 300)"><rect width="130" height="110" rx="6" fill="#c98d62"/><rect x="12" y="12" width="40" height="34" fill="#fff8d6"/><rect x="60" y="16" width="34" height="40" fill="#cfe6ff"/><rect x="100" y="12" width="38" height="30" fill="#ffd6e0"/><rect x="20" y="58" width="50" height="40" fill="#e6f7e6"/><circle cx="32" cy="14" r="4" fill="#ff3b30"/><circle cx="77" cy="18" r="4" fill="#2a62b0"/></g>
+      <g transform="translate(400 520)"><rect width="150" height="12" rx="4" fill="#8a5a2b"/><rect x="14" y="12" width="10" height="98" fill="#5b6275"/><rect x="126" y="12" width="10" height="98" fill="#5b6275"/><rect x="40" y="-24" width="20" height="24" rx="4" fill="#fff"/><path d="M60 -18q10 0 10 8t-10 8" stroke="#fff" stroke-width="4" fill="none"/></g>`; }
+  return `<svg viewBox="0 0 640 860" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${b}<rect width="640" height="860" fill="#ffffff" opacity=".26"/></svg>`;
+}
 function startMission(id){
   const m=MISSIONS[id]||Object.values(MISSIONS).find(x=>x.id===id)||MISSION_FIRST;
   MI={m,i:-1,log:[],t0:Date.now(),errs:0};
   $('mission').hidden=false; document.body.style.overflow='hidden'; document.body.classList.add('busy'); whoosh();
-  $('mchat').innerHTML=''; nextStep();
+  $('mchat').innerHTML=''; $('mbg').innerHTML=factoryBg(MBG[id]||MBG[m.id]||'shop'); nextStep();
 }
 function chatAdd(who,text,base){
   const ch=CHARS[(MI&&MI.m.who)||'mike']||CHARS.mike;
@@ -2875,25 +2945,52 @@ function stepWrong(s){
 /* reconhecimento de voz (quando o celular permite) */
 const SRec=window.SpeechRecognition||window.webkitSpeechRecognition||null;
 let MREC=null;
-const normW=t=>String(t).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9ñ' ]/g,' ').split(/\s+/).filter(Boolean);
+/* compara o que a pessoa falou com a frase: aceita contrações (I'll = I will) e números (7 = seven) */
+const NUMW={0:'zero',1:'one',2:'two',3:'three',4:'four',5:'five',6:'six',7:'seven',8:'eight',9:'nine',10:'ten',11:'eleven',12:'twelve',15:'fifteen',20:'twenty',30:'thirty',80:'eighty',100:'hundred'};
+const NUMPT={1:'um',2:'dois',3:'tres',4:'quatro',5:'cinco',6:'seis',7:'sete',8:'oito',9:'nove',10:'dez',80:'oitenta'};
+const NUMES={1:'uno',2:'dos',3:'tres',4:'cuatro',5:'cinco',6:'seis',7:'siete',8:'ocho',9:'nueve',10:'diez',80:'ochenta'};
+const CONTR={"i'll":'i will',"it's":'it is',"i'm":'i am',"don't":'do not',"can't":'cannot',"that's":'that is',"let's":'let us',"he's":'he is',"she's":'she is',"we're":'we are',"you're":'you are',"they're":'they are',"isn't":'is not',"won't":'will not',"what's":'what is',"where's":'where is',"o'clock":'oclock'};
+const normW=t=>{ let x=String(t).toLowerCase().replace(/[’`]/g,"'").normalize('NFD').replace(/[̀-ͯ]/g,'');
+  Object.keys(CONTR).forEach(c=>{ x=x.split(c).join(CONTR[c]); });
+  const nm=TL()==='pt'?NUMPT:TL()==='es'?NUMES:NUMW;
+  x=x.replace(/\d+/g,d=>nm[+d]||d).replace(/[^a-z0-9 ]/g,' ');
+  return x.split(/\s+/).filter(Boolean).map(w=>w==='ok'?'okay':w); };
+/* palavras "pequenas" contam menos: o importante é acertar as palavras principais */
+const STOPW=new Set('i you he she it we they me my your the a an is am are be to of in on at and or please do not so now too ok okay o a os as um uma de da do em no na eu voce e el la los las un una y yo tu es que me por favor'.split(' '));
+function micQuiet(on){ try{ if(!MUS.on||!MUS.bus) return; const t=ac.currentTime; MUS.bus.gain.cancelScheduledValues(t);
+  MUS.bus.gain.setTargetAtTime(on?.0001:Math.max(S.music.vol*MUSIC_GAIN,.001),t,.08); }catch(e){} }
+let MREC_T=null;
 function listenMic(tx){
-  if(!SRec){ $('mheard').textContent=mt('noMic'); return; }
+  const heard=$('mheard'); if(!heard) return;
+  if(!SRec){ heard.textContent=mt('noMic'); return; }
+  if(MREC){ try{ MREC._stop=true; MREC.stop(); }catch(e){} return; }   /* tocar de novo = parar de ouvir */
   try{ speechSynthesis.cancel(); }catch(e){}
-  try{ if(MREC) MREC.abort(); }catch(e){}
-  const r=new SRec(); MREC=r; r.lang=TTSL[TL()]; r.interimResults=false; r.maxAlternatives=4; r.continuous=false;
-  $('mmic').classList.add('on'); $('mmicT').textContent=mt('listening'); $('mheard').textContent='';
+  const stepAt=MI&&MI.i, r=new SRec(); MREC=r; r.lang=TTSL[TL()]; r.interimResults=false; r.maxAlternatives=5; r.continuous=false;
+  $('mmic').classList.add('on'); $('mmicT').textContent=mt('listening'); heard.textContent='';
+  micQuiet(true);
   let got=false;
-  r.onresult=e=>{ got=true; const want=normW(tx), alts=[...e.results[0]].map(a=>a.transcript);
-    const score=a=>{ const w=normW(a); return want.filter(x=>w.includes(x)).length/want.length; };
+  r.onresult=e=>{ if(r._stop&&r._manual) return; got=true; if(!MI||MI.i!==stepAt) return;
+    const want=normW(tx), alts=[...e.results[0]].map(a=>a.transcript);
+    const key=want.filter(x=>!STOPW.has(x));
+    const score=a=>{ const w=normW(a); if(!want.length) return 0; const all=want.filter(x=>w.includes(x)).length/want.length;
+      const imp=key.length?key.filter(x=>w.includes(x)).length/key.length:all; return Math.min(all,imp); };
     const best=alts.reduce((b,a)=>score(a)>score(b)?a:b,alts[0]||'');
-    $('mheard').innerHTML=`${mt('heard')} <b>"${esc(best)}"</b>`;
-    if(score(best)>=.6) speakOk(tx,false); else { $('mheard').innerHTML+=`<br>${mt('retryMic')}`; sBad(); } };
-  r.onerror=e=>{ if(e.error==='not-allowed'||e.error==='service-not-allowed') $('mheard').textContent=mt('noMic'); else if(!got) $('mheard').textContent=mt('retryMic'); };
-  r.onend=()=>{ MREC=null; if($('mmic')){ $('mmic').classList.remove('on'); $('mmicT').textContent=mt('tapTalk'); } };
-  try{ r.start(); }catch(e){ $('mheard').textContent=mt('noMic'); $('mmic').classList.remove('on'); }
+    if($('mheard')) $('mheard').innerHTML=`${mt('heard')} <b>"${esc(best)}"</b>`;
+    if(score(best)>=(want.length<=3?.66:.6)) speakOk(tx,false); else { if($('mheard')) $('mheard').innerHTML+=`<br>${mt('retryMic')}`; sBad(); } };
+  r.onerror=e=>{ if(r._manual||!$('mheard')) return;
+    if(e.error==='not-allowed'||e.error==='service-not-allowed'||e.error==='audio-capture') $('mheard').textContent=mt('noMic');
+    else if(e.error==='network') $('mheard').textContent=mt('noNet');
+    else if(!got) $('mheard').textContent=mt('retryMic'); };
+  r.onend=()=>{ clearTimeout(MREC_T); if(MREC===r) MREC=null; micQuiet(false);
+    if($('mmic')){ $('mmic').classList.remove('on'); $('mmicT').textContent=mt('tapTalk'); }
+    if(!got&&!r._manual&&$('mheard')&&!$('mheard').textContent) $('mheard').textContent=mt('retryMic'); };
+  /* se o celular não responder em 8 segundos, para de ouvir */
+  clearTimeout(MREC_T); MREC_T=setTimeout(()=>{ try{ if(MREC===r) r.stop(); }catch(e){} },8000);
+  try{ r.start(); }catch(e){ MREC=null; micQuiet(false); heard.textContent=mt('noMic'); $('mmic').classList.remove('on'); $('mmicT').textContent=mt('tapTalk'); }
 }
 function speakOk(tx,manual){
-  try{ if(MREC) MREC.abort(); }catch(e){}
+  if(!MI||MI.done_i===MI.i) return; MI.done_i=MI.i;
+  clearTimeout(MREC_T); try{ if(MREC){ MREC._manual=true; MREC.abort(); } }catch(e){} MREC=null; micQuiet(false);
   chatAdd('me',tx); stepRight(MI.m.steps[MI.i]);
 }
 function finishMission(){
@@ -2916,7 +3013,7 @@ function finishMission(){
   $('mprog').style.width='100%'; $('mbody').scrollTop=0;
 }
 function exitMission(){
-  try{ if(MREC) MREC.abort(); }catch(e){} try{ speechSynthesis.cancel(); }catch(e){}
+  clearTimeout(MREC_T); try{ if(MREC){ MREC._manual=true; MREC.abort(); } }catch(e){} MREC=null; micQuiet(false); try{ speechSynthesis.cancel(); }catch(e){}
   MI=null; $('mission').hidden=true; document.body.style.overflow=''; document.body.classList.remove('busy'); renderTab();
 }
 $('mtask').onclick=e=>{
@@ -2942,7 +3039,7 @@ applyStatic(); $('iPick').innerHTML=pickerHTML(); $('flagBtn').onclick=openCours
 buildScenes(); refillHearts(); goTab('path'); setTimeout(()=>prerender(),300);
 if(ME){ cloudRestore().then(b=>{ if(b){ refillHearts(); goTab(curTab); } else syncCloud(); }); }
 /* ===== ATUALIZAÇÃO AUTOMÁTICA: se existir uma versão nova no site, o app recarrega sozinho ===== */
-const APP_VER='19';
+const APP_VER='20';
 /* usa a pergunta "mudou?" do navegador: se nada mudou, o site responde vazio (quase não gasta dados) */
 let lastCheck=0;
 function checkUpdate(){
