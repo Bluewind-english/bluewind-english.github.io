@@ -3002,9 +3002,9 @@ MB2:{id:'MB2',who:'jake',title:L3('Aula 2 · Frases-molde','Lesson 2 · Sentence
 MB3:{id:'MB3',who:'jake',title:L3('Aula 3 · Regrinhas','Lesson 3 · Quick rules','Clase 3 · Reglitas'),sub:L3('Como fazer perguntas e dizer onde as coisas estão.','How to ask questions and say where things are.','Cómo hacer preguntas y decir dónde están las cosas.'),steps:[
   {t:'turbi',say:L3('Só duas regrinhas hoje, as que mais aparecem na fábrica. Nada de decorar: veja, ouça e use!','Just two rules today, the ones you hear most at the plant. No memorizing: see, listen and use!','Solo dos reglitas hoy, las que más se oyen en la fábrica. Nada de memorizar: mira, escucha y úsalas.')},
   {t:'rule',rule:'questions'},
-  {t:'reply',onlyTL:'en',opts:[X3('Where is the hammer?','Where is the hammer?','Where is the hammer?'),X3('Where the hammer is?','Where the hammer is?','Where the hammer is?'),X3('Where hammer?','Where hammer?','Where hammer?')],
+  {t:'reply',onlyTL:'en',noChat:true,ask:L3('Qual é o jeito certo de perguntar <b>"Onde está o martelo?"</b>','Which is the correct way to ask where the hammer is?','¿Cuál es la forma correcta de preguntar <b>"¿Dónde está el martillo?"</b>?'),opts:[X3('Where is the hammer?','Where is the hammer?','Where is the hammer?'),X3('Where the hammer is?','Where the hammer is?','Where the hammer is?'),X3('Where hammer?','Where hammer?','Where hammer?')],
     why:[null,L3('Na pergunta, o IS vem antes: Where IS the hammer?','In a question, IS comes first: Where IS the hammer?','En la pregunta, IS va antes: Where IS the hammer?'),L3('Faltou o verbo IS: Where IS the hammer?','The verb IS is missing: Where IS the hammer?','Falta el verbo IS: Where IS the hammer?')]},
-  {t:'reply',onlyTL:'en',opts:[X3('Can you pass me the wrench?','Can you pass me the wrench?','Can you pass me the wrench?'),X3('You can pass me the wrench?','You can pass me the wrench?','You can pass me the wrench?'),X3('Pass you me the wrench?','Pass you me the wrench?','Pass you me the wrench?')],
+  {t:'reply',onlyTL:'en',noChat:true,ask:L3('Qual é o jeito certo de pedir <b>"Você pode me passar a chave?"</b>','Which is the correct way to ask for the wrench?','¿Cuál es la forma correcta de pedir <b>"¿Me pasas la llave?"</b>?'),opts:[X3('Can you pass me the wrench?','Can you pass me the wrench?','Can you pass me the wrench?'),X3('You can pass me the wrench?','You can pass me the wrench?','You can pass me the wrench?'),X3('Pass you me the wrench?','Pass you me the wrench?','Pass you me the wrench?')],
     why:[null,L3('Para pedir, o CAN vem antes: CAN you pass me...?','To ask, CAN comes first: CAN you pass me...?','Para pedir, CAN va antes: CAN you pass me...?'),L3('A ordem certa é: Can you pass me...?','The right order is: Can you pass me...?','El orden correcto es: Can you pass me...?')]},
   {t:'speak',ans:X3('Where is the level?','Onde está o nível?','¿Dónde está el nivel?')},
   {t:'rule',rule:'places'},
@@ -3137,7 +3137,7 @@ function nextStep(){
     mFoot(`<button class="btn" id="mgo" disabled>${mt('check')}</button>`); $('mgo').onclick=checkStep;
   } else if(s.t==='reply'){
     MI.order=shuffle(s.opts.map((o,k)=>k));
-    h=turbiRow(mt('qReply'),'think')+`<div class="opts">${MI.order.map(k=>`<button class="opt wide mopt" data-k="${k}"><span class="spk mini">${SPK}</span>${esc(mx(s.opts[k]))}</button>`).join('')}</div>`;
+    h=turbiRow(s.ask?avL(s.ask):mt('qReply'),'think')+`<div class="opts">${MI.order.map(k=>`<button class="opt wide mopt" data-k="${k}"><span class="spk mini">${SPK}</span>${esc(mx(s.opts[k]))}</button>`).join('')}</div>`;
     task.innerHTML=h; mFoot(`<button class="btn" id="mgo" disabled>${mt('check')}</button>`); $('mgo').onclick=checkStep;
   } else if(s.t==='build'){
     const words=mx(s.ans).split(' '); MI.words=words; MI.placed=[];
@@ -3216,7 +3216,7 @@ function chunkTip(s){
   return h; }
 function stepRight(s){
   sGood(1); const sp=$('mCatT'); if(sp){ setCat(sp,'happy'); sp.classList.add('party'); burst(sp); }
-  if(s.t==='reply'||s.t==='pic'){ chatAdd('me',mx(s.opts[0])); supSay(mx(s.opts[0])); }
+  if(s.t==='reply'||s.t==='pic'){ if(!s.noChat) chatAdd('me',mx(s.opts[0])); supSay(mx(s.opts[0])); }
   if(s.t==='build'){ chatAdd('me',mx(s.ans)); supSay(mx(s.ans)); }
   if(s.t==='frame'){ const f=frameFill(s.f,TL(),s.tool); chatAdd('me',f); supSay(f); }
   if(s.t==='hear'||s.t==='speak') { /* nada a acrescentar no chat */ }
@@ -3343,7 +3343,7 @@ applyStatic(); $('iPick').innerHTML=pickerHTML(); $('flagBtn').onclick=openCours
 buildScenes(); refillHearts(); goTab('path'); setTimeout(()=>prerender(),300);
 if(ME){ cloudRestore().then(b=>{ if(b){ refillHearts(); goTab(curTab); } else syncCloud(); }); }
 /* ===== ATUALIZAÇÃO AUTOMÁTICA: se existir uma versão nova no site, o app recarrega sozinho ===== */
-const APP_VER='24';
+const APP_VER='25';
 /* usa a pergunta "mudou?" do navegador: se nada mudou, o site responde vazio (quase não gasta dados) */
 let lastCheck=0;
 function checkUpdate(){
