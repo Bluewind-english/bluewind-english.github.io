@@ -550,7 +550,9 @@ b.prep{color:#0891b2;background:#cff7fe;border-radius:6px;padding:0 3px;font-wei
 /* missão: fundo de fábrica, Turbi menor, espaço para as pecinhas */
 #mission,#lesson,#cards{background:#e9eef5}
 #lesson .lhead,#lesson .lbody,#cards .lhead,#cards .lbody{position:relative;z-index:1}
-.mbg.soft::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,.4)}
+.mbg::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,.62)}
+.mbg.soft::after{background:rgba(255,255,255,.74)}
+.mbg svg{filter:saturate(.6)}
 .mbg{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .mbg svg{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:max(100%,560px);height:100%}
 #mission .lhead,#mission .lbody{position:relative;z-index:1}
@@ -2845,7 +2847,8 @@ function factoryBg(kind){
       +`<g transform="translate(300 330)"><rect width="90" height="120" rx="10" fill="#5b6275"/><rect x="12" y="14" width="66" height="40" rx="4" fill="#3cc96a"/><text x="45" y="40" font-family="Nunito,Arial,sans-serif" font-weight="900" font-size="16" fill="#fff" text-anchor="middle">7:00</text><rect x="20" y="70" width="50" height="34" rx="4" fill="#2b2b33"/><text x="45" y="-8" font-family="Nunito,Arial,sans-serif" font-weight="900" font-size="13" fill="#5b6275" text-anchor="middle">TIME CLOCK</text></g>
       <g transform="translate(410 300)"><rect width="130" height="110" rx="6" fill="#c98d62"/><rect x="12" y="12" width="40" height="34" fill="#fff8d6"/><rect x="60" y="16" width="34" height="40" fill="#cfe6ff"/><rect x="100" y="12" width="38" height="30" fill="#ffd6e0"/><rect x="20" y="58" width="50" height="40" fill="#e6f7e6"/><circle cx="32" cy="14" r="4" fill="#ff3b30"/><circle cx="77" cy="18" r="4" fill="#2a62b0"/></g>
       <g transform="translate(400 520)"><rect width="150" height="12" rx="4" fill="#8a5a2b"/><rect x="14" y="12" width="10" height="98" fill="#5b6275"/><rect x="126" y="12" width="10" height="98" fill="#5b6275"/><rect x="40" y="-24" width="20" height="24" rx="4" fill="#fff"/><path d="M60 -18q10 0 10 8t-10 8" stroke="#fff" stroke-width="4" fill="none"/></g>`; }
-  return `<svg viewBox="0 0 640 860" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${b}<rect width="640" height="860" fill="#ffffff" opacity=".26"/></svg>`;
+  b=b.replace(/<text[^>]*>[^<]*<\/text>/g,'');   /* sem letras no fundo, para não confundir com as palavras */
+  return `<svg viewBox="0 0 640 860" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${b}</svg>`;
 }
 /* fundo de fábrica sorteado para lições e cartões (nunca repete o anterior) */
 const BG_KINDS=['shop','shop2','floor','safety','warehouse','molds','quality','office','office2'];
@@ -3049,7 +3052,7 @@ applyStatic(); $('iPick').innerHTML=pickerHTML(); $('flagBtn').onclick=openCours
 buildScenes(); refillHearts(); goTab('path'); setTimeout(()=>prerender(),300);
 if(ME){ cloudRestore().then(b=>{ if(b){ refillHearts(); goTab(curTab); } else syncCloud(); }); }
 /* ===== ATUALIZAÇÃO AUTOMÁTICA: se existir uma versão nova no site, o app recarrega sozinho ===== */
-const APP_VER='21';
+const APP_VER='22';
 /* usa a pergunta "mudou?" do navegador: se nada mudou, o site responde vazio (quase não gasta dados) */
 let lastCheck=0;
 function checkUpdate(){
