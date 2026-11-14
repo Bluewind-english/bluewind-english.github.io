@@ -562,6 +562,57 @@ b.prep{color:#0891b2;background:#cff7fe;border-radius:6px;padding:0 3px;font-wei
 #mtask .mturbi .say{font-size:15px}
 .cmsg .cbub{box-shadow:0 3px 10px rgba(20,40,80,.1)}
 #mtask .mend{padding:4px 0}
+.mbcard{margin:4px 0 22px;padding:16px;border-radius:22px;background:linear-gradient(135deg,#0b3d91,#2a62b0);color:#fff;box-shadow:0 5px 0 #082c6a;display:grid;gap:8px}
+.mbcard>small{font-size:11px;font-weight:900;letter-spacing:1.2px;color:#d4f531}
+.mbcard>b{font-family:var(--display);font-weight:400;font-size:26px;line-height:1}
+.mbr{font-size:13px;font-weight:700;opacity:.92;line-height:1.35}
+.mbprog{height:10px;border-radius:6px;background:rgba(255,255,255,.2);overflow:hidden}.mbprog i{display:block;height:100%;background:#d4f531;border-radius:6px}
+.mbrow{display:grid;grid-template-columns:32px 1fr auto;gap:10px;align-items:center;background:rgba(255,255,255,.1);border-radius:14px;padding:8px 10px}
+.mbrow.done{background:rgba(212,245,49,.16)}
+.mbn{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#fff;color:#0b3d91;font-weight:900}.mbn svg{width:18px;height:18px}
+.mbrow.done .mbn{background:#d4f531}
+.mbt{display:grid;gap:1px;min-width:0;text-align:left}.mbt b{font-size:15px}.mbt small{font-size:12px;opacity:.85;font-weight:700}
+.mbgo{width:auto!important;padding:10px 14px!important;font-size:13px!important;margin:0!important}
+.mbrow .btn.ghost{background:transparent!important;color:#fff!important;border:2px solid rgba(255,255,255,.7)!important;box-shadow:none!important}
+.radio{background:#0f2747;border-radius:18px;padding:12px;color:#fff;display:grid;gap:10px}
+.rhead{display:flex;flex-direction:column;gap:2px}.rhead b{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#d4f531}.rhead span{font-weight:800;font-size:15px}
+.rlines{display:grid;gap:8px}
+.rl{position:relative;background:rgba(255,255,255,.1);border-radius:12px;padding:8px 40px 8px 10px;display:grid;gap:2px;transition:background .2s,transform .2s}
+.rl small{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.6px;color:#8fc3ff}.rl.jake small{color:#ffc93c}
+.rl span{font-weight:800;font-size:15px;line-height:1.3}.rl em{font-style:normal;font-size:12.5px;opacity:.75}
+.rl .rlp{position:absolute;right:6px;top:8px}
+.rl.on{background:rgba(212,245,49,.25);transform:scale(1.02)}
+.rlines.hide .rl span{filter:blur(6px);user-select:none}
+.radio .mlisten{justify-content:center}.radio .slow{background:#fff;color:#0f2747}
+.rcount{margin:0;text-align:center;color:#cfe0ff!important;font-weight:800}
+.fline{font-size:22px;font-weight:900;text-align:center;color:var(--ink);padding:8px 4px}
+.blank{display:inline-block;min-width:80px;border-bottom:4px solid var(--blue);color:transparent}
+.rulecard{gap:8px}.rex{display:flex;gap:10px;align-items:center}.rex small{font-weight:700;color:var(--muted)}
+.bz{display:grid;gap:12px}.bzbar{height:12px;border-radius:7px;background:#e3e9f2;overflow:hidden}.bzbar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#ff5a5f,#ffc93c,#3cc96a);transition:width .2s linear}
+.bzsc{text-align:center;font-weight:800;color:var(--muted)}.bzsc b{font-size:30px;color:var(--good-d)}
+.bzq{text-align:center;font-size:19px;font-weight:900;color:var(--ink);min-height:48px}
+.bzo.bzok{background:var(--good-bg)!important;border-color:var(--good)!important}.bzo.bzno{background:#ffe3e3!important;border-color:var(--bad)!important}
+.lvlin{padding:18px 16px 16px;display:grid;gap:12px;justify-items:center;text-align:center}
+.lvlin h3{margin:0;font-family:var(--display);font-weight:400;font-size:26px;color:var(--ink)}
+#lvlCat{width:90px;height:105px}
+.lvlopts{display:grid;gap:10px;width:100%}
+.lvlo{display:grid;grid-template-columns:44px 1fr;align-items:center;gap:10px;text-align:left;padding:12px 14px;border-radius:16px;border:2px solid var(--line);border-bottom-width:4px;background:#fff;font-weight:900;font-size:17px;color:var(--ink)}
+.lvlo i{font-style:normal;display:grid;place-items:center}
+.lvt{width:44px;height:52px}.lvr{transform-origin:24px 24px;animation:lvspin var(--sp) linear infinite}
+@keyframes lvspin{to{transform:rotate(360deg)}}
+.lvw{display:block;font-style:normal;font-size:11px;font-weight:900;letter-spacing:1px;text-transform:uppercase;color:var(--blue)}.lvlo small{display:block;font-size:13px;font-weight:700;color:var(--muted)}
+.mbrow.lock{opacity:.75}.mbrow.lock .mbn{background:rgba(255,255,255,.35);color:#fff}
+.mblock{font-size:12px;font-weight:800;color:#d4f531;max-width:110px;text-align:right;line-height:1.2}
+.rlines.notr .rl em{display:none}
+.mbunit .ubanner{background:linear-gradient(135deg,#ff8a3d,#ffb020)}
+.mbunit .ubanner small{color:#fff;opacity:1}
+.node.mbnode svg{width:40px;height:40px}
+.mbunit .nodes{gap:44px}
+.nlabel{display:block;margin-top:6px;text-align:center;font-size:12px;font-weight:900;color:var(--ud);background:#fff;border-radius:10px;padding:3px 8px;box-shadow:0 2px 0 rgba(0,0,0,.08);white-space:nowrap}
+.nodewrap.locked .nlabel{color:var(--muted)}
+.qbar{display:flex;align-items:center;gap:10px;background:#eef4ff;border:2px solid #cfe0ff;border-radius:16px;padding:8px 10px}
+.qbar b{flex:1;font-size:17px;line-height:1.25;color:var(--ink)}
+.qbar .spk{flex:none}.qbar .slow{flex:none;width:auto;height:auto;padding:8px 10px;font-size:12px}
 @media (max-height:760px){.icat{height:17vh!important;width:calc(17vh * .86)!important}.ititle2{font-size:30px!important}.icover{max-width:250px;margin:0 auto;padding:8px 12px!important}.iwrap{gap:8px!important}.ibub{font-size:14px}.lchip{padding:6px 10px;font-size:14px}}
 </style>
 
@@ -642,6 +693,7 @@ b.prep{color:#0891b2;background:#cff7fe;border-radius:6px;padding:0 3px;font-wei
   </div>
 </section>
 
+<div class="hpop" id="lvlPop" hidden><div class="hpop-in lvlin"><div class="cat happy" id="lvlCat"></div><h3 id="lvlQ"></h3><div class="lvlopts" id="lvlOpts"></div></div></div>
 <div class="modal" id="modal" hidden><div class="mcard" id="mcard"></div></div>
 <div class="wpop" id="wpop" hidden><div class="wcard" id="wpopIn" role="dialog" aria-label="Palavra"></div></div>
 <canvas class="confetti" id="confetti"></canvas>
@@ -1434,7 +1486,9 @@ if(canSpeak){ pickVoice(); try{ speechSynthesis.onvoiceschanged=pickVoice; }catc
 /* a voz precisa começar no mesmo instante do toque (exigência do iPhone) */
 /* guarda a fala atual (no iPhone ela some da memória e trava a próxima), e tenta de novo se não começar */
 let SPK_U=null, SPK_T=null, SPK_N=0;
-function speakRate(t,r,retry){ duck();
+/* "I" sozinho o celular lê como número romano (one/first): falamos "i" minúsculo, que soa "ái" */
+const ttsFix=t=>TL()==='en'&&/^\s*I\s*[.!?,]?\s*$/.test(String(t))?'i':t;
+function speakRate(t,r,retry){ t=ttsFix(t); duck();
   try{ const ss=speechSynthesis, id=++SPK_N;
     if(ss.paused) ss.resume();
     if(!VOICE) pickVoice();
@@ -1454,7 +1508,7 @@ function speakSlow(t,retry){ duck();
     if(ss.speaking||ss.pending) ss.cancel(); if(ss.paused) ss.resume(); if(!VOICE) pickVoice();
     const words=String(t).split(/\s+/).filter(Boolean), parts=words.length>1?words:[t];
     setTimeout(()=>{ if(id!==SPK_N) return;
-      SPK_U=parts.map(w=>{ const u=new SpeechSynthesisUtterance(w); u.lang=VOICE?VOICE.lang:TTSL[TL()]; u.rate=parts.length>1?.62:.42; u.volume=1; if(VOICE) u.voice=VOICE; return u; });
+      SPK_U=parts.map(w=>{ const u=new SpeechSynthesisUtterance(ttsFix(w)); u.lang=VOICE?VOICE.lang:TTSL[TL()]; u.rate=parts.length>1?.62:.42; u.volume=1; if(VOICE) u.voice=VOICE; return u; });
       let started=false; SPK_U[0].onstart=()=>{ started=true; };
       SPK_U.forEach(u=>ss.speak(u)); if(ss.paused) ss.resume();
       /* no iPhone a fila de falas às vezes trava: se não começar, tenta de novo uma vez */
@@ -1513,6 +1567,7 @@ function hint(raw,noT=false,isId=false){
 }
 
 /* ================= ÍCONES ================= */
+const LOCKI='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 10V7a5 5 0 0 1 10 0v3h1a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1zm2 0h6V7a3 3 0 0 0-6 0z"/></svg>';
 const MICON='<svg viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M4 4h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H10l-5 4v-4H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zM7 9a1.5 1.5 0 1 0 0 3a1.5 1.5 0 1 0 0-3zm5 0a1.5 1.5 0 1 0 0 3a1.5 1.5 0 1 0 0-3zm5 0a1.5 1.5 0 1 0 0 3a1.5 1.5 0 1 0 0-3z"/></svg>';
 const ICON={
   star:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.2l-5.9 3.2 1.3-6.5L2.5 9.3l6.6-.8z"/></svg>',
@@ -1617,6 +1672,7 @@ function renderPath(){
         ${openNode===id?(st==='locked'?`<div class="popover locked"><b>${mt('mission')}: ${avL(MS.title)}</b><span>${mt('mLocked')}</span></div>`
           :`<div class="popover"><b>${mt('mission')}: ${avL(MS.title)}</b><span>${avL(MS.sub)}</span><button class="btn" data-mission="${u.s}">${done?mt('again'):mt('go')}</button></div>`):''}</div>`; }
     h+=`</div></div>`;
+    if(u.s==='U1'&&typeof methodCard==='function') h+=methodCard();
   });
   $('tab-path').innerHTML=h; watchScenes();
   $('tab-path').querySelectorAll('.pathcat').forEach(el=>el.innerHTML=catSVG('idle'));
@@ -1624,6 +1680,8 @@ function renderPath(){
 $('tab-path').onclick=e=>{
   const mb_=e.target.closest('[data-mission]');
   if(mb_){ sTap(); openNode=null; renderPath(); startMission(mb_.dataset.mission); return; }
+  const bn=e.target.closest('[data-bnode]');
+  if(bn){ sTap(); const id='B|'+bn.dataset.bnode; openNode=openNode===id?null:id; renderPath(); return; }
   const mn=e.target.closest('[data-mnode]');
   if(mn){ sTap(); const id='M|'+mn.dataset.mnode; openNode=openNode===id?null:id; renderPath(); return; }
   const sb=e.target.closest('[data-start]');
@@ -2781,10 +2839,10 @@ const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'
 /* voz do Turbi: na língua da pessoa, aguda e animada (voz infantil) */
 function voiceFor(l){ try{ const v=speechSynthesis.getVoices(), L0=TTSL[l], pre=L0.slice(0,2), nl=s=>String(s).replace('_','-');
   return v.find(x=>nl(x.lang)===L0&&/Premium|Enhanced|Aprimorad|Mejorad|Natural|Neural/i.test(x.name))||v.find(x=>nl(x.lang)===L0&&/Samantha|Google|Aria|Jenny|Ava|Luciana|Paulina|Francisca|Monica|Joana/.test(x.name))||v.find(x=>nl(x.lang)===L0)||v.find(x=>x.lang.startsWith(pre))||null; }catch(e){ return null; } }
-function turbiSay(t){ if(!canSpeak) return; duck();
+function turbiSay(t){ if(!canSpeak||!t||String(t).length>32) return; duck();
   try{ const ss=speechSynthesis, id=++SPK_N; clearTimeout(SPK_T);
     const go=()=>{ if(id!==SPK_N) return; const u=new SpeechSynthesisUtterance(t), v=voiceFor(BL());
-      u.lang=v?v.lang:TTSL[BL()]; if(v) u.voice=v; u.pitch=1.3; u.rate=1.08; u.volume=1; SPK_U=u; ss.speak(u); if(ss.paused) ss.resume(); };
+      u.lang=v?v.lang:TTSL[BL()]; if(v) u.voice=v; u.pitch=1; u.rate=1; u.volume=1; SPK_U=u; ss.speak(u); if(ss.paused) ss.resume(); };
     if(ss.speaking||ss.pending){ ss.cancel(); setTimeout(go,90); } else go();
   }catch(e){} }
 const supSay=t=>{ if(canSpeak) speakRate(t,.85); };
@@ -2854,8 +2912,194 @@ function factoryBg(kind){
 const BG_KINDS=['shop','shop2','floor','safety','warehouse','molds','quality','office','office2'];
 let lastBg='';
 function setBg(el){ try{ const opts=BG_KINDS.filter(k=>k!==lastBg); const k=opts[Math.floor(Math.random()*opts.length)]; lastBg=k; $(el).innerHTML=factoryBg(k); }catch(e){} }
+/* ================= MÉTODO BLUEWIND (teste na unidade Ferramentas) =================
+   Ouvir muito (Rádio da Fábrica) · frases-molde · regrinhas · velocidade (desafio-relâmpago) · falar */
+Object.assign(MT,{
+  radio:L3('Rádio da Fábrica','Factory Radio','Radio de la Fábrica'),
+  playAll:L3('Ouvir a conversa','Play the talk','Escuchar la plática'),
+  heardN:L3('Você ouviu {n}x','You listened {n}x','Escuchaste {n}x'),
+  listenFirst:L3('Ouça a conversa inteira para continuar','Listen to the whole talk to continue','Escucha toda la plática para continuar'),
+  qFrame:L3('Como se diz:','How do you say:','¿Cómo se dice?:'),
+  ruleTitle:L3('Regrinha rápida!','Quick rule!','¡Reglita rápida!'),
+  rightAns:L3('A resposta certa é:','The right answer is:','La respuesta correcta es:'),
+  bzPts:L3('acertos','correct','aciertos'), bzRun:L3('Valendo! Responda rápido','Go! Answer fast','¡Ya! Responde rápido'),
+  bzEnd:L3('Tempo esgotado!','Time is up!','¡Se acabó el tiempo!'), bzBest:L3('Seu recorde','Your best','Tu récord'),
+  bzScore:L3('Você acertou','You got','Acertaste'),
+  mbTag:L3('NOVO MÉTODO · TESTE','NEW METHOD · TEST','NUEVO MÉTODO · PRUEBA'),
+  mbTitle:L3('Método BlueWind: Ferramentas','BlueWind Method: Tools','Método BlueWind: Herramientas'),
+  mbRoutine:L3('Rotina de 15 min por dia: 5 min de revisão, 5 min de aula nova e 5 min falando em voz alta.','15-minute daily routine: 5 min review, 5 min new lesson, 5 min speaking out loud.','Rutina de 15 min al día: 5 min de repaso, 5 min de clase nueva y 5 min hablando en voz alta.'),
+  start:L3('Começar','Start','Empezar'), redo:L3('Refazer','Redo','Repetir'),
+});
+const TOOLS={
+  hammer:{en:'hammer',pt:'o martelo',es:'el martillo'}, wrench:{en:'wrench',pt:'a chave',es:'la llave'},
+  pliers:{en:'pliers',pt:'o alicate',es:'las pinzas'}, tape:{en:'tape measure',pt:'a trena',es:'la cinta métrica'},
+  level:{en:'level',pt:'o nível',es:'el nivel'}, ladder:{en:'ladder',pt:'a escada',es:'la escalera'},
+  screwdriver:{en:'screwdriver',pt:'a chave de fenda',es:'el destornillador'}, flashlight:{en:'flashlight',pt:'a lanterna',es:'la linterna'},
+  knife:{en:'utility knife',pt:'o estilete',es:'el cúter'}, clamp:{en:'clamp',pt:'o grampo',es:'la prensa'},
+};
+const FR_PASS=X3('Can you pass me the ___?','Você pode me passar ___?','¿Me pasas ___?');
+const FR_WHERE=X3('Where is the ___?','Onde está ___?','¿Dónde está ___?');
+const FR_BRING=X3('Bring me the ___, please.','Me traz ___, por favor.','Tráeme ___, por favor.');
+const frameFill=(f,l,k)=>f[l].replace('___',TOOLS[k][l]);
+const frameChunk=f=>({en:f.en.replace('___','...'),pt:f.pt.replace('___','...'),es:f.es.replace('___','...')});
+CHARS.mike.pitch=.85; CHARS.jake.pitch=1.15;
+const RADIO={
+  tools:{title:L3('Episódio 1: Cadê a trena?','Episode 1: Where is the tape measure?','Episodio 1: ¿Dónde está la cinta métrica?'),lines:[
+    {who:'mike',t:X3('Good morning, Jake! Can you help me with the mold?','Bom dia, Jake! Você pode me ajudar com o molde?','¡Buenos días, Jake! ¿Me ayudas con el molde?')},
+    {who:'jake',t:X3('Sure! What do you need?','Claro! Do que você precisa?','¡Claro! ¿Qué necesitas?')},
+    {who:'mike',t:X3('I need the level and a tape measure.','Eu preciso do nível e de uma trena.','Necesito el nivel y una cinta métrica.')},
+    {who:'jake',t:X3('The level is on the workbench. Where is the tape measure?','O nível está em cima da bancada. Onde está a trena?','El nivel está encima del banco de trabajo. ¿Dónde está la cinta métrica?')},
+    {who:'mike',t:X3('It\'s in the red toolbox, under the table.','Está na caixa de ferramentas vermelha, embaixo da mesa.','Está en la caja de herramientas roja, debajo de la mesa.')},
+    {who:'jake',t:X3('Got it. Can you pass me the hammer, too?','Entendi. Você pode me passar o martelo também?','Entendido. ¿Me pasas el martillo también?')},
+    {who:'mike',t:X3('Here you go. Be careful with the utility knife!','Aqui está. Cuidado com o estilete!','Aquí tienes. ¡Cuidado con el cúter!')},
+    {who:'jake',t:X3('Thanks! See you at lunch.','Valeu! Até o almoço.','¡Gracias! Nos vemos en la comida.')},
+  ],chunks:[X3('Can you help me with...?','Você pode me ajudar com...?','¿Me ayudas con...?'),X3('What do you need?','Do que você precisa?','¿Qué necesitas?'),
+    X3('on the workbench','em cima da bancada','encima del banco de trabajo'),X3('under the table','embaixo da mesa','debajo de la mesa'),
+    X3('Here you go','Aqui está','Aquí tienes'),X3('Be careful with...','Cuidado com...','Cuidado con...'),X3('See you at lunch','Até o almoço','Nos vemos en la comida')]}
+};
+const BW_RULES={
+  questions:{
+    en:{txt:L3('Para perguntar em inglês, o verbo vem <b>antes</b>: <b>Where is</b> the hammer? (e não "Where the hammer is?"). Para pedir algo: <b>Can you</b> + ação? → Can you pass me...?','In English questions the verb comes <b>first</b>: <b>Where is</b> the hammer? (not "Where the hammer is?"). To ask for something: <b>Can you</b> + action? → Can you pass me...?','Para preguntar en inglés, el verbo va <b>antes</b>: <b>Where is</b> the hammer? (y no "Where the hammer is?"). Para pedir algo: <b>Can you</b> + acción? → Can you pass me...?')},
+    pt:{txt:L3('Em português a pergunta mantém a ordem normal e a voz sobe no final: <b>Onde está</b> o martelo? Para pedir algo: <b>Você pode</b> + ação? No dia a dia também se diz <b>Me passa</b>...?','In Portuguese, questions keep the normal order and your voice goes up at the end: <b>Onde está</b> o martelo? To ask for something: <b>Você pode</b> + action? People also just say <b>Me passa</b>...?','En portugués la pregunta mantiene el orden normal y la voz sube al final: <b>Onde está</b> o martelo? Para pedir algo: <b>Você pode</b> + acción? También se dice <b>Me passa</b>...?')},
+    es:{txt:L3('Em espanhol a pergunta começa com <b>¿</b> e termina com <b>?</b>: <b>¿Dónde está</b> el martillo? Para pedir algo de jeito informal: <b>¿Me pasas</b>...? / <b>¿Me ayudas</b>...?','In Spanish, questions start with <b>¿</b> and end with <b>?</b>: <b>¿Dónde está</b> el martillo? To ask for something informally: <b>¿Me pasas</b>...? / <b>¿Me ayudas</b>...?','En español la pregunta empieza con <b>¿</b> y termina con <b>?</b>: <b>¿Dónde está</b> el martillo? Para pedir algo de forma informal: <b>¿Me pasas</b>...? / <b>¿Me ayudas</b>...?')},
+    ex:[X3('Where is the level?','Onde está o nível?','¿Dónde está el nivel?'),X3('Can you help me?','Você pode me ajudar?','¿Me ayudas?'),X3('Can you pass me the wrench?','Você pode me passar a chave?','¿Me pasas la llave?')]},
+  places:{
+    en:{txt:L3('<b>IN</b> = dentro · <b>ON</b> = em cima · <b>UNDER</b> = embaixo · <b>NEXT TO</b> = ao lado.','<b>IN</b> = inside · <b>ON</b> = on top · <b>UNDER</b> = below · <b>NEXT TO</b> = beside.','<b>IN</b> = dentro · <b>ON</b> = encima · <b>UNDER</b> = debajo · <b>NEXT TO</b> = al lado.')},
+    pt:{txt:L3('<b>dentro de</b> · <b>em cima de</b> · <b>embaixo de</b> · <b>ao lado de</b>. Dica: em + o = <b>no</b>, em + a = <b>na</b> (no chão, na caixa).','<b>dentro de</b> = in · <b>em cima de</b> = on · <b>embaixo de</b> = under · <b>ao lado de</b> = next to. Tip: em + o = <b>no</b>, em + a = <b>na</b> (no chão, na caixa).','<b>dentro de</b> = dentro · <b>em cima de</b> = encima · <b>embaixo de</b> = debajo · <b>ao lado de</b> = al lado. Tip: em + o = <b>no</b>, em + a = <b>na</b>.')},
+    es:{txt:L3('<b>dentro de</b> = dentro · <b>encima de</b> = em cima · <b>debajo de</b> = embaixo · <b>al lado de</b> = ao lado. Dica: de + el = <b>del</b> (encima del banco).','<b>dentro de</b> = in · <b>encima de</b> = on · <b>debajo de</b> = under · <b>al lado de</b> = next to. Tip: de + el = <b>del</b> (encima del banco).','<b>dentro de</b> · <b>encima de</b> · <b>debajo de</b> · <b>al lado de</b>. Tip: de + el = <b>del</b> (encima del banco).')},
+    ex:[X3('The hammer is in the toolbox.','O martelo está dentro da caixa de ferramentas.','El martillo está dentro de la caja de herramientas.'),X3('The level is on the workbench.','O nível está em cima da bancada.','El nivel está encima del banco de trabajo.'),X3('The bucket is under the table.','O balde está embaixo da mesa.','La cubeta está debajo de la mesa.')]},
+};
+const BW_POOL=[...RADIO.tools.lines.map(l=>l.t),...RADIO.tools.chunks,
+  ...['hammer','wrench','tape','level','pliers'].map(k=>({en:frameFill(FR_PASS,'en',k),pt:frameFill(FR_PASS,'pt',k),es:frameFill(FR_PASS,'es',k)})),
+  ...['ladder','screwdriver','flashlight'].map(k=>({en:frameFill(FR_WHERE,'en',k),pt:frameFill(FR_WHERE,'pt',k),es:frameFill(FR_WHERE,'es',k)})),
+  ...BW_RULES.places.ex];
+const fq=(f,tool,alts)=>({t:'frame',f,tool,alts});
+Object.assign(MISSIONS,{
+MB1:{id:'MB1',who:'mike',title:L3('Aula 1 · Rádio da Fábrica','Lesson 1 · Factory Radio','Clase 1 · Radio de la Fábrica'),sub:L3('Ouça a conversa várias vezes e entenda tudo.','Listen to the talk several times and understand it all.','Escucha la plática varias veces y entiende todo.'),steps:[
+  {t:'turbi',say:L3('Vamos ouvir o Mike e o Jake na bancada! Primeira vez: só ouça, sem ler. Não precisa entender tudo.','Let\'s listen to Mike and Jake at the workbench! First time: just listen, no reading. You don\'t need to understand everything.','¡Vamos a escuchar a Mike y a Jake en el banco de trabajo! Primera vez: solo escucha, sin leer. No tienes que entender todo.')},
+  {t:'radio',ep:'tools',mode:'listen',say:L3('1ª escuta: só ouça.','1st listen: just listen.','1ª escucha: solo escucha.')},
+  {t:'quiz',ep:'tools',q:L3('Do que o Mike precisa?','What does Mike need?','¿Qué necesita Mike?'),opts:[L3('Do nível e de uma trena','The level and a tape measure','El nivel y una cinta métrica'),L3('Do martelo e do alicate','The hammer and the pliers','El martillo y las pinzas'),L3('De uma escada','A ladder','Una escalera')]},
+  {t:'radio',ep:'tools',mode:'listen',say:L3('2ª escuta: agora repare ONDE estão as coisas.','2nd listen: now notice WHERE things are.','2ª escucha: ahora fíjate DÓNDE están las cosas.')},
+  {t:'quiz',ep:'tools',q:L3('Onde está o nível?','Where is the level?','¿Dónde está el nivel?'),opts:[L3('Em cima da bancada','On the workbench','Encima del banco de trabajo'),L3('Dentro da caixa','In the box','Dentro de la caja'),L3('Embaixo da mesa','Under the table','Debajo de la mesa')]},
+  {t:'quiz',ep:'tools',q:L3('Onde está a trena?','Where is the tape measure?','¿Dónde está la cinta métrica?'),opts:[L3('Na caixa vermelha, embaixo da mesa','In the red toolbox, under the table','En la caja roja, debajo de la mesa'),L3('Em cima da bancada','On the workbench','Encima del banco de trabajo'),L3('No carro do Mike','In Mike\'s car','En el carro de Mike')]},
+  {t:'radio',ep:'tools',mode:'read',say:L3('3ª escuta: agora leia junto. Toque em cada frase para ouvir de novo.','3rd listen: now read along. Tap each line to hear it again.','3ª escucha: ahora lee junto. Toca cada frase para oírla otra vez.')},
+  {t:'quiz',ep:'tools',q:L3('Com o que o Mike pede cuidado?','What does Mike say to be careful with?','¿Con qué dice Mike que tengas cuidado?'),opts:[L3('Com o estilete','The utility knife','El cúter'),L3('Com a escada','The ladder','La escalera'),L3('Com o molde','The mold','El molde')]},
+  {t:'speak',ans:X3('I need the level and a tape measure.','Eu preciso do nível e de uma trena.','Necesito el nivel y una cinta métrica.'),chunk:X3('I need...','Eu preciso de...','Necesito...')},
+  {t:'speak',ans:X3('Be careful with the utility knife!','Cuidado com o estilete!','¡Cuidado con el cúter!'),chunk:X3('Be careful with...','Cuidado com...','Cuidado con...')},
+],chunksFrom:'tools',week:X3('Can you help me with the mold?','Você pode me ajudar com o molde?','¿Me ayudas con el molde?')},
+
+MB2:{id:'MB2',who:'jake',title:L3('Aula 2 · Frases-molde','Lesson 2 · Sentence frames','Clase 2 · Frases molde'),sub:L3('Troque só a ferramenta e monte frases inteiras.','Swap only the tool and build whole sentences.','Cambia solo la herramienta y arma frases completas.'),steps:[
+  {t:'turbi',say:L3('Truque dos fluentes: aprenda a frase inteira e troque só uma palavra! Com 3 frases-molde você pede qualquer ferramenta.','Fluent speakers\' trick: learn the whole sentence and swap one word! With 3 sentence frames you can ask for any tool.','Truco de los que hablan con fluidez: aprende la frase completa y cambia solo una palabra. ¡Con 3 frases molde pides cualquier herramienta!')},
+  fq(FR_PASS,'hammer',['wrench','clamp']), fq(FR_PASS,'tape',['level','ladder']), fq(FR_PASS,'pliers',['screwdriver','flashlight']),
+  {t:'speak',ans:X3('Can you pass me the pliers?','Você pode me passar o alicate?','¿Me pasas las pinzas?')},
+  fq(FR_WHERE,'ladder',['flashlight','knife']), fq(FR_WHERE,'level',['hammer','tape']), fq(FR_WHERE,'screwdriver',['wrench','clamp']),
+  {t:'speak',ans:X3('Where is the ladder?','Onde está a escada?','¿Dónde está la escalera?')},
+  fq(FR_BRING,'flashlight',['knife','ladder']), fq(FR_BRING,'clamp',['level','hammer']),
+  {t:'build',ans:X3('Can you pass me the hammer','Você pode me passar o martelo','Me pasas el martillo'),extra:X3(['where','bring'],['onde','traz'],['dónde','tráeme']),chunk:FR_PASS},
+  {t:'speak',ans:X3('Bring me the flashlight, please.','Me traz a lanterna, por favor.','Tráeme la linterna, por favor.')},
+],week:X3('Can you pass me the wrench?','Você pode me passar a chave?','¿Me pasas la llave?')},
+
+MB3:{id:'MB3',who:'jake',title:L3('Aula 3 · Regrinhas','Lesson 3 · Quick rules','Clase 3 · Reglitas'),sub:L3('Como fazer perguntas e dizer onde as coisas estão.','How to ask questions and say where things are.','Cómo hacer preguntas y decir dónde están las cosas.'),steps:[
+  {t:'turbi',say:L3('Só duas regrinhas hoje, as que mais aparecem na fábrica. Nada de decorar: veja, ouça e use!','Just two rules today, the ones you hear most at the plant. No memorizing: see, listen and use!','Solo dos reglitas hoy, las que más se oyen en la fábrica. Nada de memorizar: mira, escucha y úsalas.')},
+  {t:'rule',rule:'questions'},
+  {t:'reply',onlyTL:'en',opts:[X3('Where is the hammer?','Where is the hammer?','Where is the hammer?'),X3('Where the hammer is?','Where the hammer is?','Where the hammer is?'),X3('Where hammer?','Where hammer?','Where hammer?')],
+    why:[null,L3('Na pergunta, o IS vem antes: Where IS the hammer?','In a question, IS comes first: Where IS the hammer?','En la pregunta, IS va antes: Where IS the hammer?'),L3('Faltou o verbo IS: Where IS the hammer?','The verb IS is missing: Where IS the hammer?','Falta el verbo IS: Where IS the hammer?')]},
+  {t:'reply',onlyTL:'en',opts:[X3('Can you pass me the wrench?','Can you pass me the wrench?','Can you pass me the wrench?'),X3('You can pass me the wrench?','You can pass me the wrench?','You can pass me the wrench?'),X3('Pass you me the wrench?','Pass you me the wrench?','Pass you me the wrench?')],
+    why:[null,L3('Para pedir, o CAN vem antes: CAN you pass me...?','To ask, CAN comes first: CAN you pass me...?','Para pedir, CAN va antes: CAN you pass me...?'),L3('A ordem certa é: Can you pass me...?','The right order is: Can you pass me...?','El orden correcto es: Can you pass me...?')]},
+  {t:'speak',ans:X3('Where is the level?','Onde está o nível?','¿Dónde está el nivel?')},
+  {t:'rule',rule:'places'},
+  {t:'pic',item:'wrench',pos:'on',line:X3('Where is the wrench?','Onde está a chave?','¿Dónde está la llave?'),opts:[X3('It\'s on the table.','Está em cima da mesa.','Está encima de la mesa.'),X3('It\'s under the table.','Está embaixo da mesa.','Está debajo de la mesa.'),X3('It\'s in the box.','Está dentro da caixa.','Está dentro de la caja.')],rule:'on'},
+  {t:'pic',item:'bucket',pos:'under',line:X3('Where is the bucket?','Onde está o balde?','¿Dónde está la cubeta?'),opts:[X3('It\'s under the table.','Está embaixo da mesa.','Está debajo de la mesa.'),X3('It\'s on the table.','Está em cima da mesa.','Está encima de la mesa.'),X3('It\'s next to the box.','Está ao lado da caixa.','Está al lado de la caja.')],rule:'under'},
+  {t:'pic',item:'tape',pos:'in',line:X3('And the tape measure?','E a trena?','¿Y la cinta métrica?'),opts:[X3('It\'s in the box.','Está dentro da caixa.','Está dentro de la caja.'),X3('It\'s on the box.','Está em cima da caixa.','Está encima de la caja.'),X3('It\'s under the table.','Está embaixo da mesa.','Está debajo de la mesa.')],rule:'in'},
+  {t:'pic',item:'hammer',pos:'next',line:X3('Where is my hammer?','Onde está o meu martelo?','¿Dónde está mi martillo?'),opts:[X3('It\'s next to the box.','Está ao lado da caixa.','Está al lado de la caja.'),X3('It\'s in the box.','Está dentro da caixa.','Está dentro de la caja.'),X3('It\'s on the table.','Está em cima da mesa.','Está encima de la mesa.')],rule:'next to'},
+  {t:'build',ans:X3('The level is on the workbench','O nível está em cima da bancada','El nivel está encima del banco de trabajo'),extra:X3(['under','in'],['embaixo','dentro'],['debajo','dentro']),chunk:X3('on the workbench','em cima da bancada','encima del banco de trabajo'),rule:'on'},
+],week:X3('Where is the...? It\'s on the...','Onde está o...? Está em cima do...','¿Dónde está el...? Está encima del...')},
+
+MB4:{id:'MB4',who:'mike',title:L3('Aula 4 · Desafio-relâmpago','Lesson 4 · Lightning challenge','Clase 4 · Reto relámpago'),sub:L3('60 segundos para acertar o máximo de frases.','60 seconds to get as many sentences as you can.','60 segundos para acertar el máximo de frases.'),steps:[
+  {t:'turbi',say:L3('Agora é velocidade! Você vai ver a frase na sua língua e escolher em inglês, o mais rápido que puder. Errou? Sem problema, segue o jogo!','Now it\'s about speed! See the sentence and pick the right one as fast as you can. Wrong? No problem, keep going!','¡Ahora es velocidad! Verás la frase en tu idioma y eliges la correcta lo más rápido que puedas. ¿Fallaste? ¡No pasa nada, sigue!')},
+  {t:'blitz',secs:60},
+],week:X3('Here you go!','Aqui está!','¡Aquí tienes!')},
+});
+/* o Turbi fala "em inglês" / "em espanhol"... conforme o curso */
+(function(){ const nm={en:L3('em inglês','in English','en inglés'),pt:L3('em português','in Portuguese','en portugués'),es:L3('em espanhol','in Spanish','en español')};
+  MISSIONS.MB4.steps[0].say={pt:'Agora é velocidade! Você vê a frase em português e escolhe a certa, o mais rápido que puder. Errou? Segue o jogo!',en:'Now it\'s about speed! You see the sentence in English and pick the right one as fast as you can. Wrong? Keep going!',es:'¡Ahora es velocidad! Ves la frase en español y eliges la correcta lo más rápido que puedas. ¿Fallaste? ¡Sigue!'};
+  MT.qFrame=L3('Como se diz:','How do you say:','¿Cómo se dice?:'); })();
+const MB_LIST=['MB2','MB3','MB1','MB4','U1'];
+Object.assign(MBG,{MB1:'shop',MB2:'shop2',MB3:'warehouse',MB4:'floor'});
+const MB_ICON={
+  MB2:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 3a2 2 0 0 1 4 0v1h4a1 1 0 0 1 1 1v4h-1a2 2 0 0 0 0 4h1v4a1 1 0 0 1-1 1h-4v-1a2 2 0 0 0-4 0v1H6a1 1 0 0 1-1-1v-4h1a2 2 0 0 0 0-4H5V5a1 1 0 0 1 1-1h4z"/></svg>',
+  MB3:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 1 4 12.7V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.3A7 7 0 0 1 12 2zm-3 18h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1z"/></svg>',
+  MB1:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 3.2 6.3 7H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-6.8l6-2zM8 11a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm7 1h4v2h-4zm0 3h4v2h-4z"/></svg>',
+  MB4:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>',
+  U1:MICON};
+const MB_NAME={MB2:L3('Frases-molde','Sentence frames','Frases molde'),MB3:L3('Regrinhas','Quick rules','Reglitas'),MB1:L3('Rádio da Fábrica','Factory Radio','Radio de la Fábrica'),MB4:L3('Relâmpago','Lightning','Relámpago'),U1:L3('Missão','Mission','Misión')};
+const MB_OFF=[0,-60,-84,-60,0];
+function methodCard(){
+  const done=id=>!!(S.missions&&S.missions[MISSIONS[id].id]);
+  const need=[2,1,0][S.level==null?1:S.level], gate=prog('U1')<need;
+  const n=MB_LIST.filter(done).length; let cur=MB_LIST.findIndex(id=>!done(id));
+  let h=`<div class="unit mbunit" style="--uc:#ff8a3d;--ud:#d9621a">
+    <div class="ubanner mbban"><div class="ut"><small>${mt('mbTag')}</small><b>${mt('mbTitle')}</b><span>${esc(L3('15 minutos por dia: revisar, aprender e falar','15 minutes a day: review, learn and speak','15 minutos al día: repasar, aprender y hablar')[BL()])}</span></div><span class="ucount">${n}/${MB_LIST.length}</span></div>
+    <div class="nodes"><div class="uscene" aria-hidden="true">${sceneSVG(4)}</div>`;
+  MB_LIST.forEach((id,i)=>{
+    const d=done(id), st=d?'done':(gate||i>cur)?'locked':'current', oid='B|'+id, m=MISSIONS[id];
+    const name=`${L3('Aula','Lesson','Clase')[BL()]} ${i+1} · ${avL(MB_NAME[id])}`;
+    let pop='';
+    if(openNode===oid) pop=st==='locked'
+      ?`<div class="popover locked"><b>${esc(name)}</b><span>${esc(gate?(need>1?L3('Faça antes {n} lições de palavras da Unidade 1','First do {n} word lessons in Unit 1','Haz antes {n} lecciones de palabras de la Unidad 1'):L3('Faça antes 1 lição de palavras da Unidade 1','First do 1 word lesson in Unit 1','Haz antes 1 lección de palabras de la Unidad 1'))[BL()].replace('{n}',need):L3('Termine a aula anterior para abrir esta.','Finish the previous lesson to open this one.','Termina la clase anterior para abrir esta.')[BL()])}</span></div>`
+      :`<div class="popover"><b>${esc(name)}</b><span>${esc(avL(m.sub))}</span><button class="btn" data-mission="${id}">${d?mt('redo'):mt('start')}</button></div>`;
+    h+=`<div class="nodewrap ${st}${openNode===oid?' haspop':''}" style="transform:translateX(${MB_OFF[i]}px);--o:${MB_OFF[i]}px">
+      ${st==='current'&&openNode!==oid?`<span class="start-tag">${mt('start')}</span>`:''}
+      <button class="node mbnode${st!=='current'?' '+st:''}" data-bnode="${id}" aria-label="${esc(name)}">${st==='locked'?LOCKI:MB_ICON[id]}</button>
+      <span class="nlabel">${esc(avL(MB_NAME[id]))}</span>${pop}</div>`;
+  });
+  return h+`</div></div>`;
+}
+/* ---- Rádio: várias vozes em sequência, destacando a frase que está tocando ---- */
+let RADIO_ON=null;
+function stopRadio(){ RADIO_ON=null; try{ speechSynthesis.cancel(); }catch(e){} document.querySelectorAll('.rl.on').forEach(x=>x.classList.remove('on')); }
+function playRadio(ep,rate,only){
+  if(!canSpeak){ radioDone(); return; }
+  stopRadio(); duck(); const id={}; RADIO_ON=id; if(!VOICE) pickVoice();
+  const idx=only!=null?[only]:ep.lines.map((l,i)=>i);
+  let started=false;
+  const mk=i=>{ const l=ep.lines[i], u=new SpeechSynthesisUtterance(mx(l.t)); u.lang=VOICE?VOICE.lang:TTSL[TL()]; if(VOICE) u.voice=VOICE;
+    u.rate=rate; u.pitch=(CHARS[l.who]&&CHARS[l.who].pitch)||1; u.volume=1;
+    u.onstart=()=>{ started=true; if(RADIO_ON!==id) return; document.querySelectorAll('.rl').forEach(x=>x.classList.toggle('on',+x.dataset.i===i)); };
+    return u; };
+  const us=idx.map(mk);
+  us[us.length-1].onend=()=>{ if(RADIO_ON!==id) return; document.querySelectorAll('.rl.on').forEach(x=>x.classList.remove('on')); RADIO_ON=null; if(only==null) radioDone(); };
+  setTimeout(()=>{ if(RADIO_ON!==id) return; us.forEach(u=>speechSynthesis.speak(u));
+    /* se o celular não começar a falar, libera o botão mesmo assim */
+    setTimeout(()=>{ if(!started&&RADIO_ON===id){ RADIO_ON=null; if(only==null) radioDone(); } },2500); },120);
+}
+function radioDone(){ if(!MI) return; MI.rc=(MI.rc||0)+1; const c=$('rCount'); if(c) c.textContent=mt('heardN').replace('{n}',MI.rc); const g=$('mgo'); if(g) g.disabled=false; }
+/* ---- Desafio-relâmpago ---- */
+function bzNext(){
+  const B=MI&&MI.bz; if(!B) return;
+  let q; do{ q=B.pool[Math.floor(Math.random()*B.pool.length)]; }while(B.pool.length>1&&q===B.last); B.last=q;
+  const others=shuffle(B.pool.filter(x=>x!==q&&x[TL()]!==q[TL()])).slice(0,2);
+  const opts=shuffle([q,...others]);
+  $('bzQ').innerHTML=esc(q[BL()]);
+  $('bzO').innerHTML=opts.map(o=>`<button class="opt wide bzo" data-ok="${o===q?1:0}">${hiPrep(esc(o[TL()]))}</button>`).join('');
+}
+function bzTick(){
+  const B=MI&&MI.bz; if(!B) return; const left=Math.max(0,B.end-Date.now()), bar=$('bzT');
+  if(bar) bar.style.width=(left/(B.secs*1000)*100)+'%';
+  if(left<=0) bzFinish();
+}
+function bzFinish(){
+  const B=MI.bz; clearInterval(B.tick); B.over=true; MI.blitzScore=B.score;
+  const best=Math.max(S.blitzBest||0,B.score), rec=B.score>(S.blitzBest||0); S.blitzBest=best; save();
+  $('mtask').innerHTML=`<div class="mend"><div class="cat happy" id="mCatB" style="width:90px;height:105px"></div><h2>${mt('bzEnd')}</h2>
+    <div class="tiles3"><div class="t3" style="--c:var(--good)"><small>${mt('bzScore')}</small><b>${B.score}</b></div><div class="t3" style="--c:var(--gold-d)"><small>${mt('bzBest')}</small><b>${best}</b></div></div></div>`;
+  setCat($('mCatB'),'happy'); if(rec&&B.score>0){ sWin(); confetti(); } else sGood(1);
+  mFoot(`<button class="btn" id="mgo">${mt('cont')}</button>`); $('mgo').onclick=()=>{ sTap(); nextStep(); };
+}
+
 function startMission(id){
-  const m=MISSIONS[id]||Object.values(MISSIONS).find(x=>x.id===id)||MISSION_FIRST;
+  const m0=MISSIONS[id]||Object.values(MISSIONS).find(x=>x.id===id)||MISSION_FIRST;
+  const m=Object.assign({},m0,{steps:m0.steps.filter(s=>!s.onlyTL||s.onlyTL===TL())});
   MI={m,i:-1,log:[],t0:Date.now(),errs:0};
   $('mission').hidden=false; document.body.style.overflow='hidden'; document.body.classList.add('busy'); whoosh();
   $('mchat').innerHTML=''; $('mbg').innerHTML=factoryBg(MBG[id]||MBG[m.id]||'shop'); nextStep();
@@ -2903,8 +3147,42 @@ function nextStep(){
   } else if(s.t==='pic'){
     if(MI.shown!==MI.i) chatAdd('sup',mx(s.line)); supSay(mx(s.line));
     MI.order=shuffle(s.opts.map((o,k)=>k));
-    h=`<div class="pwrap">${prepScene(s.item,s.pos)}</div>`+`<div class="opts">${MI.order.map(k=>`<button class="opt wide mopt" data-k="${k}"><span class="spk mini">${SPK}</span><span>${hiPrep(esc(mx(s.opts[k])))}</span></button>`).join('')}</div>`;
+    h=`<div class="qbar"><button class="spk" id="mrep" aria-label="${mt('listen')}">${SPK}</button><b>${hiPrep(esc(mx(s.line)))}</b><button class="slow" id="mslow">${mt('slow')}</button></div><div class="pwrap">${prepScene(s.item,s.pos)}</div>`+`<div class="opts">${MI.order.map(k=>`<button class="opt wide mopt" data-k="${k}"><span class="spk mini">${SPK}</span><span>${hiPrep(esc(mx(s.opts[k])))}</span></button>`).join('')}</div>`;
     task.innerHTML=h; mFoot(`<button class="btn" id="mgo" disabled>${mt('check')}</button>`); $('mgo').onclick=checkStep;
+    $('mrep').onclick=()=>supSay(mx(s.line)); $('mslow').onclick=()=>speakSlow(mx(s.line));
+  } else if(s.t==='radio'){
+    const ep=RADIO[s.ep], lv=S.level==null?2:S.level, show=s.mode!=='listen'||lv<2, tr=s.mode!=='listen'||lv===0, rate=[.72,.85,.92][lv];
+    const say=(s.mode==='listen'&&lv===0)?L3('Ouça devagar e leia junto, com a tradução embaixo. Pode ouvir quantas vezes quiser!','Listen slowly and read along, with the translation below. Listen as many times as you like!','Escucha despacio y lee junto, con la traducción abajo. ¡Escucha las veces que quieras!')
+      :(s.mode==='listen'&&lv===1)?L3('Ouça e acompanhe o texto. Tente entender sem a tradução!','Listen and follow the text. Try to understand without the translation!','Escucha y sigue el texto. ¡Intenta entender sin la traducción!'):s.say;
+    h=turbiRow(avL(say),'think')+`<div class="radio"><div class="rhead"><b>${mt('radio')}</b><span>${esc(avL(ep.title))}</span></div>
+      <div class="rlines${show?'':' hide'}${tr?'':' notr'}">${ep.lines.map((l,i)=>`<div class="rl ${l.who}" data-i="${i}"><small>${esc(CHARS[l.who].name)}</small><span>${hiPrep(esc(mx(l.t)))}</span>${show?`<em>${esc(mb(l.t))}</em><button class="spk mini rlp" data-i="${i}" aria-label="${mt('listen')}">${SPK}</button>`:''}</div>`).join('')}</div>
+      <div class="listen mlisten"><button class="slow" id="rPlay">${SPK} ${mt('playAll')}</button><button class="slow" id="rSlow">${mt('slow')}</button></div><p class="pt rcount" id="rCount">${show?'':mt('listenFirst')}</p></div>`;
+    task.innerHTML=h; MI.rc=0;
+    $('rPlay').onclick=()=>{ sTap(); playRadio(ep,rate); }; $('rSlow').onclick=()=>{ sTap(); playRadio(ep,.62); };
+    task.querySelectorAll('.rlp').forEach(b=>b.onclick=()=>playRadio(ep,.85,+b.dataset.i));
+    mFoot(`<button class="btn" id="mgo"${s.mode!=='listen'||!canSpeak?'':' disabled'}>${mt('cont')}</button>`); $('mgo').onclick=()=>{ stopRadio(); sTap(); nextStep(); };
+  } else if(s.t==='quiz'){
+    MI.order=shuffle(s.opts.map((o,k)=>k));
+    h=turbiRow(avL(s.q),'think')+(s.ep?`<div class="listen mlisten"><button class="slow" id="rPlay">${SPK} ${mt('playAll')}</button></div>`:'')
+      +`<div class="opts">${MI.order.map(k=>`<button class="opt" data-k="${k}">${esc(avL(s.opts[k]))}</button>`).join('')}</div>`;
+    task.innerHTML=h; if(s.ep) $('rPlay').onclick=()=>playRadio(RADIO[s.ep],.92);
+    mFoot(`<button class="btn" id="mgo" disabled>${mt('check')}</button>`); $('mgo').onclick=()=>{ stopRadio(); checkStep(); };
+  } else if(s.t==='frame'){
+    const keys=[s.tool,...s.alts]; MI.order=shuffle(keys.map((k,i)=>i));
+    const blank=hiPrep(esc(s.f[TL()])).replace(/___(\S*)/,'<span style="white-space:nowrap"><span class="blank">______</span>$1</span>');
+    h=turbiRow(`${mt('qFrame')} <b>"${esc(frameFill(s.f,BL(),s.tool))}"</b>`,'think')+`<div class="fline">${blank}</div>`
+      +`<div class="opts">${MI.order.map(i=>`<button class="opt" data-k="${i}">${esc(TOOLS[keys[i]][TL()])}</button>`).join('')}</div>`;
+    task.innerHTML=h; mFoot(`<button class="btn" id="mgo" disabled>${mt('check')}</button>`); $('mgo').onclick=checkStep;
+  } else if(s.t==='rule'){
+    const R=BW_RULES[s.rule], r=R[TL()]||R.en;
+    h=turbiRow(mt('ruleTitle'),'happy')+`<div class="mchunk prept rulecard"><small>${mt('rule')}</small><span>${avL(r.txt)}</span>${R.ex.map(e=>`<div class="rex"><button class="spk mini" data-say="${esc(mx(e))}" aria-label="${mt('listen')}">${SPK}</button><span><b>${hiPrep(esc(mx(e)))}</b><br><small>${esc(mb(e))}</small></span></div>`).join('')}</div>`;
+    task.innerHTML=h; task.querySelectorAll('[data-say]').forEach(b=>b.onclick=()=>supSay(b.dataset.say)); turbiSay(mt('ruleTitle'));
+    mFoot(`<button class="btn" id="mgo">${mt('cont')}</button>`); $('mgo').onclick=()=>{ sTap(); nextStep(); };
+  } else if(s.t==='blitz'){
+    MI.bz={score:0,miss:0,secs:s.secs||60,end:Date.now()+(s.secs||60)*1000,pool:BW_POOL.filter(x=>x[TL()]&&x[BL()]&&x[TL()]!==x[BL()])};
+    task.innerHTML=`<div class="bz"><div class="bzbar"><i id="bzT"></i></div><div class="bzsc"><b id="bzS">0</b> ${mt('bzPts')}</div><div class="bzq" id="bzQ"></div><div class="opts" id="bzO"></div></div>`;
+    mFoot(`<button class="btn ghost" id="mgo" disabled>${mt('bzRun')}</button>`);
+    bzNext(); MI.bz.tick=setInterval(bzTick,200);
   } else if(s.t==='speak'){
     const tx=mx(s.ans);
     h=turbiRow(`${mt('qSpeak')} <b>"${esc(tx)}"</b><br><small style="font-weight:700;color:var(--muted,#6b7a90)">${esc(mb(s.ans))}</small>`,'think')
@@ -2932,15 +3210,17 @@ function checkStep(){
 function chunkTip(s){
   let h='';
   if(s.rule&&TL()==='en'&&PREP_RULE[s.rule]) h+=`<div class="mchunk prept"><small>${mt('rule')}</small><span>${avL(PREP_RULE[s.rule])}</span></div>`;
-  if(s.chunk) h+=`<div class="mchunk"><small>${mt('useful')}</small><b>${hiPrep(esc(mx(s.chunk)))}</b> = ${esc(mb(s.chunk))}</div>`;
+  if(s.t==='frame'){ const c=frameChunk(s.f); h+=`<div class="mchunk"><small>${mt('useful')}</small><b>${hiPrep(esc(c[TL()]))}</b> = ${esc(c[BL()])}</div>`; }
+  else if(s.chunk) h+=`<div class="mchunk"><small>${mt('useful')}</small><b>${hiPrep(esc(mx(s.chunk)))}</b> = ${esc(mb(s.chunk))}</div>`;
   else if(s.t==='pic') h+=`<div class="mchunk"><small>${mt('useful')}</small><b>${hiPrep(esc(mx(s.opts[0])))}</b> = ${esc(mb(s.opts[0]))}</div>`;
   return h; }
 function stepRight(s){
   sGood(1); const sp=$('mCatT'); if(sp){ setCat(sp,'happy'); sp.classList.add('party'); burst(sp); }
   if(s.t==='reply'||s.t==='pic'){ chatAdd('me',mx(s.opts[0])); supSay(mx(s.opts[0])); }
   if(s.t==='build'){ chatAdd('me',mx(s.ans)); supSay(mx(s.ans)); }
+  if(s.t==='frame'){ const f=frameFill(s.f,TL(),s.tool); chatAdd('me',f); supSay(f); }
   if(s.t==='hear'||s.t==='speak') { /* nada a acrescentar no chat */ }
-  if(s.t!=='reply'&&s.t!=='build') turbiSay(mt('right'));
+  if(s.t!=='reply'&&s.t!=='build'&&s.t!=='frame') turbiSay(mt('right'));
   $('mtask').querySelectorAll('button').forEach(b=>b.disabled=true);
   mFoot(`<div class="fbh"><div class="cat happy party fcat">${catSVG('happy')}</div><h3>${mt('right')}</h3></div>${chunkTip(s)}<button class="btn" id="mgo">${mt('cont')}</button>`,'good');
   $('mgo').onclick=()=>{ sTap(); nextStep(); };
@@ -2950,6 +3230,8 @@ function stepWrong(s){
   let why='';
   if(s.t==='pic'&&MI.sel!=null){ const o=s.opts[MI.sel]; why=`<b>"${esc(mx(o))}"</b> = "${esc(mb(o))}". `+(TL()==='en'&&PREP_RULE[s.rule]?avL(PREP_RULE[s.rule]):''); turbiSay(mt('lookAgain')); }
   else if(s.t==='reply'&&MI.sel!=null){ const o=s.opts[MI.sel]; why=`<b>"${esc(mx(o))}"</b> = "${esc(mb(o))}". `+(s.why[MI.sel]?avL(s.why[MI.sel]):''); turbiSay((s.why[MI.sel]?avL(s.why[MI.sel]):'')); }
+  else if(s.t==='quiz'){ why=`${mt('rightAns')} <b>${esc(avL(s.opts[0]))}</b>`; turbiSay(mt('wrong')); }
+  else if(s.t==='frame'){ why=`<b>${hiPrep(esc(frameFill(s.f,TL(),s.tool)))}</b> = "${esc(frameFill(s.f,BL(),s.tool))}"`; turbiSay(mt('wrong')); }
   else if(s.t==='hear'){ why=`${mt('meaning')} <b>"${esc(mx(s.line))}"</b> = "${esc(mb(s.line))}"`; turbiSay(mt('wrong')); }
   else { why=`<b>${esc(mx(s.ans))}</b> = "${esc(mb(s.ans))}"`; turbiSay(mt('wrong')); }
   mFoot(`<div class="fbh"><div class="cat sad fcat">${catSVG('sad')}</div><h3>${mt('wrong')}</h3></div><div class="whyx">${why}</div><button class="btn red" id="mgo">${mt('cont')}</button>`,'bad');
@@ -3013,11 +3295,15 @@ function finishMission(){
   if(S.last!==t){ const y=new Date(Date.now()-864e5).toDateString(); S.streak=S.last===y?S.streak+1:1; S.last=t; }
   S.days=(S.days||[]).filter(d=>Date.now()-new Date(d).getTime()<7*864e5); if(!S.days.includes(t)) S.days.push(t);
   save(); renderTop();
-  const chunks=m.steps.filter(s=>s.chunk||s.t==='pic').map(s=>s.chunk?s:{chunk:s.opts[0]});
+  let chunks=m.steps.filter(s=>s.chunk||s.t==='pic'||s.t==='frame').map(s=>s.t==='frame'?{chunk:frameChunk(s.f)}:s.chunk?s:{chunk:s.opts[0]});
+  if(m.chunksFrom&&RADIO[m.chunksFrom]) chunks=RADIO[m.chunksFrom].chunks.map(c=>({chunk:c})).concat(chunks);
+  if(MI.blitzScore!=null) chunks=BW_POOL.slice(0,0);
+  { const seen=new Set(); chunks=chunks.filter(c=>{ const k=c.chunk.en; if(seen.has(k)) return false; seen.add(k); return true; }); }
   $('mtask').innerHTML=''; $('mchat').innerHTML='';
   $('mtask').innerHTML=`<div class="mend"><div class="cat happy bigcat" id="mCatE"></div><h2>${mt('missDone')}</h2>
     <div class="tiles3"><div class="t3" style="--c:var(--gold-d)"><small>XP</small><b>${ICON.bolt}${xp}</b></div><div class="t3" style="--c:var(--blue)"><small>${mt('rewards')}</small><b>${ICON.gem}${gems}</b></div></div>
-    <div class="mist"><div class="lbl">${mt('learned')}</div>${chunks.map((s,i)=>`<div class="row"><span>${hiPrep(esc(mx(s.chunk)))}<small>${esc(mb(s.chunk))}</small></span>${canSpeak?`<button class="spk" data-c="${i}" aria-label="${mt('listen')}">${SPK}</button>`:''}</div>`).join('')}</div>
+    ${MI.blitzScore!=null?`<div class="mchunk"><small>${mt('bzScore')}</small><b>${MI.blitzScore} ${mt('bzPts')}</b> · ${mt('bzBest')}: ${S.blitzBest||0}</div>`:''}
+    <div class="mist"${chunks.length?'':' hidden'}><div class="lbl">${mt('learned')}</div>${chunks.map((s,i)=>`<div class="row"><span>${hiPrep(esc(mx(s.chunk)))}<small>${esc(mb(s.chunk))}</small></span>${canSpeak?`<button class="spk" data-c="${i}" aria-label="${mt('listen')}">${SPK}</button>`:''}</div>`).join('')}</div>
     <div class="mchunk mweek"><small>${ICON.flame} ${mt('week')}</small>${mt('weekTxt')}<b>"${esc(mx(m.week))}"</b><span>${esc(mb(m.week))}</span></div></div>`;
   setCat($('mCatE'),'happy'); $('mCatE').classList.add('bigcat');
   $('mtask').querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>supSay(mx(chunks[+b.dataset.c].chunk)));
@@ -3026,11 +3312,16 @@ function finishMission(){
   $('mprog').style.width='100%'; $('mbody').scrollTop=0;
 }
 function exitMission(){
+  try{ if(MI&&MI.bz) clearInterval(MI.bz.tick); }catch(e){} RADIO_ON=null;
   clearTimeout(MREC_T); try{ if(MREC){ MREC._manual=true; MREC.abort(); } }catch(e){} MREC=null; micQuiet(false); try{ speechSynthesis.cancel(); }catch(e){}
   MI=null; $('mission').hidden=true; document.body.style.overflow=''; document.body.classList.remove('busy'); renderTab();
 }
 $('mtask').onclick=e=>{
   if(!MI) return; const s=MI.m.steps[MI.i]; if(!s) return;
+  if(s.t==='blitz'){ const b=e.target.closest('.bzo'); const B=MI.bz; if(!b||!B||B.over||B.lock) return;
+    B.lock=true; const ok=b.dataset.ok==='1'; b.classList.add(ok?'bzok':'bzno');
+    if(ok){ B.score++; blip(880,1320,.07,'sine',.12); } else { B.miss++; blip(300,200,.1,'square',.06); const r=$('bzO').querySelector('[data-ok="1"]'); if(r) r.classList.add('bzok'); }
+    $('bzS').textContent=B.score; setTimeout(()=>{ B.lock=false; if(!B.over) bzNext(); },ok?220:650); return; }
   const o=e.target.closest('.opt');
   if(o&&!o.disabled){ $('mtask').querySelectorAll('.opt').forEach(x=>x.setAttribute('aria-pressed',x===o)); MI.sel=+o.dataset.k; sTap();
     if(s.t==='reply'||s.t==='pic') supSay(mx(s.opts[MI.sel]));
@@ -3052,7 +3343,7 @@ applyStatic(); $('iPick').innerHTML=pickerHTML(); $('flagBtn').onclick=openCours
 buildScenes(); refillHearts(); goTab('path'); setTimeout(()=>prerender(),300);
 if(ME){ cloudRestore().then(b=>{ if(b){ refillHearts(); goTab(curTab); } else syncCloud(); }); }
 /* ===== ATUALIZAÇÃO AUTOMÁTICA: se existir uma versão nova no site, o app recarrega sozinho ===== */
-const APP_VER='22';
+const APP_VER='24';
 /* usa a pergunta "mudou?" do navegador: se nada mudou, o site responde vazio (quase não gasta dados) */
 let lastCheck=0;
 function checkUpdate(){
@@ -3066,10 +3357,24 @@ function checkUpdate(){
 }
 checkUpdate();
 document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible') checkUpdate(); });
+/* ===== TESTE DE NÍVEL: quanto a pessoa já sabe da língua que vai aprender ===== */
+const LVL=[{sp:'3.2s',w:L3('Brisa','Breeze','Brisa'),t:L3('Nada, estou começando','Nothing, I am just starting','Nada, estoy empezando'),d:L3('Vamos bem devagar, com tradução sempre','We go slowly, always with translation','Vamos despacio, siempre con traducción')},
+  {sp:'1.2s',w:L3('Vento','Wind','Viento'),t:L3('Um pouco','A little','Un poco'),d:L3('Sei algumas palavras e frases simples','I know some words and simple sentences','Sé algunas palabras y frases simples')},
+  {sp:'.42s',w:L3('Ventania','Strong wind','Ventarrón'),t:L3('Já converso um pouco','I can talk a bit','Ya platico un poco'),d:L3('Entendo conversas simples','I understand simple conversations','Entiendo pláticas simples')}];
+/* mini turbina: gira mais rápido quanto mais a pessoa sabe */
+const lvlTurbine=sp=>`<svg class="lvt" viewBox="0 0 48 56" style="--sp:${sp}"><path d="M22.5 26L21 54h6l-1.5-28z" fill="#cfd8e6"/><g class="lvr"><path d="M24 24L22 4q2-3 4 0z" fill="#2a62b0"/><path d="M24 24L22 4q2-3 4 0z" fill="#2a62b0" transform="rotate(120 24 24)"/><path d="M24 24L22 4q2-3 4 0z" fill="#2a62b0" transform="rotate(240 24 24)"/></g><circle cx="24" cy="24" r="3.4" fill="#fff" stroke="#2a62b0" stroke-width="1.6"/></svg>`;
+const LANGN={en:L3('inglês','English','inglés'),pt:L3('português','Portuguese','portugués'),es:L3('espanhol','Spanish','español')};
+function askLevel(done){
+  $('lvlQ').textContent=L3('Quanto {l} você já sabe?','How much {l} do you know?','¿Cuánto {l} sabes?')[BL()].replace('{l}',avL(LANGN[TL()]));
+  $('lvlOpts').innerHTML=LVL.map((o,i)=>`<button class="lvlo" data-l="${i}"><i>${lvlTurbine(o.sp)}</i><span><em class="lvw">${avL(o.w)}</em>${avL(o.t)}<small>${avL(o.d)}</small></span></button>`).join('');
+  setCat($('lvlCat'),'happy'); $('lvlPop').hidden=false;
+  $('lvlOpts').onclick=e=>{ const b=e.target.closest('.lvlo'); if(!b) return; S.level=+b.dataset.l; save(); $('lvlPop').hidden=true; try{ renderTab(); }catch(e){} done&&done(); };
+}
 (function intro(){
   if(!HAS_COURSE){ $('introGo').hidden=true; $('iBub').hidden=true; }
   setCat($('introCat'),'happy'); setTimeout(()=>setCat($('introCat'),'idle'),2000);
   $('introGo').onclick=()=>{
+    if(S.level==null){ unlockAudio(); unlockPool(); if(canSpeak) unlockSpeech(); askLevel(()=>$('introGo').onclick()); return; }
     unlockAudio(); unlockPool(); if(canSpeak) unlockSpeech();
     if(A(true)){ whoosh(); [523,659,784,1047].forEach((f,i)=>{ blip(f,f,.14,'square',.06,.15+i*.1); bell(f*2,.15+i*.1,.1); }); bell(2093,.6,.14); meow(true,.75); }
     $('intro').classList.add('out');
