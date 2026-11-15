@@ -680,6 +680,45 @@ b.prep{color:#0891b2;background:#cff7fe;border-radius:6px;padding:0 3px;font-wei
 .qbar b{flex:1;font-size:17px;line-height:1.25;color:var(--ink)}
 .qbar .spk{flex:none}.qbar .slow{flex:none;width:auto;height:auto;padding:8px 10px;font-size:12px}
 @media (max-height:760px){.icat{height:17vh!important;width:calc(17vh * .86)!important}.ititle2{font-size:30px!important}.icover{max-width:250px;margin:0 auto;padding:8px 12px!important}.iwrap{gap:8px!important}.ibub{font-size:14px}.lchip{padding:6px 10px;font-size:14px}}
+
+/* v29: nada de selecionar texto ou imagem segurando o dedo (só nos campos de digitar) */
+*,*::before,*::after{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+input,textarea,select,[contenteditable="true"]{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
+img,svg{-webkit-user-drag:none}
+
+/* v29: as telas do app acompanham o céu da capa (dia, noite, nascer, pôr do sol e chuva) */
+body.sky-day{--skyl:linear-gradient(180deg,#c6ebff 0%,#e6f6ff 38%,#f6fbff 100%)}
+body.sky-dawn{--skyl:linear-gradient(180deg,#dcd6f4 0%,#f9dfd6 42%,#fff5ea 100%)}
+body.sky-sunset{--skyl:linear-gradient(180deg,#f6c7a6 0%,#fbe0cb 42%,#fff3e8 100%)}
+body.sky-night{--skyl:radial-gradient(1.4px 1.4px at 22px 30px,#fff 98%,transparent),radial-gradient(1px 1px at 120px 80px,rgba(255,255,255,.8) 98%,transparent),radial-gradient(1.6px 1.6px at 180px 150px,#fff 98%,transparent),radial-gradient(1px 1px at 60px 190px,rgba(255,255,255,.7) 98%,transparent),radial-gradient(1.2px 1.2px at 200px 40px,rgba(255,255,255,.9) 98%,transparent),linear-gradient(180deg,#060d24 0%,#0f1f4d 55%,#1b2c60 100%);--skys:230px 230px,230px 230px,230px 230px,230px 230px,230px 230px,100% 100%}
+body.sky-rain{--skyl:repeating-linear-gradient(104deg,transparent 0 18px,rgba(255,255,255,.28) 18px 19px,transparent 19px 41px),linear-gradient(180deg,#b9c4d2 0%,#d3dae3 45%,#e8ecf1 100%);--skys:auto,100% 100%}
+body.sky-rain.sky-night{--skyl:repeating-linear-gradient(104deg,transparent 0 18px,rgba(160,185,220,.16) 18px 19px,transparent 19px 41px),linear-gradient(180deg,#0b1222 0%,#1b2638 60%,#2b384c 100%)}
+body[class*="sky-"]::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:var(--skyl);background-size:var(--skys,100% 100%)}
+body.sky-rain::after{animation:rainfall .9s linear infinite}
+@keyframes rainfall{from{background-position:0 0,0 0}to{background-position:-9px 41px,0 0}}
+@media (prefers-reduced-motion:reduce){body.sky-rain::after{animation:none}}
+body[class*="sky-"] .topbar,body[class*="sky-"] .nav,body[class*="sky-"]::before{background:rgba(255,255,255,.82);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+body[class*="sky-"] .tab .card,body[class*="sky-"] .tab .sbox{background:#fff}
+body.sky-sunset #pathScene,body.sky-sunset .uscene{filter:saturate(1.05) sepia(.18) brightness(.97)}
+body.sky-dawn #pathScene,body.sky-dawn .uscene{filter:sepia(.1) hue-rotate(-8deg)}
+body.sky-rain #pathScene,body.sky-rain .uscene{filter:brightness(.88) saturate(.55)}
+/* noite: fundo escuro, letras claras; os cartões continuam brancos para ler bem */
+body.sky-night .topbar,body.sky-night .nav,body.sky-night::before{background:rgba(9,18,48,.9);border-color:#22356f}
+body.sky-night .stat.off{color:#5f6f9c}
+body.sky-night .flag{background:#2a62b0}
+body.sky-night .nav button{color:#93a5d4}
+body.sky-night .nav button[aria-current="true"]{background:rgba(47,180,255,.16);border-color:#2f6fb8;color:#9fdcff}
+body.sky-night .tab{color:#eef3ff}
+body.sky-night .tab .card,body.sky-night .tab .sbox{color:var(--ink);border-color:#2b3f78}
+body.sky-night .tab>.pt,body.sky-night .rhead .pt,body.sky-night .rlist>.pt,body.sky-night .tab>.rme,body.sky-night .ph p{color:#b4c2e6}
+body.sky-night .tab>.rme .rout,body.sky-night .rhead .rout,body.sky-night .ph .rout{color:#8fd3ff}
+body.sky-night .cover span{color:#b4c2e6}
+body[class*="sky-"] .cover img{filter:drop-shadow(0 0 1px #fff) drop-shadow(0 0 8px rgba(255,255,255,.8))}
+body.sky-night .tab .say,body.sky-night .tab .rrow,body.sky-night .tab .avchip,body.sky-night .tab .wrow{color:var(--ink)}
+body.sky-night .cover img{filter:brightness(0) invert(1) drop-shadow(0 2px 4px rgba(0,0,0,.35))}
+body.sky-night #pathScene,body.sky-night .uscene{filter:brightness(.8) saturate(.7)}
+body.sky-night #pathScene::after,body.sky-night .uscene::after{content:"";position:absolute;inset:0;z-index:5;pointer-events:none;background:rgba(8,18,52,.58)}
+body.sky-night.sky-rain #pathScene,body.sky-night.sky-rain .uscene{filter:brightness(.7) saturate(.4)}
 </style>
 
 <div class="app" id="app">
@@ -1694,7 +1733,7 @@ function renderTop(){
 setInterval(()=>{ refillHearts(); renderTop(); },60000);
 
 let curTab='path', openNode=null;
-function goTab(t){
+function goTab(t){ clearPops();
   curTab=t; ['path','words','rank','profile'].forEach(x=>$('tab-'+x).hidden=x!==t); $('pathHead').hidden=t!=='path';
   document.querySelectorAll('#nav button').forEach(b=>b.setAttribute('aria-current',b.dataset.tab===t));
   renderTab(); window.scrollTo(0,0);
@@ -1761,7 +1800,9 @@ $('tab-path').onclick=e=>{
   openNode=openNode===b.dataset.node?null:b.dataset.node; renderPath();
 };
 
-function modal(html){ $('mcard').innerHTML=html; $('modal').hidden=false; }
+function clearPops(){ const h=$('hint'); if(h) h.hidden=true; try{ clearTimeout(hintT); }catch(e){} const w=$('wpop'); if(w) w.hidden=true; }
+/* v29: uma janela por vez — a etiqueta da palavra nunca fica por cima de outra janela */
+function modal(html){ clearPops(); $('mcard').innerHTML=html; $('modal').hidden=false; }
 function closeModal(){ $('modal').hidden=true; }
 $('modal').onclick=e=>{ if(e.target===$('modal')) closeModal(); };
 function openChest(s,i){
@@ -1797,7 +1838,7 @@ function buildExercises(k,node){
     return {kind:kd,s:nextSent()};
   });
 }
-function startLesson(s,i){
+function startLesson(s,i){ clearPops();
   refillHearts();
   if(S.hearts<=0) return noHearts(false);
   const k=UNITS.findIndex(u=>u.s===s);
@@ -1967,7 +2008,7 @@ function nextEx(){
   L.q++; if(L.q>=L.ex.length) return finishLesson();
   renderEx();
 }
-function exitLesson(){ L=null; ['lesson','done','cards'].forEach(x=>$(x).hidden=true); document.body.style.overflow='';document.body.classList.remove('busy'); renderTab(); }
+function exitLesson(){ clearPops(); L=null; ['lesson','done','cards'].forEach(x=>$(x).hidden=true); document.body.style.overflow='';document.body.classList.remove('busy'); renderTab(); }
 $('lquit').onclick=()=>{
   modal(`<div class="cat sad" id="mCat"></div><h3>${T('quitQ')}</h3><p>${T('quitP')}</p>
     <button class="btn blue" id="mStay">${T('stay')}</button><button class="btn ghost" id="mLeave" style="color:var(--bad)">${T('leave')}</button>`);
@@ -1987,7 +2028,7 @@ function noHearts(inLesson){
   if(nCards) $('mPractice').onclick=()=>{ closeModal(); if(inLesson){ L=null; $('lesson').hidden=true; } startCards(); };
   $('mOut').onclick=()=>{ closeModal(); if(inLesson) exitLesson(); };
 }
-function finishLesson(){
+function finishLesson(){ clearPops();
   const secs=Math.round((Date.now()-L.t0)/1000), acc=L.tries?Math.round(L.ok/L.tries*100):100;
   const n=L.node, again=L.i<prog(L.s);
   let xp=again?5:n.type==='trophy'?30:15; if(acc===100) xp+=5; if(L.best>=5) xp+=5;
@@ -2186,7 +2227,7 @@ function buildScenes(){
     '<div style="position:absolute;left:0;right:0;bottom:26px;height:96px">'+
       turbineHTML('8%',40,2.6,.95)+turbineHTML('26%',30,2,.8)+turbineHTML('68%',46,3,.95)+turbineHTML('86%',34,2.3,.85)+'</div>'+
     HILLS+leavesHTML(6,70);
-  $('coverLogo').src=LOGO;
+  { const tl=document.querySelector('.icover img'); $('coverLogo').src=tl&&tl.getAttribute('src')||LOGO; } /* logo sem fundo branco, igual à capa */
 }
 let avUid=0;
 function avShade(hex,f){ const n=parseInt(hex.slice(1),16); let r=n>>16,g=n>>8&255,b=n&255; const m=f<0?0:255,a=Math.abs(f); r=Math.round(r+(m-r)*a); g=Math.round(g+(m-g)*a); b=Math.round(b+(m-b)*a); return '#'+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1); }
@@ -2451,7 +2492,7 @@ function avRandom(){ const o={}; AVOPT.forEach(p=>{ o[p.k]=p.sw?pick(p.sw):pick(
 
 /* editor de avatar em tela cheia */
 let AE=null;
-function openAvatarEditor(after){
+function openAvatarEditor(after){ clearPops();
   AE={o:{...myAvatar()},after};
   let el=$('avedit');
   if(!el){ el=document.createElement('section'); el.id='avedit'; el.className='lesson avedit'; document.body.appendChild(el); }
@@ -3170,7 +3211,7 @@ function bzFinish(){
   mFoot(`<button class="btn" id="mgo">${mt('cont')}</button>`); $('mgo').onclick=()=>{ sTap(); nextStep(); };
 }
 
-function startMission(id){
+function startMission(id){ clearPops();
   const m0=MISSIONS[id]||Object.values(MISSIONS).find(x=>x.id===id)||MISSION_FIRST;
   const m=Object.assign({},m0,{steps:m0.steps.filter(s=>!s.onlyTL||s.onlyTL===TL())});
   MI={m,i:-1,log:[],t0:Date.now(),errs:0};
@@ -3389,7 +3430,7 @@ function finishMission(){
   mFoot(`<button class="btn" id="mgo">${mt('cont')}</button>`); $('mgo').onclick=exitMission;
   $('mprog').style.width='100%'; $('mbody').scrollTop=0;
 }
-function exitMission(){
+function exitMission(){ clearPops();
   try{ if(MI&&MI.bz) clearInterval(MI.bz.tick); }catch(e){} RADIO_ON=null;
   clearTimeout(MREC_T); try{ if(MREC){ MREC._manual=true; MREC.abort(); } }catch(e){} MREC=null; micQuiet(false); try{ speechSynthesis.cancel(); }catch(e){}
   MI=null; $('mission').hidden=true; document.body.style.overflow=''; document.body.classList.remove('busy'); renderTab();
@@ -3403,6 +3444,7 @@ $('mtask').onclick=e=>{
   const o=e.target.closest('.opt');
   if(o&&!o.disabled){ $('mtask').querySelectorAll('.opt').forEach(x=>x.setAttribute('aria-pressed',x===o)); MI.sel=+o.dataset.k; sTap();
     if(s.t==='reply'||s.t==='pic') supSay(mx(s.opts[MI.sel]));
+    if(s.t==='frame') supSay(o.textContent); /* v29: tocou na opção, ouve a palavra em inglês */
     $('mgo').disabled=false; return; }
   const t=e.target.closest('.tile');
   if(t&&!t.disabled){ const id=+t.dataset.id;
@@ -3421,7 +3463,7 @@ applyStatic(); $('iPick').innerHTML=pickerHTML(); $('flagBtn').onclick=openCours
 buildScenes(); refillHearts(); goTab('path'); setTimeout(()=>prerender(),300);
 if(ME){ cloudRestore().then(b=>{ if(b){ refillHearts(); goTab(curTab); } else syncCloud(); }); }
 /* ===== ATUALIZAÇÃO AUTOMÁTICA: se existir uma versão nova no site, o app recarrega sozinho ===== */
-const APP_VER='28';
+const APP_VER='30';
 /* usa a pergunta "mudou?" do navegador: se nada mudou, o site responde vazio (quase não gasta dados) */
 let lastCheck=0;
 function checkUpdate(){
@@ -3442,7 +3484,7 @@ const LVL=[{sp:'3.2s',w:L3('Brisa','Breeze','Brisa'),t:L3('Nada, estou começand
 /* mini turbina: gira mais rápido quanto mais a pessoa sabe */
 const lvlTurbine=sp=>`<svg class="lvt" viewBox="0 0 48 56" style="--sp:${sp}"><path d="M22.5 26L21 54h6l-1.5-28z" fill="#cfd8e6"/><g class="lvr"><path d="M24 24L22 4q2-3 4 0z" fill="#2a62b0"/><path d="M24 24L22 4q2-3 4 0z" fill="#2a62b0" transform="rotate(120 24 24)"/><path d="M24 24L22 4q2-3 4 0z" fill="#2a62b0" transform="rotate(240 24 24)"/></g><circle cx="24" cy="24" r="3.4" fill="#fff" stroke="#2a62b0" stroke-width="1.6"/></svg>`;
 const LANGN={en:L3('inglês','English','inglés'),pt:L3('português','Portuguese','portugués'),es:L3('espanhol','Spanish','español')};
-function askLevel(done){
+function askLevel(done){ clearPops();
   $('lvlQ').textContent=L3('Quanto {l} você já sabe?','How much {l} do you know?','¿Cuánto {l} sabes?')[BL()].replace('{l}',avL(LANGN[TL()]));
   $('lvlOpts').innerHTML=LVL.map((o,i)=>`<button class="lvlo" data-l="${i}"><i>${lvlTurbine(o.sp)}</i><span><em class="lvw">${avL(o.w)}</em>${avL(o.t)}<small>${avL(o.d)}</small></span></button>`).join('');
   setCat($('lvlCat'),'happy'); $('lvlPop').hidden=false;
@@ -3458,6 +3500,8 @@ function drawSky(phase,rain){
   const el=$('isky'), it=$('intro'); if(!el||!it) return;
   ['dawn','day','sunset','night','rain'].forEach(c=>it.classList.remove('sky-'+c));
   it.classList.add('sky-'+phase); if(rain) it.classList.add('sky-rain');
+  const bd=document.body; ['dawn','day','sunset','night','rain'].forEach(c=>bd.classList.remove('sky-'+c));
+  bd.classList.add('sky-'+phase); if(rain) bd.classList.add('sky-rain');
   let h='';
   const sunAt=(x,y,big)=>`<div class="rays" style="left:calc(${x} - 260px);top:calc(${y} - 260px)"></div><div class="sun" style="left:calc(${x} - ${big?70:55}px);top:calc(${y} - ${big?70:55}px);width:${big?140:110}px;height:${big?140:110}px"></div>`;
   if(!rain){
@@ -3477,18 +3521,26 @@ function drawSky(phase,rain){
     if(phase==='night'){ const z=document.createElement('div'); z.className='zzz'; z.innerHTML='<span>z</span><span>Z</span><span>z</span>'; cat.parentNode.appendChild(z); } }
   SKY_PHASE=phase; if(bub) bub.innerHTML=introGreeting();
 }
+let SKY_RAIN=false, SKY_WX=0;
 function skyInit(){
   let q={}; try{ const u=new URLSearchParams(location.search); q={ceu:u.get('ceu'),chuva:u.get('chuva')}; }catch(e){}
-  const phase=q.ceu||skyPhase(new Date()); let rain=q.chuva==='1';
-  drawSky(phase,rain);
-  if(q.chuva==null&&/^https?:/.test(location.protocol)){
+  const phase=q.ceu||skyPhase(new Date());
+  if(q.chuva!=null) SKY_RAIN=q.chuva==='1';
+  if(phase!==SKY_PHASE||!document.body.classList.contains('sky-'+phase)||document.body.classList.contains('sky-rain')!==SKY_RAIN) drawSky(phase,SKY_RAIN);
+  if(q.chuva==null&&/^https?:/.test(location.protocol)&&Date.now()-SKY_WX>20*60e3){
+    SKY_WX=Date.now();
     /* tempo de agora na fábrica (Pensacola), sem pedir localização a ninguém */
     fetch('https://api.open-meteo.com/v1/forecast?latitude=30.42&longitude=-87.22&current=precipitation,weather_code',{cache:'no-store'}).then(r=>r.json()).then(d=>{
-      const c=d&&d.current; if(!c) return; const wc=c.weather_code||0; rain=(c.precipitation>0)||(wc>=51&&wc<=67)||(wc>=80&&wc<=99);
-      if(rain) drawSky(phase,true); }).catch(()=>{});
+      const c=d&&d.current; if(!c) return; const wc=c.weather_code||0; const rain=(c.precipitation>0)||(wc>=51&&wc<=67)||(wc>=80&&wc<=99);
+      if(rain!==SKY_RAIN){ SKY_RAIN=rain; drawSky(SKY_PHASE||phase,rain); } }).catch(()=>{ SKY_WX=0; });
   }
 }
+document.addEventListener('contextmenu',e=>{ if(!(e.target.closest&&e.target.closest('input,textarea,select,[contenteditable="true"]'))) e.preventDefault(); });
+document.addEventListener('dragstart',e=>{ if(e.target&&(e.target.tagName==='IMG'||e.target.closest&&e.target.closest('svg'))) e.preventDefault(); });
 skyInit();
+/* app aberto por muito tempo: o céu muda sozinho (dia → pôr do sol → noite) e a chuva é conferida de novo */
+setInterval(()=>{ if(!document.hidden) skyInit(); },5*60e3);
+document.addEventListener('visibilitychange',()=>{ if(!document.hidden) skyInit(); });
 (function intro(){
   if(!HAS_COURSE){ $('introGo').hidden=true; $('iBub').hidden=true; }
   setCat($('introCat'),'happy'); setTimeout(()=>setCat($('introCat'),'idle'),2000);
