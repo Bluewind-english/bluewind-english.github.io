@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Bluewind English">
@@ -481,8 +481,10 @@ button.flag{border:0;cursor:pointer}
 .nodewrap.current{z-index:4}
 .uscene{position:absolute;left:-16px;right:-16px;top:-62px;bottom:-6px;z-index:0;pointer-events:none;overflow:hidden;-webkit-mask-image:linear-gradient(transparent,#000 70px,#000 calc(100% - 46px),transparent);mask-image:linear-gradient(transparent,#000 70px,#000 calc(100% - 46px),transparent)}
 .uscene svg{width:100%;height:100%;display:block}
-.uscene *{animation-play-state:paused}
+/* v31: cenários fora da tela ficam parados de verdade (antes uma regra posterior religava ~1000 animações escondidas) */
+.uscene:not(.play) *{animation-play-state:paused!important}
 .uscene.play *{animation-play-state:running}
+body:has(#intro:not([hidden])) .app *{animation-play-state:paused!important}
 .scrot{transform-box:view-box;animation:scspin 3s linear infinite}
 @keyframes scspin{to{transform:rotate(360deg)}}
 .scbird{animation:scbird 18s linear infinite}
@@ -681,10 +683,24 @@ b.prep{color:#0891b2;background:#cff7fe;border-radius:6px;padding:0 3px;font-wei
 .qbar .spk{flex:none}.qbar .slow{flex:none;width:auto;height:auto;padding:8px 10px;font-size:12px}
 @media (max-height:760px){.icat{height:17vh!important;width:calc(17vh * .86)!important}.ititle2{font-size:30px!important}.icover{max-width:250px;margin:0 auto;padding:8px 12px!important}.iwrap{gap:8px!important}.ibub{font-size:14px}.lchip{padding:6px 10px;font-size:14px}}
 
+
+/* v33: tocar no Turbi da capa = giro forte + rajada de vento */
+#introCat{cursor:pointer;-webkit-tap-highlight-color:transparent}
+.igust{position:absolute;inset:0;pointer-events:none;z-index:6;overflow:hidden}
+.igust .streak{position:absolute;left:0;height:4px;border-radius:4px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.95),transparent);animation:gfly var(--d,.7s) cubic-bezier(.2,.6,.3,1) forwards}
+@keyframes gfly{from{transform:translateX(-40vw) scaleX(.4);opacity:0}20%{opacity:1}to{transform:translateX(140vw) scaleX(1.4);opacity:0}}
+.igust .gleaf{position:absolute;width:16px;height:10px;border-radius:0 80% 0 80%;animation:gleaf var(--d,1.4s) cubic-bezier(.2,.5,.4,1) forwards}
+@keyframes gleaf{from{transform:translate(0,0) rotate(0);opacity:1}to{transform:translate(var(--x),var(--y)) rotate(var(--r));opacity:0}}
+.uhul{position:absolute;z-index:7;left:50%;top:38%;background:#fff;color:#16285a;border-radius:16px;padding:6px 14px;font-family:'Baloo 2','Poppins',system-ui,sans-serif;font-weight:800;font-size:22px;box-shadow:0 6px 16px rgba(20,40,90,.25);pointer-events:none;white-space:nowrap;animation:uhul 1s ease-out forwards}
+@keyframes uhul{0%{opacity:0;transform:translate(-50%,10px) scale(.6)}20%{opacity:1;transform:translate(-50%,-6px) scale(1.1)}70%{opacity:1}100%{opacity:0;transform:translate(-50%,-26px)}}
+@media (prefers-reduced-motion:reduce){.igust .streak,.igust .gleaf{display:none}}
 /* v29: nada de selecionar texto ou imagem segurando o dedo (só nos campos de digitar) */
 *,*::before,*::after{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 input,textarea,select,[contenteditable="true"]{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
 img,svg{-webkit-user-drag:none}
+/* v33: sem zoom de toque duplo; rolagem de dentro das janelas não "vaza" para a tela de trás */
+html,body{touch-action:pan-x pan-y}
+.lesson,.lesson *,.modal,.modal *,.avedit,.avedit *,.hpop,.hpop *,.intro,.intro *{overscroll-behavior:contain}
 
 /* v29: as telas do app acompanham o céu da capa (dia, noite, nascer, pôr do sol e chuva) */
 body.sky-day{--skyl:linear-gradient(180deg,#c6ebff 0%,#e6f6ff 38%,#f6fbff 100%)}
@@ -1523,8 +1539,8 @@ function unlockAudio(){
     const p=unlockEl.play(); if(p&&p.catch) p.catch(()=>{}); }catch(e){}
   if(ac && ac.state!=='running') ac.resume();
 }
-let speechOk=false;
-['pointerdown','touchend','click'].forEach(ev=>document.addEventListener(ev,()=>{ if(!speechOk&&canSpeak){ speechOk=true; unlockSpeech(); } try{ if(speechSynthesis.paused) speechSynthesis.resume(); }catch(e){} unlockPool(); unlockSfxEls(); if(ac && ac.state!=='running'){ try{ ac.resume(); }catch(e){} } },true));
+let speechOk=false, AUD_ARM=true; /* v33: chave do silencioso — o áudio mudo é religado no toque */
+['pointerdown','touchend','click'].forEach(ev=>document.addEventListener(ev,()=>{ if(!speechOk&&canSpeak){ speechOk=true; unlockSpeech(); } if(AUD_ARM&&(!unlockEl||unlockEl.paused)){ AUD_ARM=false; unlockAudio(); setTimeout(()=>AUD_ARM=true,1500); } try{ if(speechSynthesis.paused) speechSynthesis.resume(); }catch(e){} unlockPool(); unlockSfxEls(); if(ac && ac.state!=='running'){ try{ ac.resume(); }catch(e){} } },true));
 const MUSIC_GAIN=1.8;
 function musicOn(){
   unlockAudio();
@@ -1602,23 +1618,24 @@ function speakRate(t,r,retry){ t=ttsFix(t); if(!String(t==null?'':t).trim()) ret
       const u=new SpeechSynthesisUtterance(t); u.lang=VOICE?VOICE.lang:TTSL[TL()]; u.rate=r; u.volume=1; if(VOICE) u.voice=VOICE;
       let started=false; u.onstart=()=>{ started=true; }; u.onend=u.onerror=()=>{ if(SPK_U===u) SPK_U=null; };
       SPK_U=u; ss.speak(u); if(ss.paused) ss.resume();
-      clearTimeout(SPK_T); SPK_T=setTimeout(()=>{ if(!started&&id===SPK_N&&!retry){ try{ ss.cancel(); }catch(e){} speakRate(t,r,true); } },1200); };
-    if(ss.speaking||ss.pending){ ss.cancel(); setTimeout(go,90); } else go();
+      clearTimeout(SPK_T); SPK_T=setTimeout(()=>{ if(!started&&id===SPK_N&&!retry){ try{ ss.cancel(); }catch(e){} setTimeout(()=>{ if(id===SPK_N) speakRate(t,r,true); },300); } },1800); };
+    if(ss.speaking||ss.pending){ ss.cancel(); setTimeout(go,220); } else go(); /* iPhone: falar logo depois de cancelar às vezes fica mudo */
   }catch(e){} }
 /* destrava a voz no primeiro toque do app */
-function unlockSpeech(){ try{ const u=new SpeechSynthesisUtterance(' '); u.volume=0; u.lang=TTSL[TL()]; speechSynthesis.speak(u); }catch(e){} }
+/* v31: modo 'tocador' do iPhone já no primeiro toque, para a voz não depender da chave de silencioso */
+function unlockSpeech(){ try{ if(navigator.audioSession&&!MIC_ON&&navigator.audioSession.type!=='playback') navigator.audioSession.type='playback'; }catch(e){} try{ const u=new SpeechSynthesisUtterance(' '); u.volume=0; u.lang=TTSL[TL()]; speechSynthesis.speak(u); }catch(e){} }
 const speak=t=>speakRate(t,.88);
 /* botão Devagar: fala palavra por palavra, com pausa entre elas e voz mais lenta */
 function speakSlow(t,retry){ if(!String(t==null?'':t).trim()) return; duck();
-  try{ const ss=speechSynthesis, id=++SPK_N; clearTimeout(SPK_T);
-    if(ss.speaking||ss.pending) ss.cancel(); if(ss.paused) ss.resume(); if(!VOICE) pickVoice();
+  try{ const ss=speechSynthesis, id=++SPK_N; clearTimeout(SPK_T); const busy0=ss.speaking||ss.pending;
+    if(busy0) ss.cancel(); if(ss.paused) ss.resume(); if(!VOICE) pickVoice();
     const words=String(t).split(/\s+/).filter(Boolean), parts=words.length>1?words:[t];
     setTimeout(()=>{ if(id!==SPK_N) return;
       SPK_U=parts.map(w=>{ const u=new SpeechSynthesisUtterance(ttsFix(w)); u.lang=VOICE?VOICE.lang:TTSL[TL()]; u.rate=parts.length>1?.62:.42; u.volume=1; if(VOICE) u.voice=VOICE; return u; });
       let started=false; SPK_U[0].onstart=()=>{ started=true; };
       SPK_U.forEach(u=>ss.speak(u)); if(ss.paused) ss.resume();
       /* no iPhone a fila de falas às vezes trava: se não começar, tenta de novo uma vez */
-      SPK_T=setTimeout(()=>{ if(!started&&id===SPK_N&&!retry){ try{ ss.cancel(); }catch(e){} speakSlow(t,true); } },1300); },90);
+      SPK_T=setTimeout(()=>{ if(!started&&id===SPK_N&&!retry){ try{ ss.cancel(); }catch(e){} setTimeout(()=>{ if(id===SPK_N) speakSlow(t,true); },300); } },1800); },busy0?220:0);
   }catch(e){} }
 const SPK='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>';
 function remember(k){ S.cards=S.cards||{}; if(!S.cards[k]){ S.cards[k]={box:0,due:Date.now()}; save(); return true; } return false; }
@@ -1648,7 +1665,7 @@ document.addEventListener('click',e=>{
   const w=e.target.closest('.w'); if(w){ e.stopPropagation(); openWord(w.dataset.w); return; }
   if(!$('wpop').hidden && !e.target.closest('.wcard')) $('wpop').hidden=true;
 },true);
-document.addEventListener('click',e=>{ const c=e.target.closest('.cat'); if(!c||c.closest('.intro')&&false) return; meow(true); const m=c.classList.contains('sad')?'sad':'idle'; setCat(c,'happy'); setTimeout(()=>setCat(c,m),800); });
+document.addEventListener('click',e=>{ const c=e.target.closest('.cat'); if(!c||c.id==='introCat') return; /* v33: na capa, o toque é a rajada de vento */ meow(true); const m=c.classList.contains('sad')?'sad':'idle'; setCat(c,'happy'); setTimeout(()=>setCat(c,m),800); });
 let hintT=null;
 /* toque numa palavra da frase da pergunta: mostra como se diz no idioma estudado */
 function promptHint(k){
@@ -2957,7 +2974,7 @@ function turbiSay(t){ if(!canSpeak||!t||String(t).length>32) return; duck();
   try{ const ss=speechSynthesis, id=++SPK_N; clearTimeout(SPK_T);
     const go=()=>{ if(id!==SPK_N) return; const u=new SpeechSynthesisUtterance(t), v=voiceFor(BL());
       u.lang=v?v.lang:TTSL[BL()]; if(v) u.voice=v; u.pitch=1; u.rate=1; u.volume=1; SPK_U=u; ss.speak(u); if(ss.paused) ss.resume(); };
-    if(ss.speaking||ss.pending){ ss.cancel(); setTimeout(go,90); } else go();
+    if(ss.speaking||ss.pending){ ss.cancel(); setTimeout(go,220); } else go(); /* iPhone: falar logo depois de cancelar às vezes fica mudo */
   }catch(e){} }
 const supSay=t=>{ if(canSpeak) speakRate(t,.85); };
 
@@ -3192,8 +3209,8 @@ function playRadio(ep,rate,only,retry){
   const go=()=>{ if(RADIO_ON!==id) return; next();
     /* não começou? tenta de novo uma vez; se ainda não der, libera o botão Continuar */
     setTimeout(()=>{ if(started||RADIO_ON!==id) return;
-      if(!retry){ RADIO_ON=null; try{ ss.cancel(); }catch(e){} setTimeout(()=>playRadio(ep,rate,only,true),120); } else fin(); },1500); };
-  if(busy) setTimeout(go,120); else go();
+      if(!retry){ RADIO_ON=null; try{ ss.cancel(); }catch(e){} setTimeout(()=>playRadio(ep,rate,only,true),300); } else fin(); },1800); };
+  if(busy) setTimeout(go,220); else go();
 }
 function radioDone(){ if(!MI) return; MI.rc=(MI.rc||0)+1; const c=$('rCount'); if(c) c.textContent=mt('heardN').replace('{n}',MI.rc); const g=$('mgo'); if(g) g.disabled=false; }
 /* ---- Desafio-relâmpago ---- */
@@ -3383,6 +3400,7 @@ const STOPW=new Set('i you he she it we they me my your the a an is am are be to
    Ao ligar o microfone pedimos o modo gravar+tocar; ao desligar, voltamos ao modo normal e destravamos a voz. */
 let MIC_ON=false;
 function micAudio(on){ if(!on&&!MIC_ON) return; MIC_ON=on; try{ if(navigator.audioSession) navigator.audioSession.type=on?'play-and-record':'playback'; }catch(e){}
+  if(!on){ setTimeout(()=>{ try{ unlockAudio(); }catch(e){} },150); }
   if(!on&&canSpeak){ try{ speechSynthesis.cancel(); }catch(e){} setTimeout(()=>{ try{ if(!speechSynthesis.speaking) unlockSpeech(); }catch(e){} },250); } }
 function micQuiet(on){ micAudio(on); try{ if(!MUS.on||!MUS.bus) return; const t=ac.currentTime; MUS.bus.gain.cancelScheduledValues(t);
   MUS.bus.gain.setTargetAtTime(on?.0001:Math.max(S.music.vol*MUSIC_GAIN,.001),t,.08); }catch(e){} }
@@ -3476,7 +3494,7 @@ applyStatic(); $('iPick').innerHTML=pickerHTML(); $('flagBtn').onclick=openCours
 buildScenes(); refillHearts(); goTab('path'); setTimeout(()=>prerender(),300);
 if(ME){ cloudRestore().then(b=>{ if(b){ refillHearts(); goTab(curTab); } else syncCloud(); }); }
 /* ===== ATUALIZAÇÃO AUTOMÁTICA: se existir uma versão nova no site, o app recarrega sozinho ===== */
-const APP_VER='31';
+const APP_VER='33';
 /* usa a pergunta "mudou?" do navegador: se nada mudou, o site responde vazio (quase não gasta dados) */
 let lastCheck=0;
 function checkUpdate(){
@@ -3548,6 +3566,58 @@ function skyInit(){
       if(rain!==SKY_RAIN){ SKY_RAIN=rain; drawSky(SKY_PHASE||phase,rain); } }).catch(()=>{ SKY_WX=0; });
   }
 }
+
+/* v33: tocar no Turbi da capa — as pás disparam, o vento sopra, folhas voam. Quanto mais toques seguidos, mais forte. */
+let GUST_P=0, GUST_RAF=0;
+function windWhoosh(st){ const c=A(); if(!c) return; try{
+  const dur=1.4+st*.6, n=Math.floor(c.sampleRate*dur), buf=c.createBuffer(1,n,c.sampleRate), d=buf.getChannelData(0);
+  let b=0; for(let i=0;i<n;i++){ b=(b+0.02*(Math.random()*2-1))/1.02; d[i]=b*3.5+(Math.random()*2-1)*.25; }
+  const src=c.createBufferSource(); src.buffer=buf; const t0=c.currentTime;
+  const bp=c.createBiquadFilter(); bp.type='bandpass'; bp.Q.value=.9;
+  bp.frequency.setValueAtTime(250,t0); bp.frequency.exponentialRampToValueAtTime(1300+st*900,t0+dur*.35); bp.frequency.exponentialRampToValueAtTime(300,t0+dur);
+  const g=c.createGain(); g.gain.setValueAtTime(.0001,t0); g.gain.exponentialRampToValueAtTime(.8+st*.5,t0+.18); g.gain.exponentialRampToValueAtTime(.0001,t0+dur);
+  const lp=c.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=180; const g2=c.createGain();
+  g2.gain.setValueAtTime(.0001,t0); g2.gain.exponentialRampToValueAtTime(.6,t0+.12); g2.gain.exponentialRampToValueAtTime(.0001,t0+dur*.8);
+  src.connect(bp).connect(g).connect(comp); src.connect(lp).connect(g2).connect(comp); src.start(); src.stop(t0+dur); }catch(e){} }
+function turbiGust(){
+  const cat=$('introCat'), intro=$('intro'); if(!cat||!intro||intro.hidden) return;
+  GUST_P=Math.min(1,GUST_P+.35); const st=GUST_P;
+  /* pás: acelera muito e vai freando até o giro calmo */
+  const rot=cat.querySelector('.trot'); const an=rot&&rot.getAnimations?rot.getAnimations()[0]:null;
+  if(an){ an.playbackRate=Math.min(80,Math.max(an.playbackRate,1)+30+st*30);
+    cancelAnimationFrame(GUST_RAF); let last=performance.now();
+    const dec=t=>{ const dt=Math.min(50,t-last)/1000; last=t; GUST_P=Math.max(0,GUST_P-dt*.6);
+      const r=1+(an.playbackRate-1)*Math.max(0,1-dt*1.1); an.playbackRate=r; if(r>1.05) GUST_RAF=requestAnimationFrame(dec); else an.playbackRate=1; };
+    GUST_RAF=requestAnimationFrame(dec); }
+  const box=cat.querySelector('.tbox'); if(box&&box.animate) box.animate([{transform:'scale(1)'},{transform:'scale(.92,1.06)',offset:.15},{transform:'scale(1.06,.95) rotate(-4deg)',offset:.4},{transform:'rotate(3deg)',offset:.65},{transform:'none'}],{duration:900,easing:'cubic-bezier(.3,1.6,.5,1)'});
+  let gl=intro.querySelector('.igust'); if(!gl){ gl=document.createElement('div'); gl.className='igust'; gl.setAttribute('aria-hidden','true'); intro.appendChild(gl); }
+  const ir=intro.getBoundingClientRect(), r=cat.getBoundingClientRect(), cx=r.left-ir.left+r.width/2, cy=r.top-ir.top+intro.scrollTop+r.height*.3;
+  for(let i=0;i<6+Math.round(st*8);i++){ const e=document.createElement('div'); e.className='streak';
+    e.style.top=(intro.scrollTop+ir.height*(.1+Math.random()*.75))+'px'; e.style.width=(80+Math.random()*160)+'px';
+    e.style.setProperty('--d',(.5+Math.random()*.5)+'s'); e.style.animationDelay=(Math.random()*.25)+'s'; gl.appendChild(e); setTimeout(()=>e.remove(),1300); }
+  const LC=['#7bbf3a','#a3d65c','#f2a33a','#e2623b'];
+  for(let i=0;i<4+Math.round(st*6);i++){ const e=document.createElement('div'); e.className='gleaf'; e.style.background=LC[i%4];
+    e.style.left=cx+'px'; e.style.top=cy+'px'; e.style.setProperty('--x',(120+Math.random()*260)*(Math.random()<.75?1:-1)+'px');
+    e.style.setProperty('--y',(Math.random()*240-160)+'px'); e.style.setProperty('--r',(360+Math.random()*720)+'deg'); e.style.setProperty('--d',(1+Math.random()*.8)+'s');
+    gl.appendChild(e); setTimeout(()=>e.remove(),2000); }
+  if(st>.7){ const w=intro.querySelector('.iwrap'); if(w&&w.animate) w.animate([{transform:'none'},{transform:'translateX(-5px)'},{transform:'translateX(4px)'},{transform:'translateX(-2px)'},{transform:'none'}],{duration:500});
+    const col=cat.parentNode; const old=col.querySelector('.uhul'); if(old) old.remove();
+    const u=document.createElement('div'); u.className='uhul'; u.textContent=L3('Uhuuu!','Woohoo!','¡Yujuuu!')[BL()]; u.style.top=(cat.offsetTop+cat.offsetHeight*.12)+'px'; u.style.left=(cat.offsetLeft+cat.offsetWidth*1.02)+'px'; col.appendChild(u); setTimeout(()=>u.remove(),1100); }
+  windWhoosh(st);
+}
+document.addEventListener('click',e=>{ if(e.target.closest&&e.target.closest('#introCat')) turbiGust(); },true);
+/* v33: sem zoom de dois dedos (o iPhone ignora o user-scalable=no) */
+['gesturestart','gesturechange','gestureend'].forEach(ev=>document.addEventListener(ev,e=>e.preventDefault(),{passive:false}));
+/* v33: com lição, missão ou janela aberta, a tela de trás não rola; só rola o que está dentro da janela */
+const OVL_IDS=['intro','lesson','mission','done','cards','avedit','modal','lvlPop'];
+const ovlOpen=()=>OVL_IDS.some(i=>{ const e=$(i); return e&&!e.hidden; });
+document.addEventListener('touchmove',e=>{
+  if(e.touches&&e.touches.length>1){ e.preventDefault(); return; }
+  if(!ovlOpen()) return;
+  for(let el=e.target; el&&el!==document.body&&el!==document.documentElement; el=el.parentElement){
+    const oy=getComputedStyle(el).overflowY; if((oy==='auto'||oy==='scroll')&&el.scrollHeight>el.clientHeight+1) return; }
+  e.preventDefault();
+},{passive:false});
 document.addEventListener('contextmenu',e=>{ if(!(e.target.closest&&e.target.closest('input,textarea,select,[contenteditable="true"]'))) e.preventDefault(); });
 document.addEventListener('dragstart',e=>{ if(e.target&&(e.target.tagName==='IMG'||e.target.closest&&e.target.closest('svg'))) e.preventDefault(); });
 skyInit();
