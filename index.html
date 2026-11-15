@@ -3027,9 +3027,9 @@ const BG_KINDS=['shop','shop2','floor','safety','warehouse','molds','quality','o
 let lastBg='';
 function setBg(el){ try{ const opts=BG_KINDS.filter(k=>k!==lastBg); const k=opts[Math.floor(Math.random()*opts.length)]; lastBg=k; $(el).innerHTML=factoryBg(k); }catch(e){} }
 /* ================= MÉTODO BLUEWIND (teste na unidade Ferramentas) =================
-   Ouvir muito (Rádio da Fábrica) · frases-molde · regrinhas · velocidade (desafio-relâmpago) · falar */
+   Ouvir muito (Rádio Peão) · frases-molde · regrinhas · velocidade (desafio-relâmpago) · falar */
 Object.assign(MT,{
-  radio:L3('Rádio da Fábrica','Factory Radio','Radio de la Fábrica'),
+  radio:L3('Rádio Peão','Rádio Peão','Rádio Peão'),
   playAll:L3('Ouvir a conversa','Play the talk','Escuchar la plática'),
   heardN:L3('Você ouviu {n}x','You listened {n}x','Escuchaste {n}x'),
   listenFirst:L3('Ouça a conversa inteira para continuar','Listen to the whole talk to continue','Escucha toda la plática para continuar'),
@@ -3089,7 +3089,7 @@ const BW_POOL=[...RADIO.tools.lines.map(l=>l.t),...RADIO.tools.chunks,
   ...BW_RULES.places.ex];
 const fq=(f,tool,alts)=>({t:'frame',f,tool,alts});
 Object.assign(MISSIONS,{
-MB1:{id:'MB1',who:'mike',title:L3('Aula 1 · Rádio da Fábrica','Lesson 1 · Factory Radio','Clase 1 · Radio de la Fábrica'),sub:L3('Ouça a conversa várias vezes e entenda tudo.','Listen to the talk several times and understand it all.','Escucha la plática varias veces y entiende todo.'),steps:[
+MB1:{id:'MB1',who:'mike',title:L3('Aula 1 · Rádio Peão','Lesson 1 · Rádio Peão','Clase 1 · Rádio Peão'),sub:L3('Ouça a conversa várias vezes e entenda tudo.','Listen to the talk several times and understand it all.','Escucha la plática varias veces y entiende todo.'),steps:[
   {t:'turbi',sayEasy:L3('Vamos ouvir o Mike e o Jake na bancada! Ouça com calma e leia junto. Pode repetir quantas vezes quiser.','Let\'s listen to Mike and Jake at the workbench! Listen calmly and read along. Repeat as many times as you like.','¡Vamos a escuchar a Mike y a Jake en el banco de trabajo! Escucha con calma y lee junto. Repite las veces que quieras.'),say:L3('Vamos ouvir o Mike e o Jake na bancada! Primeira vez: só ouça, sem ler. Não precisa entender tudo.','Let\'s listen to Mike and Jake at the workbench! First time: just listen, no reading. You don\'t need to understand everything.','¡Vamos a escuchar a Mike y a Jake en el banco de trabajo! Primera vez: solo escucha, sin leer. No tienes que entender todo.')},
   {t:'radio',ep:'tools',mode:'listen',say:L3('1ª escuta: só ouça.','1st listen: just listen.','1ª escucha: solo escucha.')},
   {t:'quiz',ep:'tools',q:L3('Do que o Mike precisa?','What does Mike need?','¿Qué necesita Mike?'),opts:[L3('Do nível e de uma trena','The level and a tape measure','El nivel y una cinta métrica'),L3('Do martelo e do alicate','The hammer and the pliers','El martillo y las pinzas'),L3('De uma escada','A ladder','Una escalera')]},
@@ -3146,7 +3146,7 @@ const MB_ICON={
   MB1:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 3.2 6.3 7H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-6.8l6-2zM8 11a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm7 1h4v2h-4zm0 3h4v2h-4z"/></svg>',
   MB4:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>',
   U1:MICON};
-const MB_NAME={MB2:L3('Frases-molde','Sentence frames','Frases molde'),MB3:L3('Regrinhas','Quick rules','Reglitas'),MB1:L3('Rádio da Fábrica','Factory Radio','Radio de la Fábrica'),MB4:L3('Relâmpago','Lightning','Relámpago'),U1:L3('Missão','Mission','Misión')};
+const MB_NAME={MB2:L3('Frases-molde','Sentence frames','Frases molde'),MB3:L3('Regrinhas','Quick rules','Reglitas'),MB1:L3('Rádio Peão','Rádio Peão','Rádio Peão'),MB4:L3('Relâmpago','Lightning','Relámpago'),U1:L3('Missão','Mission','Misión')};
 const MB_OFF=[0,-60,-84,-60,0];
 function methodCard(){
   const done=id=>!!(S.missions&&S.missions[MISSIONS[id].id]);
@@ -3171,21 +3171,29 @@ function methodCard(){
 }
 /* ---- Rádio: várias vozes em sequência, destacando a frase que está tocando ---- */
 let RADIO_ON=null;
-function stopRadio(){ RADIO_ON=null; try{ speechSynthesis.cancel(); }catch(e){} document.querySelectorAll('.rl.on').forEach(x=>x.classList.remove('on')); }
-function playRadio(ep,rate,only){
+let RADIO_U=null;
+function stopRadio(cancel){ RADIO_ON=null; if(cancel!==false){ try{ const ss=speechSynthesis; if(ss.speaking||ss.pending) ss.cancel(); }catch(e){} } document.querySelectorAll('.rl.on').forEach(x=>x.classList.remove('on')); }
+function playRadio(ep,rate,only,retry){
   if(!canSpeak){ radioDone(); return; }
-  stopRadio(); duck(); const id={}; RADIO_ON=id; if(!VOICE) pickVoice();
+  const ss=speechSynthesis, busy=ss.speaking||ss.pending;
+  stopRadio(busy); duck(); const id={}; RADIO_ON=id; if(!VOICE) pickVoice();
   const idx=only!=null?[only]:ep.lines.map((l,i)=>i);
-  let started=false;
-  const mk=i=>{ const l=ep.lines[i], u=new SpeechSynthesisUtterance(mx(l.t)); u.lang=VOICE?VOICE.lang:TTSL[TL()]; if(VOICE) u.voice=VOICE;
-    u.rate=rate; u.pitch=(CHARS[l.who]&&CHARS[l.who].pitch)||1; u.volume=1;
+  let started=false, k=0, wd=null;
+  /* v31: uma fala de cada vez (no iPhone a fila grande às vezes fica muda) */
+  const fin=()=>{ clearTimeout(wd); if(RADIO_ON!==id) return; document.querySelectorAll('.rl.on').forEach(x=>x.classList.remove('on')); RADIO_ON=null; if(only==null) radioDone(); };
+  const next=()=>{ clearTimeout(wd); if(RADIO_ON!==id) return; if(k>=idx.length){ fin(); return; }
+    const i=idx[k++], l=ep.lines[i], tx=ttsFix(mx(l.t)), u=new SpeechSynthesisUtterance(tx);
+    u.lang=VOICE?VOICE.lang:TTSL[TL()]; if(VOICE) u.voice=VOICE; u.rate=rate; u.pitch=(CHARS[l.who]&&CHARS[l.who].pitch)||1; u.volume=1;
     u.onstart=()=>{ started=true; if(RADIO_ON!==id) return; document.querySelectorAll('.rl').forEach(x=>x.classList.toggle('on',+x.dataset.i===i)); };
-    return u; };
-  const us=idx.map(mk);
-  us[us.length-1].onend=()=>{ if(RADIO_ON!==id) return; document.querySelectorAll('.rl.on').forEach(x=>x.classList.remove('on')); RADIO_ON=null; if(only==null) radioDone(); };
-  setTimeout(()=>{ if(RADIO_ON!==id) return; us.forEach(u=>speechSynthesis.speak(u));
-    /* se o celular não começar a falar, libera o botão mesmo assim */
-    setTimeout(()=>{ if(!started&&RADIO_ON===id){ RADIO_ON=null; if(only==null) radioDone(); } },2500); },120);
+    u.onend=u.onerror=()=>{ if(RADIO_ON===id) setTimeout(next,250); };
+    RADIO_U=u; ss.speak(u); if(ss.paused) ss.resume();
+    /* se o celular "esquecer" de avisar que terminou, segue para a próxima fala */
+    wd=setTimeout(()=>{ if(RADIO_ON===id&&started) next(); }, 2500+String(tx).length*110/rate); };
+  const go=()=>{ if(RADIO_ON!==id) return; next();
+    /* não começou? tenta de novo uma vez; se ainda não der, libera o botão Continuar */
+    setTimeout(()=>{ if(started||RADIO_ON!==id) return;
+      if(!retry){ RADIO_ON=null; try{ ss.cancel(); }catch(e){} setTimeout(()=>playRadio(ep,rate,only,true),120); } else fin(); },1500); };
+  if(busy) setTimeout(go,120); else go();
 }
 function radioDone(){ if(!MI) return; MI.rc=(MI.rc||0)+1; const c=$('rCount'); if(c) c.textContent=mt('heardN').replace('{n}',MI.rc); const g=$('mgo'); if(g) g.disabled=false; }
 /* ---- Desafio-relâmpago ---- */
@@ -3340,7 +3348,7 @@ function stepRight(s){
   if(s.t==='frame'){ const f=frameFill(s.f,TL(),s.tool); chatAdd('me',f); supSay(f); }
   if(s.t==='hear'||s.t==='speak') { /* nada a acrescentar no chat */ }
   if(s.t!=='reply'&&s.t!=='build'&&s.t!=='frame') turbiSay(mt('right'));
-  $('mtask').querySelectorAll('button').forEach(b=>b.disabled=true);
+  $('mtask').querySelectorAll('button:not(.slow):not(.spk)').forEach(b=>b.disabled=true); /* v31: Ouvir/Devagar continuam funcionando depois de acertar */
   mFoot(`<div class="fbh"><div class="cat happy party fcat">${catSVG('happy')}</div><h3>${mt('right')}</h3></div>${chunkTip(s)}<button class="btn" id="mgo">${mt('cont')}</button>`,'good');
   $('mgo').onclick=()=>{ sTap(); nextStep(); };
 }
@@ -3371,7 +3379,12 @@ const normW=t=>{ let x=String(t).toLowerCase().replace(/[’`]/g,"'").normalize(
   return x.split(/\s+/).filter(Boolean).map(w=>w==='ok'?'okay':w); };
 /* palavras "pequenas" contam menos: o importante é acertar as palavras principais */
 const STOPW=new Set('i you he she it we they me my your the a an is am are be to of in on at and or please do not so now too ok okay o a os as um uma de da do em no na eu voce e el la los las un una y yo tu es que me por favor'.split(' '));
-function micQuiet(on){ try{ if(!MUS.on||!MUS.bus) return; const t=ac.currentTime; MUS.bus.gain.cancelScheduledValues(t);
+/* v31: no iPhone, depois de usar o microfone o som fica preso no 'modo gravação' e a voz do app emudece.
+   Ao ligar o microfone pedimos o modo gravar+tocar; ao desligar, voltamos ao modo normal e destravamos a voz. */
+let MIC_ON=false;
+function micAudio(on){ if(!on&&!MIC_ON) return; MIC_ON=on; try{ if(navigator.audioSession) navigator.audioSession.type=on?'play-and-record':'playback'; }catch(e){}
+  if(!on&&canSpeak){ try{ speechSynthesis.cancel(); }catch(e){} setTimeout(()=>{ try{ if(!speechSynthesis.speaking) unlockSpeech(); }catch(e){} },250); } }
+function micQuiet(on){ micAudio(on); try{ if(!MUS.on||!MUS.bus) return; const t=ac.currentTime; MUS.bus.gain.cancelScheduledValues(t);
   MUS.bus.gain.setTargetAtTime(on?.0001:Math.max(S.music.vol*MUSIC_GAIN,.001),t,.08); }catch(e){} }
 let MREC_T=null;
 function listenMic(tx){
@@ -3463,7 +3476,7 @@ applyStatic(); $('iPick').innerHTML=pickerHTML(); $('flagBtn').onclick=openCours
 buildScenes(); refillHearts(); goTab('path'); setTimeout(()=>prerender(),300);
 if(ME){ cloudRestore().then(b=>{ if(b){ refillHearts(); goTab(curTab); } else syncCloud(); }); }
 /* ===== ATUALIZAÇÃO AUTOMÁTICA: se existir uma versão nova no site, o app recarrega sozinho ===== */
-const APP_VER='30';
+const APP_VER='31';
 /* usa a pergunta "mudou?" do navegador: se nada mudou, o site responde vazio (quase não gasta dados) */
 let lastCheck=0;
 function checkUpdate(){
