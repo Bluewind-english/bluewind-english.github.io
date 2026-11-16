@@ -148,6 +148,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .node.chest svg,.node.trophy svg{width:64px;height:64px}
 .nodewrap.current .node:not(.chest):not(.trophy){outline:7px solid color-mix(in srgb,var(--uc) 28%,transparent);outline-offset:4px}
 .start-tag{position:absolute;bottom:calc(100% + 14px);left:50%;transform:translateX(-50%);background:#fff;color:var(--uc);border:2px solid var(--line);font-weight:900;font-size:14px;padding:7px 12px;border-radius:12px;white-space:nowrap;letter-spacing:.8px;animation:float 1.4s ease-in-out infinite}
+.nodewrap.mbw.current{margin-top:44px} /* v33: espaço para o balão Começar não cobrir o nome da aula de cima */
 .start-tag::after{content:"";position:absolute;top:100%;left:50%;margin-left:-8px;border:8px solid transparent;border-top-color:#fff}
 @keyframes float{50%{transform:translate(-50%,-5px)}}
 .pathcat{position:absolute;width:96px;height:96px}
@@ -484,7 +485,6 @@ button.flag{border:0;cursor:pointer}
 /* v31: cenários fora da tela ficam parados de verdade (antes uma regra posterior religava ~1000 animações escondidas) */
 .uscene:not(.play) *{animation-play-state:paused!important}
 .uscene.play *{animation-play-state:running}
-body:has(#intro:not([hidden])) .app *{animation-play-state:paused!important}
 .scrot{transform-box:view-box;animation:scspin 3s linear infinite}
 @keyframes scspin{to{transform:rotate(360deg)}}
 .scbird{animation:scbird 18s linear infinite}
@@ -1603,13 +1603,15 @@ const whoosh_=(dt=0)=>{ const c=A(); if(!c) return; const t=c.currentTime+dt; co
 /* ================= FALA, DICA E CARTÃO DA PALAVRA ================= */
 const canSpeak='speechSynthesis' in window;
 let VOICE=null;
-function pickVoice(){ try{ const v=speechSynthesis.getVoices(); const L0=TTSL[TL()], pre=L0.slice(0,2), nl=s=>String(s).replace('_','-'); VOICE=v.find(x=>nl(x.lang)===L0&&/Samantha|Google|Aria|Jenny|Ava|Luciana|Paulina|Francisca|Monica|Joana|Felipe/.test(x.name))||v.find(x=>nl(x.lang)===L0)||(pre==='es'&&v.find(x=>/^es[-_](MX|US|419)/.test(x.lang)))||(pre==='pt'&&v.find(x=>/^pt[-_]BR/.test(x.lang)))||v.find(x=>x.lang.startsWith(pre))||null; }catch(e){} }
+function pickVoice(){ try{ const v=speechSynthesis.getVoices(); const L0=TTSL[TL()], pre=L0.slice(0,2), nl=s=>String(s).replace('_','-'); VOICE=v.find(x=>nl(x.lang)===L0&&/Enhanced|Premium|Aprimorad|Melhorad|Mejorad/i.test(x.name))||v.find(x=>nl(x.lang)===L0&&/Samantha|Google|Aria|Jenny|Ava|Luciana|Paulina|Francisca|Monica|Joana|Felipe/.test(x.name))||v.find(x=>nl(x.lang)===L0)||(pre==='es'&&v.find(x=>/^es[-_](MX|US|419)/.test(x.lang)))||(pre==='pt'&&v.find(x=>/^pt[-_]BR/.test(x.lang)))||v.find(x=>x.lang.startsWith(pre))||null; }catch(e){} }
 if(canSpeak){ pickVoice(); try{ speechSynthesis.onvoiceschanged=pickVoice; }catch(e){} }
 /* a voz precisa começar no mesmo instante do toque (exigência do iPhone) */
 /* guarda a fala atual (no iPhone ela some da memória e trava a próxima), e tenta de novo se não começar */
 let SPK_U=null, SPK_T=null, SPK_N=0;
 /* "I" sozinho o celular lê como número romano (one/first): falamos "i" minúsculo, que soa "ái" */
-const ttsFix=t=>TL()==='en'&&/^\s*I\s*[.!?,]?\s*$/.test(String(t))?'i':t;
+const ttsI=t=>TL()==='en'&&/^\s*I\s*[.!?,]?\s*$/.test(String(t))?'i':t;
+/* v33: palavra sozinha ganha um ponto final — a voz do iPhone pronuncia a palavra inteira e com mais clareza */
+const ttsFix=t=>{ if(TL()==='en'&&/^\s*I\s*[.!?,]?\s*$/.test(String(t))) return 'i'; const x=String(t==null?'':t).trim(); return /^[\p{L}'’-]+$/u.test(x)?x+'.':t; };
 function speakRate(t,r,retry){ t=ttsFix(t); if(!String(t==null?'':t).trim()) return; duck();
   try{ const ss=speechSynthesis, id=++SPK_N;
     if(ss.paused) ss.resume();
@@ -1631,7 +1633,7 @@ function speakSlow(t,retry){ if(!String(t==null?'':t).trim()) return; duck();
     if(busy0) ss.cancel(); if(ss.paused) ss.resume(); if(!VOICE) pickVoice();
     const words=String(t).split(/\s+/).filter(Boolean), parts=words.length>1?words:[t];
     setTimeout(()=>{ if(id!==SPK_N) return;
-      SPK_U=parts.map(w=>{ const u=new SpeechSynthesisUtterance(ttsFix(w)); u.lang=VOICE?VOICE.lang:TTSL[TL()]; u.rate=parts.length>1?.62:.42; u.volume=1; if(VOICE) u.voice=VOICE; return u; });
+      SPK_U=parts.map(w=>{ const u=new SpeechSynthesisUtterance(parts.length>1?ttsI(w):ttsFix(w)); u.lang=VOICE?VOICE.lang:TTSL[TL()]; u.rate=parts.length>1?.62:.42; u.volume=1; if(VOICE) u.voice=VOICE; return u; });
       let started=false; SPK_U[0].onstart=()=>{ started=true; };
       SPK_U.forEach(u=>ss.speak(u)); if(ss.paused) ss.resume();
       /* no iPhone a fila de falas às vezes trava: se não começar, tenta de novo uma vez */
@@ -3179,7 +3181,7 @@ function methodCard(){
     if(openNode===oid) pop=st==='locked'
       ?`<div class="popover locked"><b>${esc(name)}</b><span>${esc(gate?(need>1?L3('Faça antes {n} lições de palavras da Unidade 1','First do {n} word lessons in Unit 1','Haz antes {n} lecciones de palabras de la Unidad 1'):L3('Faça antes 1 lição de palavras da Unidade 1','First do 1 word lesson in Unit 1','Haz antes 1 lección de palabras de la Unidad 1'))[BL()].replace('{n}',need):L3('Termine a aula anterior para abrir esta.','Finish the previous lesson to open this one.','Termina la clase anterior para abrir esta.')[BL()])}</span></div>`
       :`<div class="popover"><b>${esc(name)}</b><span>${esc(avL(m.sub))}</span><button class="btn" data-mission="${id}">${d?mt('redo'):mt('start')}</button></div>`;
-    h+=`<div class="nodewrap ${st}${openNode===oid?' haspop':''}" style="transform:translateX(${MB_OFF[i]}px);--o:${MB_OFF[i]}px">
+    h+=`<div class="nodewrap mbw ${st}${openNode===oid?' haspop':''}" style="transform:translateX(${MB_OFF[i]}px);--o:${MB_OFF[i]}px">
       ${st==='current'&&openNode!==oid?`<span class="start-tag">${mt('start')}</span>`:''}
       <button class="node mbnode${st!=='current'?' '+st:''}" data-bnode="${id}" aria-label="${esc(name)}">${st==='locked'?LOCKI:MB_ICON[id]}</button>
       <span class="nlabel">${esc(avL(MB_NAME[id]))}</span>${pop}</div>`;
@@ -3299,8 +3301,8 @@ function nextStep(){
     const say=(s.mode==='listen'&&lv===0)?L3('Ouça devagar e leia junto, com a tradução embaixo. Pode ouvir quantas vezes quiser!','Listen slowly and read along, with the translation below. Listen as many times as you like!','Escucha despacio y lee junto, con la traducción abajo. ¡Escucha las veces que quieras!')
       :(s.mode==='listen'&&lv===1)?L3('Ouça e acompanhe o texto. Tente entender sem a tradução!','Listen and follow the text. Try to understand without the translation!','Escucha y sigue el texto. ¡Intenta entender sin la traducción!'):s.say;
     h=turbiRow(avL(say),'think')+`<div class="radio"><div class="rhead"><b>${mt('radio')}</b><span>${esc(avL(ep.title))}</span></div>
-      <div class="rlines${show?'':' hide'}${tr?'':' notr'}">${ep.lines.map((l,i)=>`<div class="rl ${l.who}" data-i="${i}"><small>${esc(CHARS[l.who].name)}</small><span>${hiPrep(esc(mx(l.t)))}</span>${show?`<em>${esc(mb(l.t))}</em><button class="spk mini rlp" data-i="${i}" aria-label="${mt('listen')}">${SPK}</button>`:''}</div>`).join('')}</div>
-      <div class="listen mlisten"><button class="slow" id="rPlay">${SPK} ${mt('playAll')}</button><button class="slow" id="rSlow">${mt('slow')}</button></div><p class="pt rcount" id="rCount">${show?'':mt('listenFirst')}</p></div>`;
+      <div class="listen mlisten"><button class="slow" id="rPlay">${SPK} ${mt('playAll')}</button><button class="slow" id="rSlow">${mt('slow')}</button></div><p class="pt rcount" id="rCount">${show?'':mt('listenFirst')}</p>
+      <div class="rlines${show?'':' hide'}${tr?'':' notr'}">${ep.lines.map((l,i)=>`<div class="rl ${l.who}" data-i="${i}"><small>${esc(CHARS[l.who].name)}</small><span>${show?hiPrep(esc(mx(l.t))):esc(mx(l.t))}</span>${show?`<em>${esc(mb(l.t))}</em><button class="spk mini rlp" data-i="${i}" aria-label="${mt('listen')}">${SPK}</button>`:''}</div>`).join('')}</div></div>`;
     task.innerHTML=h; MI.rc=0;
     $('rPlay').onclick=()=>{ sTap(); playRadio(ep,rate); }; $('rSlow').onclick=()=>{ sTap(); playRadio(ep,.62); };
     task.querySelectorAll('.rlp').forEach(b=>b.onclick=()=>playRadio(ep,.85,+b.dataset.i));
@@ -3494,7 +3496,7 @@ applyStatic(); $('iPick').innerHTML=pickerHTML(); $('flagBtn').onclick=openCours
 buildScenes(); refillHearts(); goTab('path'); setTimeout(()=>prerender(),300);
 if(ME){ cloudRestore().then(b=>{ if(b){ refillHearts(); goTab(curTab); } else syncCloud(); }); }
 /* ===== ATUALIZAÇÃO AUTOMÁTICA: se existir uma versão nova no site, o app recarrega sozinho ===== */
-const APP_VER='33';
+const APP_VER='34';
 /* usa a pergunta "mudou?" do navegador: se nada mudou, o site responde vazio (quase não gasta dados) */
 let lastCheck=0;
 function checkUpdate(){
