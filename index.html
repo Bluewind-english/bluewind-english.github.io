@@ -164,6 +164,8 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .lesson{position:fixed;inset:0;z-index:20;background:var(--bg);display:flex;flex-direction:column;
   padding-top:env(safe-area-inset-top,0px)}
 .lhead{display:flex;align-items:center;gap:12px;padding:12px max(16px,env(safe-area-inset-right,0px)) 8px max(16px,env(safe-area-inset-left,0px));max-width:620px;width:100%;margin:0 auto}
+.skipb{background:none;border:0;color:#7a869e;font:inherit;font-weight:800;font-size:14px;letter-spacing:.3px;padding:4px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.mback{color:#8a93ab}
 .xbtn{width:36px;height:36px;display:grid;place-items:center;color:#b3b9cc;font-size:30px;font-weight:900;line-height:1}
 .prog{flex:1;height:16px;border-radius:9px;background:var(--line);overflow:hidden}
 .prog i{display:block;height:100%;border-radius:9px;background:var(--good);position:relative;transition:width .45s cubic-bezier(.3,1.4,.5,1)}
@@ -790,6 +792,7 @@ body.sky-night.sky-rain #pathScene,body.sky-night.sky-rain .uscene{filter:bright
   <div class="mbg" id="mbg"></div>
   <div class="lhead">
     <button class="xbtn" id="mquit" aria-label="Sair">×</button>
+    <button class="xbtn mback" id="mback" aria-label="Voltar" hidden><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
     <div class="prog"><i id="mprog" style="width:0;background:var(--gold)"></i></div>
   </div>
   <div class="lbody" id="mbody"><div id="mchat"></div><div id="mtask"></div></div>
@@ -3061,6 +3064,7 @@ Object.assign(MT,{
   mbTag:L3('NOVO MÉTODO · TESTE','NEW METHOD · TEST','NUEVO MÉTODO · PRUEBA'),
   mbTitle:L3('Método BlueWind: Ferramentas','BlueWind Method: Tools','Método BlueWind: Herramientas'),
   mbRoutine:L3('Rotina de 15 min por dia: 5 min de revisão, 5 min de aula nova e 5 min falando em voz alta.','15-minute daily routine: 5 min review, 5 min new lesson, 5 min speaking out loud.','Rutina de 15 min al día: 5 min de repaso, 5 min de clase nueva y 5 min hablando en voz alta.'),
+  skip:L3('Pular este exercício','Skip this exercise','Saltar este ejercicio'), back:L3('Voltar','Back','Volver'),
   start:L3('Começar','Start','Empezar'), redo:L3('Refazer','Redo','Repetir'),
 });
 const TOOLS={
@@ -3214,7 +3218,7 @@ function playRadio(ep,rate,only,retry){
       if(!retry){ RADIO_ON=null; try{ ss.cancel(); }catch(e){} setTimeout(()=>playRadio(ep,rate,only,true),300); } else fin(); },1800); };
   if(busy) setTimeout(go,220); else go();
 }
-function radioDone(){ if(!MI) return; MI.rc=(MI.rc||0)+1; const c=$('rCount'); if(c) c.textContent=mt('heardN').replace('{n}',MI.rc); const g=$('mgo'); if(g) g.disabled=false; }
+function radioDone(){ if(!MI) return; MI.rc=(MI.rc||0)+1; const c=$('rCount'); if(c) c.textContent=mt('heardN').replace('{n}',MI.rc); const g=$('mgo'); if(g) g.disabled=false; const k=$('mskip'); if(k) k.remove(); }
 /* ---- Desafio-relâmpago ---- */
 function bzNext(){
   const B=MI&&MI.bz; if(!B) return;
@@ -3246,6 +3250,7 @@ function startMission(id){ clearPops();
   $('mchat').innerHTML=''; $('mbg').innerHTML=factoryBg(MBG[id]||MBG[m.id]||'shop'); nextStep();
 }
 function chatAdd(who,text,base){
+  if(MI&&MI.review!=null) return; /* v35: revendo um passo, a conversa não se repete */
   const last=$('mchat').lastElementChild; if(last&&last.classList.contains(who)&&last.dataset.t===String(text)) return;
   const ch=CHARS[(MI&&MI.m.who)||'mike']||CHARS.mike;
   const av=who==='sup'?avatarSVG(avValid(ch.av)||ch.av):avatarSVG(myAvatar());
@@ -3260,11 +3265,21 @@ function mScroll(){ requestAnimationFrame(()=>{ const b=$('mbody'), t=$('mtask')
   const max=b.scrollHeight-b.clientHeight, top=t&&t.innerHTML?Math.max(0,t.offsetTop-90):max;
   b.scrollTo({top:Math.min(max,top),behavior:'smooth'}); }); }
 function turbiRow(text,mood){ return `<div class="sayrow mturbi"><div class="cat ${mood||'idle'}" id="mCatT"></div><div class="say"><span>${text}</span></div></div>`; }
+/* v35: voltar um passo para rever (não vale ponto de novo; ao seguir em frente, retoma de onde parou) */
+const MB_NOBACK={sup:1,blitz:1};
+function mBackTarget(){ if(!MI) return -1; for(let k=MI.i-1;k>=0;k--){ const s=MI.m.steps[k]; if(s&&!MB_NOBACK[s.t]) return k; } return -1; }
+function mStopAll(){ try{ if(MI&&MI.bz) clearInterval(MI.bz.tick); }catch(e){} stopRadio(); clearTimeout(MREC_T); try{ if(MREC){ MREC._manual=true; MREC.abort(); } }catch(e){} MREC=null; micQuiet(false); }
+function mBack(){ const k=mBackTarget(); if(k<0) return; sTap(); mStopAll(); if(MI.review==null) MI.review=MI.i; MI.i=k-1; nextStep(); }
+/* v35: pular exercício de ouvir/falar (barulho, gente perto): segue sem errar, mas ganha menos diamantes */
+function mSkip(){ if(!MI) return; sTap(); mStopAll(); if(MI.review==null) MI.skips=(MI.skips||0)+1; nextStep(); }
+function skipBtn(){ return `<button class="skipb" id="mskip">${mt('skip')}</button>`; }
 function mFoot(html,cls){ $('mfoot').className='lfoot'+(cls?' '+cls:''); $('mfootIn').innerHTML=html; $('mfoot').scrollTop=0; }
 function nextStep(){
   const st=MI.m.steps;
-  MI.i++; $('mprog').style.width=(MI.i/st.length*100)+'%';
+  MI.i++; if(MI.review!=null&&MI.i>=MI.review) MI.review=null; /* v35: terminou de rever, volta a valer */
+  $('mprog').style.width=(Math.max(MI.i,MI.review||0)/st.length*100)+'%';
   if(MI.i>=st.length) return finishMission();
+  { const b=$('mback'); if(b) b.hidden=mBackTarget()<0; }
   const s=st[MI.i]; MI.sel=null; MI.tries=0; let h='';
   const task=$('mtask');
   if(s.t==='turbi'){
@@ -3301,12 +3316,13 @@ function nextStep(){
     const say=(s.mode==='listen'&&lv===0)?L3('Ouça devagar e leia junto, com a tradução embaixo. Pode ouvir quantas vezes quiser!','Listen slowly and read along, with the translation below. Listen as many times as you like!','Escucha despacio y lee junto, con la traducción abajo. ¡Escucha las veces que quieras!')
       :(s.mode==='listen'&&lv===1)?L3('Ouça e acompanhe o texto. Tente entender sem a tradução!','Listen and follow the text. Try to understand without the translation!','Escucha y sigue el texto. ¡Intenta entender sin la traducción!'):s.say;
     h=turbiRow(avL(say),'think')+`<div class="radio"><div class="rhead"><b>${mt('radio')}</b><span>${esc(avL(ep.title))}</span></div>
-      <div class="listen mlisten"><button class="slow" id="rPlay">${SPK} ${mt('playAll')}</button><button class="slow" id="rSlow">${mt('slow')}</button></div><p class="pt rcount" id="rCount">${show?'':mt('listenFirst')}</p>
+      <div class="listen mlisten"><button class="slow" id="rPlay">${SPK} ${mt('playAll')}</button><button class="slow" id="rSlow">${mt('slow')}</button></div><p class="pt rcount" id="rCount">${s.mode==='listen'&&canSpeak?mt('listenFirst'):''}</p>
       <div class="rlines${show?'':' hide'}${tr?'':' notr'}">${ep.lines.map((l,i)=>`<div class="rl ${l.who}" data-i="${i}"><small>${esc(CHARS[l.who].name)}</small><span>${show?hiPrep(esc(mx(l.t))):esc(mx(l.t))}</span>${show?`<em>${esc(mb(l.t))}</em><button class="spk mini rlp" data-i="${i}" aria-label="${mt('listen')}">${SPK}</button>`:''}</div>`).join('')}</div></div>`;
     task.innerHTML=h; MI.rc=0;
     $('rPlay').onclick=()=>{ sTap(); playRadio(ep,rate); }; $('rSlow').onclick=()=>{ sTap(); playRadio(ep,.62); };
-    task.querySelectorAll('.rlp').forEach(b=>b.onclick=()=>playRadio(ep,.85,+b.dataset.i));
-    mFoot(`<button class="btn" id="mgo"${s.mode!=='listen'||!canSpeak?'':' disabled'}>${mt('cont')}</button>`); $('mgo').onclick=()=>{ stopRadio(); sTap(); nextStep(); };
+    MI.heard=new Set(); task.querySelectorAll('.rlp').forEach(b=>b.onclick=()=>{ playRadio(ep,.85,+b.dataset.i); MI.heard.add(+b.dataset.i); /* v35: ouviu todas as falas uma a uma também libera */ const g=$('mgo'); if(MI.heard.size>=ep.lines.length&&g&&g.disabled) radioDone(); });
+    const lk=s.mode==='listen'&&canSpeak;
+    mFoot(`<button class="btn" id="mgo"${lk?' disabled':''}>${mt('cont')}</button>${lk?skipBtn():''}`); $('mgo').onclick=()=>{ stopRadio(); sTap(); nextStep(); }; if(lk) $('mskip').onclick=mSkip;
   } else if(s.t==='quiz'){
     MI.order=shuffle(s.opts.map((o,k)=>k));
     h=turbiRow(avL(s.q),'think')+(s.ep?`<div class="listen mlisten"><button class="slow" id="rPlay">${SPK} ${mt('playAll')}</button></div>`:'')
@@ -3336,7 +3352,7 @@ function nextStep(){
       +`<button class="micbtn" id="mmic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.9V21h2v-3.1A7 7 0 0 0 19 11z"/></svg><span id="mmicT">${mt('tapTalk')}</span></button><p class="pt" id="mheard" style="text-align:center;margin:0"></p>`;
     task.innerHTML=h; $('mrep').onclick=()=>supSay(tx); $('mslow').onclick=()=>speakSlow(tx);
     $('mmic').onclick=()=>listenMic(tx);
-    mFoot(`<button class="btn ghost" id="mgo">${mt('saidIt')}</button>`); $('mgo').onclick=()=>speakOk(tx,true);
+    mFoot(`<button class="btn ghost" id="mgo">${mt('saidIt')}</button>${skipBtn()}`); $('mgo').onclick=()=>speakOk(tx,true); $('mskip').onclick=mSkip;
     if(!SRec) $('mheard').textContent=mt('noMic');
   }
   MI.shown=MI.i; mScroll();
@@ -3372,7 +3388,7 @@ function stepRight(s){
   $('mgo').onclick=()=>{ sTap(); nextStep(); };
 }
 function stepWrong(s){
-  sBad(); MI.errs++; const c=$('mCatT'); if(c) setCat(c,'sad');
+  sBad(); if(MI.review==null) MI.errs++; const c=$('mCatT'); if(c) setCat(c,'sad');
   let why='';
   if(s.t==='pic'&&MI.sel!=null){ const o=s.opts[MI.sel]; why=`<b>"${esc(mx(o))}"</b> = "${esc(mb(o))}". `+(TL()==='en'&&PREP_RULE[s.rule]?avL(PREP_RULE[s.rule]):''); turbiSay(mt('lookAgain')); }
   else if(s.t==='reply'&&MI.sel!=null){ const o=s.opts[MI.sel]; why=`<b>"${esc(mx(o))}"</b> = "${esc(mb(o))}". `+(s.why[MI.sel]?avL(s.why[MI.sel]):''); turbiSay((s.why[MI.sel]?avL(s.why[MI.sel]):'')); }
@@ -3441,7 +3457,7 @@ function speakOk(tx,manual){
   chatAdd('me',tx); stepRight(MI.m.steps[MI.i]);
 }
 function finishMission(){
-  const m=MI.m, first=!(S.missions&&S.missions[m.id]), xp=first?20:5, gems=first?(MI.errs===0?15:10):2;  /* repetir dá menos diamantes, para ninguém 'farmar' */
+  const m=MI.m, first=!(S.missions&&S.missions[m.id]), xp=first?20:5, gems=first?(MI.errs===0&&!MI.skips?15:10):2;  /* repetir dá menos diamantes, para ninguém 'farmar' */
   S.missions=S.missions||{}; S.missions[m.id]=1; S.xp+=xp; S.gems+=gems;
   const t=today(); if(S.day.d!==t) S.day={d:t,xp:0}; S.day.xp+=xp;
   if(S.last!==t){ const y=new Date(Date.now()-864e5).toDateString(); S.streak=S.last===y?S.streak+1:1; S.last=t; }
@@ -3466,8 +3482,9 @@ function finishMission(){
 function exitMission(){ clearPops();
   try{ if(MI&&MI.bz) clearInterval(MI.bz.tick); }catch(e){} RADIO_ON=null;
   clearTimeout(MREC_T); try{ if(MREC){ MREC._manual=true; MREC.abort(); } }catch(e){} MREC=null; micQuiet(false); try{ speechSynthesis.cancel(); }catch(e){}
-  MI=null; $('mission').hidden=true; document.body.style.overflow=''; document.body.classList.remove('busy'); renderTab();
+  MI=null; { const b=$('mback'); if(b) b.hidden=true; } $('mission').hidden=true; document.body.style.overflow=''; document.body.classList.remove('busy'); renderTab();
 }
+$('mback').onclick=()=>{ if(MI) mBack(); };
 $('mtask').onclick=e=>{
   if(!MI) return; const s=MI.m.steps[MI.i]; if(!s) return;
   if(s.t==='blitz'){ const b=e.target.closest('.bzo'); const B=MI.bz; if(!b||!B||B.over||B.lock) return;
@@ -3496,7 +3513,7 @@ applyStatic(); $('iPick').innerHTML=pickerHTML(); $('flagBtn').onclick=openCours
 buildScenes(); refillHearts(); goTab('path'); setTimeout(()=>prerender(),300);
 if(ME){ cloudRestore().then(b=>{ if(b){ refillHearts(); goTab(curTab); } else syncCloud(); }); }
 /* ===== ATUALIZAÇÃO AUTOMÁTICA: se existir uma versão nova no site, o app recarrega sozinho ===== */
-const APP_VER='34';
+const APP_VER='35';
 /* usa a pergunta "mudou?" do navegador: se nada mudou, o site responde vazio (quase não gasta dados) */
 let lastCheck=0;
 function checkUpdate(){
