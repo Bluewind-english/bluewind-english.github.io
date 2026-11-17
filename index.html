@@ -1069,6 +1069,9 @@ const STR={
   errNAME:{pt:'Digite um nome com pelo menos 2 letras.',en:'Type a name with at least 2 letters.',es:'Escribe un nombre de al menos 2 letras.'},
   errPIN:{pt:'O código precisa ter 4 números.',en:'The code must have 4 numbers.',es:'El código debe tener 4 números.'},
   errWRONG:{pt:'Esse nome já existe e o código não confere. Se for você, confira o código. Se não for, use outro nome (por exemplo, com o sobrenome).',en:"That name already exists and the code doesn't match. If it's you, check the code. If not, use another name (add your last name).",es:'Ese nombre ya existe y el código no coincide. Si eres tú, revisa el código. Si no, usa otro nombre (por ejemplo, con tu apellido).'},
+  errCODE:{pt:'Código da fábrica errado. Peça o código ao seu líder.',en:'Wrong factory code. Ask your lead for the code.',es:'Código de la fábrica incorrecto. Pídele el código a tu líder.'},
+  codeLbl:{pt:'Código da fábrica',en:'Factory code',es:'Código de la fábrica'},
+  codeTip:{pt:'Só para o primeiro cadastro. Peça ao seu líder.',en:'Only for your first sign-up. Ask your lead.',es:'Solo para el primer registro. Pídeselo a tu líder.'},
   errLOCKED:{pt:'Muitas tentativas erradas. Espere 10 minutos.',en:'Too many wrong tries. Wait 10 minutes.',es:'Demasiados intentos fallidos. Espera 10 minutos.'},
   errNET:{pt:'Sem conexão com o ranking agora. Tente de novo daqui a pouco.',en:"Can't reach the ranking right now. Try again in a moment.",es:'No hay conexión con el ranking ahora. Intenta de nuevo en un momento.'},
   loading:{pt:'Carregando...',en:'Loading...',es:'Cargando...'},
@@ -1860,7 +1863,11 @@ function buildExercises(k,node){
     return {kind:kd,s:nextSent()};
   });
 }
-function startLesson(s,i){ clearPops();
+/* v36: limite de 5000 XP por dia (o banco de dados também barra; aqui é o aviso) */
+var XP_DAY=5000;
+function dayDone(){ return !!(S.day&&S.day.d===today()&&S.day.xp>=XP_DAY); }
+function dayDoneModal(){ modal(`<div class="cat happy" id="mCat"></div><h3>${L3('Sua aula foi concluída por hoje!','Your lesson is done for today!','¡Tu clase terminó por hoy!')[BL()]}</h3><p>${L3('Você chegou ao limite de 5000 XP do dia. Descanse e volte amanhã!','You reached the 5,000 XP daily limit. Rest and come back tomorrow!','Llegaste al límite de 5000 XP del día. Descansa y vuelve mañana.')[BL()]}</p><button class="btn" id="mOk">OK</button>`); setCat($('mCat'),'happy'); $('mOk').onclick=closeModal; }
+function startLesson(s,i){ clearPops(); if(dayDone()) return dayDoneModal();
   refillHearts();
   if(S.hearts<=0) return noHearts(false);
   const k=UNITS.findIndex(u=>u.s===s);
@@ -2110,7 +2117,7 @@ function renderWords(){
 }
 $('practiceBtn').onclick=()=>startCards();
 let F=null;
-function startCards(){
+function startCards(){ if(dayDone()) return dayDoneModal();
   setBg('cbg');
   let q=dueWords();
   if(!q.length) q=Object.entries(S.cards).filter(([k])=>DICT[k]).sort((a,b)=>a[1].due-b[1].due).map(([w])=>w).slice(0,10);
@@ -2596,7 +2603,9 @@ function joinHTML(f){
     <label class="lbl" for="rkLast">${avL(LNAME)}</label><input class="inp" id="rkLast" maxlength="20" autocomplete="family-name" value="${esc(f.last)}">
     <label class="lbl" for="rkSec">${avL(SECT)}</label>${secSelect('rkSec',f.sec)}
     <label class="lbl" for="rkPin">${T('pinLbl')}</label><input class="inp pin" id="rkPin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" placeholder="••••">
-    <p class="pt">${T('pinTip')}</p><p class="pt rpriv">${T('rankPrivacy')}</p>
+    <p class="pt">${T('pinTip')}</p>
+    <label class="lbl" for="rkCode">${T('codeLbl')}</label><input class="inp" id="rkCode" maxlength="20" autocomplete="off" autocapitalize="characters" value="${esc(f.code||'')}"><p class="pt">${T('codeTip')}</p>
+    <p class="pt rpriv">${T('rankPrivacy')}</p>
     <button class="btn" id="rkGo">${T('rankJoinBtn')}</button><p class="rkerr" id="rkErr"></p></div>`;
 }
 async function renderRank(){
@@ -2604,8 +2613,8 @@ async function renderRank(){
   if(!ME){
     const sp=(S.name||'').split(' ');
     el.innerHTML=`<h2 class="h2">${T('rankTitle')}</h2>`+joinHTML({first:sp[0],last:sp.slice(1).join(' ')});
-    const form=()=>({first:$('rkFirst').value,last:$('rkLast').value,sec:$('rkSec').value});
-    $('rkAv').onclick=$('rkAvBtn').onclick=()=>{ const f=form(); openAvatarEditor(()=>{ renderRank(); const ff=f; if($('rkFirst')){ $('rkFirst').value=ff.first; $('rkLast').value=ff.last; $('rkSec').value=ff.sec; } }); };
+    const form=()=>({first:$('rkFirst').value,last:$('rkLast').value,sec:$('rkSec').value,code:$('rkCode').value});
+    $('rkAv').onclick=$('rkAvBtn').onclick=()=>{ const f=form(); openAvatarEditor(()=>{ renderRank(); const ff=f; if($('rkFirst')){ $('rkFirst').value=ff.first; $('rkLast').value=ff.last; $('rkSec').value=ff.sec; $('rkCode').value=ff.code||''; } }); };
     $('rkPin').oninput=e=>{ e.target.value=e.target.value.replace(/\D/g,'').slice(0,4); };
     $('rkGo').onclick=async()=>{
       const clean=v=>v.trim().replace(/\s+/g,' ');
@@ -2615,7 +2624,7 @@ async function renderRank(){
       if(!sec) return err(avL(ERRS)); if(!/^\d{4}$/.test(pin)) return err(T('errPIN'));
       const name=(first+' '+last).slice(0,40);
       $('rkGo').disabled=true; $('rkGo').textContent=T('loading');
-      let r=null; try{ r=await rpc('bw_join',{p_name:name,p_pin:pin}); }catch(e){}
+      let r=null; try{ r=await rpc('bw_join',{p_name:name,p_pin:pin,p_code:($('rkCode').value||'').trim()}); }catch(e){}
       if(!r||!r.ok){ $('rkGo').disabled=false; $('rkGo').textContent=T('rankJoinBtn'); return err(T('err'+(r&&r.err||'NET'))); }
       ME={token:r.token,name:r.name,sector:sec}; saveMe(); pushSector();
       if(!AV&&avValid(r.avatar)){ AV=avValid(r.avatar); try{ localStorage.setItem('bluewind-avatar',JSON.stringify(AV)); }catch(e){} } else pushAvatar();
@@ -3242,7 +3251,7 @@ function bzFinish(){
   mFoot(`<button class="btn" id="mgo">${mt('cont')}</button>`); $('mgo').onclick=()=>{ sTap(); nextStep(); };
 }
 
-function startMission(id){ clearPops();
+function startMission(id){ clearPops(); if(dayDone()) return dayDoneModal();
   const m0=MISSIONS[id]||Object.values(MISSIONS).find(x=>x.id===id)||MISSION_FIRST;
   const m=Object.assign({},m0,{steps:m0.steps.filter(s=>!s.onlyTL||s.onlyTL===TL())});
   MI={m,i:-1,log:[],t0:Date.now(),errs:0};
@@ -3513,7 +3522,7 @@ applyStatic(); $('iPick').innerHTML=pickerHTML(); $('flagBtn').onclick=openCours
 buildScenes(); refillHearts(); goTab('path'); setTimeout(()=>prerender(),300);
 if(ME){ cloudRestore().then(b=>{ if(b){ refillHearts(); goTab(curTab); } else syncCloud(); }); }
 /* ===== ATUALIZAÇÃO AUTOMÁTICA: se existir uma versão nova no site, o app recarrega sozinho ===== */
-const APP_VER='35';
+const APP_VER='36';
 /* usa a pergunta "mudou?" do navegador: se nada mudou, o site responde vazio (quase não gasta dados) */
 let lastCheck=0;
 function checkUpdate(){
